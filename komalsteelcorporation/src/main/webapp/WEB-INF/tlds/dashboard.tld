@@ -1,0 +1,64 @@
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>2.0</jsp-version>
+  <short-name>dashboard</short-name>
+  
+  <!-- Displays New Orders Count -->
+  <tag>
+    <name>NewOrdersCount</name>
+    <tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.NewOrdersCount</tag-class>
+    <attribute>
+		 <name>dashboardDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+  <!-- Displays Orders Count By order status specified-->
+  <tag>
+    <name>OrdersCount</name>
+    <tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.OrdersCount</tag-class>
+    <attribute>
+		 <name>dashboardDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <attribute>
+		 <name>orderStatus</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+  <!-- Displays Out Of Stock Products Count -->
+  <tag>
+    <name>OutOfStockProductsCount</name>
+    <tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.OutOfStockProductsCount</tag-class>
+    <attribute>
+		 <name>dashboardDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+    <body-content>empty</body-content>
+  </tag>
+  
+  <!-- Displays New User Registration Count as per user type-->
+  <tag>
+  	<name>NewUsersCount</name>
+  	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.NewUserRegistrationsCount</tag-class>
+  	<attribute>
+		 <name>userType</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <attribute>
+		 <name>dashboardDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+</taglib>

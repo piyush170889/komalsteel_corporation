@@ -1,0 +1,59 @@
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>2.0</jsp-version>
+  <short-name>user</short-name>
+  
+  <!-- Displays New Orders Count -->
+  <tag>
+    <name>userDetails</name>
+    <tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.UserDetails</tag-class>
+    <attribute>
+		 <name>userDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <attribute>
+		 <name>searchBy</name>
+		 <required>false</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <attribute>
+		 <name>searchValue</name>
+		 <required>false</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+  <tag>
+  <name>userOrderList</name>
+  <tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.UserOrderDetailsList</tag-class>
+   <attribute>
+		 <name>cartDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	  <attribute>
+		 <name>trackId</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+	
+	<tag>
+		<name>getUserDetailsByTrackid</name>
+		<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.UserDetailsByTrackId</tag-class>
+	   	<attribute>
+			<name>cartDAO</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+		 	<name>trackId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<body-content>empty</body-content>
+	</tag>
+ </taglib>

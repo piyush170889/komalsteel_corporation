@@ -1,0 +1,61 @@
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>2.0</jsp-version>
+  <short-name>product</short-name>
+<!--  -->  
+  <tag>
+  	<name>productDetailsList</name>
+  	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.ProductDetails</tag-class>
+  	<attribute>
+		 <name>productDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+  <tag>
+  	<name>categoryDetailsList</name>
+  	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.CategoryMasterDetails</tag-class>
+  	<attribute>
+		 <name>productDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+   <tag>
+  	<name>packagingInfoDetailsList</name>
+  	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.PackagingInfoDetails</tag-class>
+  	<attribute>
+		 <name>productDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+  <tag>
+  	<name>subcategoryDetailsList</name>
+  	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.SubcategoryMasterDetails</tag-class>
+  	<attribute>
+		 <name>productDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+  <tag>
+  	<name>categoryList</name>
+  	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.CategoryName</tag-class>
+  	<attribute>
+		 <name>productDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+</taglib>

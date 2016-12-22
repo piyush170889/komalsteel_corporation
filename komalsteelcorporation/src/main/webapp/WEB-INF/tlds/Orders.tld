@@ -1,0 +1,45 @@
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>2.0</jsp-version>
+  <short-name>order</short-name>
+  
+  <!-- Displays New Orders Count -->
+  <tag>
+    <name>orderDetails</name>
+    <tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.OrderDetails</tag-class>
+       <attribute>
+		 <name>cartDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute> 
+	 <attribute>
+		 <name>searchBy</name>
+		 <required>false</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute> 
+	 <attribute>
+		 <name>searchDateRange</name>
+		 <required>false</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute> 
+	 <body-content>empty</body-content>
+  </tag>
+  
+   <tag>
+  <name>orderItemDetails</name>
+  <tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.OrderItemDetails</tag-class>
+  <attribute>
+             <name>cartDAO</name>
+             <required>true</required>
+    		 <rtexprvalue>true</rtexprvalue>
+    
+    </attribute>
+    <attribute>
+             <name>orderId</name>
+             <required>true</required>
+    		 <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <body-content>empty</body-content>
+  </tag>
+  
+  </taglib>
