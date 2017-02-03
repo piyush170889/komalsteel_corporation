@@ -6,6 +6,7 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.in.replete.komalindustries.beans.entity.AdminLoginDtls;
 import co.in.replete.komalindustries.beans.entity.LocationDtls;
@@ -28,6 +30,7 @@ import co.in.replete.komalindustries.utils.CommonUtility;
 import co.in.replete.komalindustries.utils.MessageUtility;
 import co.in.replete.komalindustries.utils.PrepareViewModelUtilty;
 import co.in.replete.komalindustries.utils.UDValues;
+import co.in.replete.komalindustries.utils.UploadUtility;
 
 @Controller
 public class AdminWebController extends KomalIndustriesConstants {
@@ -52,6 +55,9 @@ public class AdminWebController extends KomalIndustriesConstants {
 	
 	@Autowired
 	MessageUtility messageUtility;
+	
+	@Autowired
+	UploadUtility uploadUtility;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String loginView(Model model) {
@@ -211,14 +217,21 @@ public class AdminWebController extends KomalIndustriesConstants {
 	}
 	
 	@RequestMapping(value="/editSubCatDetails",method=RequestMethod.POST)
-	public String subCategoryPageProcessEdit(Model model, HttpServletRequest servletRequest)
+	public String subCategoryPageProcessEdit(Model model, HttpServletRequest servletRequest, @RequestParam("url") MultipartFile file)
 	{
 		try {
 			String catId  = servletRequest.getParameter("catId");
 			String catName = servletRequest.getParameter("catName");
 			String parentId = servletRequest.getParameter("parentId");
 			String catDesc = servletRequest.getParameter("catDesc");
-			String url = servletRequest.getParameter("url");
+//			Part fileImage = servletRequest.getPart("url");
+			String url = null;
+			if (null != file && !file.isEmpty()) {
+				url= uploadUtility.uploadFile(file.getInputStream(), catName.replace(" ", KomalIndustriesConstants.FILE_NAME_SEPARATOR) + 
+						KomalIndustriesConstants.FILE_NAME_SEPARATOR + System.currentTimeMillis()).getContentUrl();
+			} else {
+				url=servletRequest.getParameter("orgurl");
+			}
 			
 			adminDAO.updateSubCategoryDetails(catId, catName, parentId, catDesc, url);
 			model.addAttribute(SUCCESS_MSSG_LABEL, "Sub Category Edited Successfully");

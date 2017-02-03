@@ -41,7 +41,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableCaching
-@ComponentScan(basePackages = "co.in.replete")
+@ComponentScan(basePackages = "co.in.replete.*")
 @PropertySources({
 	@PropertySource("classpath:config.properties"),
 	@PropertySource("classpath:db.properties") 

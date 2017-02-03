@@ -31,11 +31,12 @@ public class SubcategoryMasterDetails extends SimpleTagSupport {
 				for(CategoryMasterTO subcategoryMasterDetails : subcategoryMasterDetailsList) {
 					out.println("<tr>");
 					out.println("<td>"+ i++ +"</td>");
+					out.println("<td><img src=" + subcategoryMasterDetails.getUrl() + " width=\"100\" height=\"100\" /></td>");
 					out.println("<td>" + subcategoryMasterDetails.getId() + "</td>");
 					out.println("<td>" + subcategoryMasterDetails.getName() + "</td>");
 					out.println("<td>" + subcategoryMasterDetails.getParantNm() + "</td>");
 					out.println("<td>" + subcategoryMasterDetails.getCatDesc() + "</td>");
-					out.println("<td>" + subcategoryMasterDetails.getUrl() + "</td>");
+//					out.println("<td>" + subcategoryMasterDetails.getUrl() + "</td>");
 					out.println("<td>");
 					out.print("<a data-toggle=\"modal\" data-target=\"#editProduct\" onClick=\"sendSubCategoryDetailsEdit('"
 							+ subcategoryMasterDetails.getId() +"','"

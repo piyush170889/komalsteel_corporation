@@ -230,10 +230,6 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 	
 	private final String PROP_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 	
-	private final String PROP_USERNAME = "komalindustriesmumbai@gmail.com";
-	
-	private final String PROP_PASSWORD = "komal@123";
-	
 	/*private final String PROP_USERNAME = "pratik.hedaoo@bikedoctor.in";
 	
 	private final String PROP_PASSWORD = "PASSWORD_123";
@@ -247,6 +243,11 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 	private final String PROP_STARTTLS_ENABLE = "true";
 	
 	public boolean sendEmailToAdmin(String message, String subject) {
+		
+		final String PROP_USERNAME = configProperties.getProperty("email.username");
+		
+		final String PROP_PASSWORD = configProperties.getProperty("email.password");
+		
 		
 		boolean isEmailSend = false;
 		try{

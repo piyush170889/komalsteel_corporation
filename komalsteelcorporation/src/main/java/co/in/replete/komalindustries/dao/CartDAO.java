@@ -75,4 +75,6 @@ public interface CartDAO {
 	List<WOrderDetailsTO> searchOrders(String searchBy, String searchDateRange) throws DataAccessException, ParseException;
 
 	UserDetailsTO selectUserUserDetailsByTrackId(String trackId);
+
+	ShippingAddressDetail selectShippingAddressDetailsById(int addressDtlsId);
 }

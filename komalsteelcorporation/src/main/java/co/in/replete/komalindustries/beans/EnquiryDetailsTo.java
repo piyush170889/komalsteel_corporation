@@ -22,7 +22,27 @@ public class EnquiryDetailsTo {
 	
 	private String createdTs;
 	
+	private String pinNo;
+	
+	private String companyName;
+	
 	public EnquiryDetailsTo() {}
+
+	public String getPinNo() {
+		return pinNo;
+	}
+
+	public void setPinNo(String pinNo) {
+		this.pinNo = pinNo;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
 	public String getCreatedTs() {
 		return createdTs;

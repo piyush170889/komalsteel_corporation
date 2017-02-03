@@ -149,6 +149,8 @@
 											<th>Message</th>
 											<th>City</th>
 											<th>State</th>
+											<th>Pin No</th>
+											<th>Company Name</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -165,13 +167,15 @@
 												<tr>
 													<td>${listitem.enquiryDtlsId}</td>
 													<td>${listitem.createdTs }</td>
-													<td>${listitem.firstNm}${listitem.lastNm}</td>
+													<td>${listitem.firstNm} ${listitem.lastNm}</td>
 													<td>${listitem.emailId}</td>
 													<td>${listitem.phnNm}</td>
 													<td>${listitem.enquiryType}</td>
 													<td>${listitem.message}</td>
 													<td>${listitem.city}</td>
 													<td>${listitem.state}</td>
+													<td>${listitem.pinNo}</td>
+													<td>${listitem.companyName}</td>
 												</tr>
 											</c:forEach>
 										</c:if>
@@ -188,7 +192,8 @@
 											<th>Message</th>
 											<th>City</th>
 											<th>State</th>
-
+											<th>Pin No</th>
+											<th>Company Name</th>
 										</tr>
 									</tfoot>
 								</table>

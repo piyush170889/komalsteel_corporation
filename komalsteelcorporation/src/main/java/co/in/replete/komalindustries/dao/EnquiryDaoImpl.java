@@ -20,7 +20,7 @@ public class EnquiryDaoImpl implements EnquiryDao {
 
 		List<EnquiryDetailsTo> list = jdbcTemplate.query(
 				"SELECT ENQUIRY_DTLS_ID,FIRST_NM,LAST_NM,EMAIL_ID,PHN_NM,ENQUIRY_TYPE,MESSAGE,ld.LOCATION_NAME as CITY,"
-				+ "ld1.LOCATION_NAME as STATE,date_format(ed.CREATED_TS,'%d-%m-%Y %h:%i:%s') as CREATED_TS FROM enquiry_dtls ed inner join location_dtls ld on ld.LOCATION_ID=ed.CITY_ID "
+				+ "PINNO,COMPANY_NAME,ld1.LOCATION_NAME as STATE,date_format(ed.CREATED_TS,'%d-%m-%Y %h:%i:%s') as CREATED_TS FROM enquiry_dtls ed inner join location_dtls ld on ld.LOCATION_ID=ed.CITY_ID "
 				+ "inner join location_dtls ld1 on ld1.LOCATION_ID=ed.STATE_ID limit 200",
 				new BeanPropertyRowMapper<EnquiryDetailsTo>(EnquiryDetailsTo.class));
 		if (list.size() > 0)
@@ -32,7 +32,7 @@ public class EnquiryDaoImpl implements EnquiryDao {
 	public List<EnquiryDetailsTo> selectEnquiryListByDate(String startDate, String endDate) {
 
 		List<EnquiryDetailsTo> list = jdbcTemplate.query(
-				"SELECT ENQUIRY_DTLS_ID,FIRST_NM,LAST_NM,EMAIL_ID,PHN_NM,ENQUIRY_TYPE,MESSAGE,ld.LOCATION_NAME as CITY,ld1.LOCATION_NAME as STATE,ed.CREATED_TS "
+				"SELECT ENQUIRY_DTLS_ID,FIRST_NM,LAST_NM,EMAIL_ID,PHN_NM,ENQUIRY_TYPE,MESSAGE,ld.LOCATION_NAME as CITY,ld1.LOCATION_NAME as STATE,ed.CREATED_TS,PINNO,COMPANY_NAME "
 				+ "FROM enquiry_dtls ed inner join location_dtls ld on ld.LOCATION_ID=ed.CITY_ID "
 						+ "inner join location_dtls ld1 on ld1.LOCATION_ID=ed.STATE_ID and date_format(ed.CREATED_TS,'%Y-%m-%d') between ? and ?",
 				new Object[] { startDate, endDate }, new BeanPropertyRowMapper<EnquiryDetailsTo>(EnquiryDetailsTo.class));

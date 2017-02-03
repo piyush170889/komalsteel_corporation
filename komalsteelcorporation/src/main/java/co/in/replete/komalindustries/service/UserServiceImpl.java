@@ -197,8 +197,7 @@ public class UserServiceImpl implements UserService {
 		
 		  /*//check if PAN number is already exist
 	    	int pan=userDAO.selectPanCount(panNum);
-		   if(pan !=0)
-		   {
+		   if(pan !=0)		   {
 			throw new Exception(responseMessageProperties.getProperty("error.pannumber.alreadyexist"));
 		   }
 		
@@ -222,6 +221,7 @@ public class UserServiceImpl implements UserService {
 		   } else {
 			   throw new Exception("Email could not be sent at the moment. Please try again");
 		   }*/
+		   System.out.println("Cntc num: " + contactNum + " First nam:" + firstName + " Last name: " + lastName);
 		   commonUtility.sendEmailToAdmin(String.format(configProperties.getProperty("user.registration.new"), contactNum, firstName, lastName, 
 				   new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())), configProperties.getProperty("user.registration.subject"));
 		   return new BaseWrapper();

@@ -292,27 +292,27 @@ public List<AdminLoginDtls> selectUserDetailsByEmailIdAndPass(String emailId, St
 @Override
 public List<LocationDtls> selectStateList() {
 	
-	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=0", new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
+	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=0 order by LOCATION_NAME", new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
 }
 
 @Override
 public List<LocationDtls> selectCityListByStateId(String stateId) {
 	
-	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=?", new Object[] {stateId}, new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
+	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=? order by LOCATION_NAME", new Object[] {stateId}, new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
 }
 
 @Override
 public int insertEnquiryDetails(EnquiryDetails request) {
 	
-	return jdbcTemplate.update("insert into enquiry_dtls(CITY_ID,STATE_ID,EMAIL_ID,ENQUIRY_TYPE,FIRST_NM,LAST_NM,PHN_NM,MESSAGE) values(?,?,?,?,?,?,?,?)", 
+	return jdbcTemplate.update("insert into enquiry_dtls(CITY_ID,STATE_ID,EMAIL_ID,ENQUIRY_TYPE,FIRST_NM,LAST_NM,PHN_NM,MESSAGE,PINNO,COMPANY_NAME) values(?,?,?,?,?,?,?,?,?,?)", 
 			request.getCityId(), request.getStateId(), request.getEmail(), request.getEnquiryType(), request.getFirstNm(), request.getLastNm(), 
-			request.getPhnNm(),request.getMessage());
+			request.getPhnNm(),request.getMessage(), request.getPinNo(), request.getCompanyName());
 }
 
 @Override
 public List<LocationDtls> selectAllStates() {
 	
-	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=0", new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
+	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=0 order by LOCATION_NAME", new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
 }
 
 @Override

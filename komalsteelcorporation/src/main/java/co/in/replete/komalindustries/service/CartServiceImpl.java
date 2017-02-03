@@ -25,10 +25,12 @@ import co.in.replete.komalindustries.beans.entity.AppConfiguration;
 import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
+import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.beans.entity.ShippingAddressDetail;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.AdminDAO;
 import co.in.replete.komalindustries.dao.CartDAO;
+import co.in.replete.komalindustries.dao.ProductDAO;
 import co.in.replete.komalindustries.utils.CommonUtility;
 import co.in.replete.komalindustries.utils.MessageUtility;
 import co.in.replete.komalindustries.utils.UDValues;
@@ -60,6 +62,9 @@ public class CartServiceImpl implements CartService {
 	
 	@Autowired
 	MessageUtility messageUtility;
+	
+	@Autowired
+	private ProductDAO productDAO;
 	
 	/**
 	 * Description : Get's the list of order details for the user as per the page number supplied
@@ -139,7 +144,7 @@ public class CartServiceImpl implements CartService {
 		try{
 			//Get the user details 
 			UserDetailsTO userDetails = cartDAO.selectUserDetails(trackId);
-			
+			int addressDtlsId = 0;
 			if(null != userDetails) {
 				//Check if user is verified and activated
 				if(userDetails.getStatus().equals(UDValues.USER_STATUS_INACTIVE.toString())) {
@@ -150,7 +155,7 @@ public class CartServiceImpl implements CartService {
 				List<CartDetailsTO> cartDetailsList = request.getOrdersList();
 				for(CartDetailsTO cartDetails : cartDetailsList)
 				{
-					int addressDtlsId = 0;
+					
 					//Add Shipping Address details
 					if(cartDetails.getIsDefaultAddress().equalsIgnoreCase("true")) {
 						addressDtlsId = Integer.parseInt(cartDetails.getShippingDtlsId().trim());
@@ -245,11 +250,42 @@ public class CartServiceImpl implements CartService {
 					
 					//TODO send customized message based on active and inactive users. Also send messages from all the application in ascynchronous way and using 
 					// template structure from DB
+					
 					//Send Notification to alternate number
 					messageUtility.sendMessage(cartDetails.getAlternateCntc(), 
 							String.format(configProperties.getProperty("sms.orderplaced.success"), cartDtlsId));
-					commonUtility.sendEmailToAdmin(String.format(configProperties.getProperty("order.book.new"), 
-							null == userDetails.getFirstName() ? "" : userDetails.getFirstName(), null == userDetails.getLastName() ? "" : userDetails.getLastName()), 
+					
+					//Send Email Content
+					String emailContentPrefix = responseMessageProperties.getProperty("order.book.prefix");
+					String emailContentSuffix = responseMessageProperties.getProperty("order.book.suffix");
+					
+					StringBuilder sb = new StringBuilder(emailContentPrefix);
+					
+					for (CartItemDtl cartItemDtl : cartItemDtls){
+						ItemMasterDtl itemMasterDtl = productDAO.selectProductDetailsByItemId(Integer.toString(cartItemDtl.getItemMasterDtlsId()));
+						sb.append("<tr>");
+						sb.append("<td>" + itemMasterDtl.getItemNm() + "</td>");
+						sb.append("<td>" + itemMasterDtl.getUom() + "</td>");
+						sb.append("<td>" + cartItemDtl.getItemQty() + "</td>");
+						sb.append("</tr>");
+					}
+					
+					sb.append(emailContentSuffix);
+					
+					ShippingAddressDetail shippingAddressDetail = cartDAO.selectShippingAddressDetailsById(addressDtlsId);
+					
+					String finalEmailString = String .format(sb.toString(), 
+							(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
+							null == userDetails.getFirstName() ? "" : userDetails.getFirstName()
+							, null == userDetails.getLastName() ? "" : userDetails.getLastName(),  
+							(null == userDetails.getCntc_num() || userDetails.getCntc_num().isEmpty()) ? "Not Specified": userDetails.getCntc_num(), cartDtlsId,
+							(null == shippingAddressDetail.getMark() || shippingAddressDetail.getMark().isEmpty()) ? "Not Specified" : shippingAddressDetail.getMark(), 
+							(null == shippingAddressDetail.getDestination() || shippingAddressDetail.getDestination().isEmpty()) ? "Not Specified" : shippingAddressDetail.getDestination(), 
+							(null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm(),
+									cartDetail.getCartNotes());
+					
+//					System.out.println("FINAL EMAIL STRING: " + finalEmailString);
+					commonUtility.sendEmailToAdmin(finalEmailString, 
 							responseMessageProperties.getProperty("order.book.subject"));
 					return new BaseWrapper();
 				}

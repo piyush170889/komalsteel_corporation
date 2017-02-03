@@ -23,7 +23,6 @@ public class EnquiryServiceImpl implements EnquiryService {
 
 	@Override
 	public List<EnquiryDetailsTo> getEnquiryListByDate(String startDate, String endDate) {
-		// TODO Auto-generated method stub
 		return enquiryDao.selectEnquiryListByDate(startDate, endDate);
 	}
 	

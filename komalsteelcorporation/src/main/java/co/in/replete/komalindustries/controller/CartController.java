@@ -15,7 +15,7 @@ import co.in.replete.komalindustries.beans.ItemsDetailsRequest;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.CartDAO;
 import co.in.replete.komalindustries.service.CartService;
-import co.in.replete.komalindustries.utils.MessageUtility;
+
 
 @RestController
 public class CartController {

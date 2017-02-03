@@ -29,6 +29,16 @@ public class KomalIndustriesConstants {
 	
 	public static final String SUCCESS_MSSG_LABEL = "successMssg";
 	
+	public static final String FILE_SEPARATOR = "/";
+	
+	public static final String FILE_EXT_PREFIX=".";
+
+	public static final String FILE_NAME_SEPARATOR = "_";
+	
+	public static final String FILE_IMG_EXT_PNG = ".png";
+	
+	public static final String UPLOAD_DEST_DROPBOX = "Dropbox";
+	
 	public static final String WMAX_LIMIT="WmaxRecords";
 	
 	public static final String CATEGORY_PARENT_ID="categoryParentId";

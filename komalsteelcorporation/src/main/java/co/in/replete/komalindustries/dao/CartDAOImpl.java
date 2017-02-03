@@ -512,8 +512,8 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 	
 	@Override
 	public UserDetailsTO selectUserDetails(String trackId) {
-		
-		return jdbcTemplate.query(sqlProperties.getProperty("select.userdetails.bytrackid"), new Object[] {trackId}, new ResultSetExtractor<UserDetailsTO>() {
+//		sqlProperties.getProperty("select.userdetails.bytrackid")
+		return jdbcTemplate.query("select * from user_dtls ud inner join user_login_dtls uld on ud.TRACK_ID=uld.TRACK_ID and uld.TRACK_ID=?", new Object[] {trackId}, new ResultSetExtractor<UserDetailsTO>() {
 			@Override
 			public UserDetailsTO extractData(ResultSet rs) throws SQLException, DataAccessException {
 				UserDetailsTO userDetails = null;
@@ -522,9 +522,11 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 				if(rs.next()) {
 					userDetails = new UserDetailsTO();
 					userDetails.setFirstName(rs.getString("FIRST_NAME"));
+					userDetails.setLastName(rs.getString("LAST_NAME"));
 					userDetails.setCntc_num(rs.getString("CNTC_NUM"));
 					userDetails.setLoginId(rs.getString("LOGIN_ID"));
 					userDetails.setStatus(rs.getString("STATUS"));
+					userDetails.setDisplayName(rs.getString("DISPLAY_NAME"));
 				}
 				
 				return userDetails;
@@ -766,6 +768,14 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 		} else {
 			return userDetailsList.get(0);
 		}
+	}
+	
+	@Override
+	public ShippingAddressDetail selectShippingAddressDetailsById(int addressDtlsId) {
+		
+		String sql = "select * from other_address_details where OTHER_ADDRESS_ID=?";
+		return jdbcTemplate.query(sql, new Object[] {addressDtlsId}, 
+				new BeanPropertyRowMapper<ShippingAddressDetail>(ShippingAddressDetail.class)).get(0);
 	}
 	
 }

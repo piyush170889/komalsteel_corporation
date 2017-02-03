@@ -20,7 +20,27 @@ public class EnquiryDetails {
 	
 	private String message;
 	
+	private String companyName;
+	
+	private String pinNo;
+	
 	public EnquiryDetails() {}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getPinNo() {
+		return pinNo;
+	}
+
+	public void setPinNo(String pinNo) {
+		this.pinNo = pinNo;
+	}
 
 	public int getEnquiryDtlsId() {
 		return enquiryDtlsId;
