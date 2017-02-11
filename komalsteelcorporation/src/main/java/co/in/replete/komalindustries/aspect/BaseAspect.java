@@ -25,6 +25,9 @@ public class BaseAspect {
 	@Autowired
 	Properties responseMessageProperties;
 	
+	@Autowired
+	Properties configProperties;
+	
 	@Pointcut(KomalIndustriesConstants.BASE_POINTCUT)
 	public void basePointCut() { }
 	
@@ -48,16 +51,20 @@ public class BaseAspect {
 	@Around("exceptionPointCut()")
 	public Object doAroundExecution(ProceedingJoinPoint pjp){
 		BaseWrapper response = new BaseWrapper();
+		String apiVersion = configProperties.getProperty("api.version");
 		try {
 			response = (BaseWrapper) pjp.proceed();
 		} catch (Throwable e) {
 			e.printStackTrace();
-			response.setResponseMessage(new ResponseMessage(HttpStatus.NOT_IMPLEMENTED.toString(), (null == e.getMessage()) ? KomalIndustriesConstants.ERROR_OCCURED : e.getMessage().trim()));
+			response.setResponseMessage(new ResponseMessage(HttpStatus.NOT_IMPLEMENTED.toString(), 
+					(null == e.getMessage()) ? KomalIndustriesConstants.ERROR_OCCURED : e.getMessage().trim(), 
+					apiVersion));
+			
 			return response;
 		}
 
 		if(null != response && null == response.getResponseMessage()) {
-			response.setResponseMessage(new ResponseMessage(HttpStatus.OK.toString(), KomalIndustriesConstants.SUCCESS_OK));
+			response.setResponseMessage(new ResponseMessage(HttpStatus.OK.toString(), KomalIndustriesConstants.SUCCESS_OK, apiVersion));
 		}
 		
 		return response;

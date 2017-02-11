@@ -16,6 +16,9 @@ public class BaseExceptionHandler {
   @Autowired
   Properties responseMessageProperties;
 
+  @Autowired
+  Properties configProperties;
+  
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
@@ -29,9 +32,10 @@ public class BaseExceptionHandler {
   private BaseWrapper processFieldError(FieldError error) {
     ResponseMessage responseMessage = null;
     BaseWrapper response = null;
+    String apiVersion = configProperties.getProperty("api.version");
     if (error != null) {
       String msg = responseMessageProperties.getProperty(error.getDefaultMessage());
-      responseMessage = new ResponseMessage(HttpStatus.BAD_REQUEST.toString(), msg);
+      responseMessage = new ResponseMessage(HttpStatus.BAD_REQUEST.toString(), msg, apiVersion);
       response = new BaseWrapper(responseMessage);
     }
     return response;

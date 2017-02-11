@@ -6,11 +6,12 @@ public class ResponseMessage {
 	
 	private String message;
 	
-	private String apiVersion = "1";
+	private String apiVersion;
 	
-	public ResponseMessage(String status, String message) {
+	public ResponseMessage(String status, String message, String apiVersion) {
 		this.status = status;
 		this.message = message;
+		this.apiVersion = apiVersion;
 	}
 	
 	public String getApiVersion() {

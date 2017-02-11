@@ -149,7 +149,8 @@ public class CartServiceImpl implements CartService {
 				//Check if user is verified and activated
 				if(userDetails.getStatus().equals(UDValues.USER_STATUS_INACTIVE.toString())) {
 					/*throw new ServicesException("Your Account is not yet activated. Please contact our support to activate your account");*/
-					ResponseMessage responseMessage = new ResponseMessage("601", "Your Account is not yet activated. Please contact our support to activate your account");
+					ResponseMessage responseMessage = new ResponseMessage("601", "Your Account is not yet activated. Please contact our support to activate your account", 
+							configProperties.getProperty("api.version"));
 					return new BaseWrapper(responseMessage);					
 				}
 				List<CartDetailsTO> cartDetailsList = request.getOrdersList();
