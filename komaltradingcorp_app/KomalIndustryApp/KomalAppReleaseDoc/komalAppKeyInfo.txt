@@ -1,0 +1,25 @@
+Keystore Path:
+D:\ImportantDocs\KomalAppSignedApk\komalAppKeyStore.jks
+
+Keystore Password:
+Replete@1
+
+Alias:
+KomalAppKey
+
+Password:
+komalApp@1
+
+
+validity:
+40 years
+
+Certificate info:
+
+
+Akshata Patil
+Mobile Development
+Replete
+Pune
+Maharashtra
+IND
