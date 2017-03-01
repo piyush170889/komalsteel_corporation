@@ -119,55 +119,48 @@ public class CommonUtility {
 	 * @return		isEmailSent		true if mail is sent successfully.false if mail sending fails
 	 */
 	public boolean sendEmail(String toAddress, String message, String subject){
-	    final String userName =configProperties.getProperty("email.username");
 		
-		final String password = configProperties.getProperty("email.password");
-		boolean isEmailSent = false;
-		try{	
-			// sets SMTP server properties
-			Properties properties = new Properties();
-			properties.put(configProperties.getProperty("smtp.server.host"),configProperties.getProperty("smtp.server.gmail"));
-			properties.put("mail.smtp.port",587);
-			properties.put("mail.smtp.auth", "true");
-			properties.put(configProperties.getProperty("smtp.server.starttls"), configProperties.getProperty("smtp.server.starttls.value"));
-			System.out.println(configProperties.getProperty("smtp.server.gmail"));
-			// creates a new session with an authenticator
-			Authenticator auth = new Authenticator() {
-				public PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(userName, password);
-				}
-			};
-			Session session = Session.getInstance(properties, auth);
-			// creates a new e-mail message
-			Message mimeMessage = new MimeMessage(session);
-			mimeMessage.setFrom(new InternetAddress(userName));
-			InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
-			mimeMessage.setRecipients(Message.RecipientType.TO, toAddresses);
-			mimeMessage.setSubject(subject);
-			mimeMessage.setSentDate(new Date());
-			
-			// Create the message part 
-			MimeBodyPart messageBodyPart = new MimeBodyPart();
-
-			// Fill the message
-			messageBodyPart.setContent(message,"text/html");
-
-			Multipart multipart = new MimeMultipart();
-			multipart.addBodyPart(messageBodyPart);
-
-			// Put parts in message
-			mimeMessage.setContent(multipart);
-			
-			mimeMessage.setText(message);
-			
-			// sends the e-mail
-			Transport.send(mimeMessage);
-			isEmailSent = true;
-			return isEmailSent;
+		final String PROP_USERNAME = configProperties.getProperty("email.username");
+		
+		final String PROP_PASSWORD = configProperties.getProperty("email.password");
+		
+		
+		boolean isEmailSend = false;
+		try{
+		// sets SMTP server properties
+		Properties properties = new Properties();
+		properties.put(PROP_SMTP_HOST, PROP_HOST);
+		properties.put(PROP_SMTP_PORT, PROP_PORT);
+		properties.put(PROP_SMTP_AUTH, PROP_AUTH);
+		properties.put(PROP_SMTP_STARTTLS_ENABLE, PROP_STARTTLS_ENABLE);
+		// creates a new session with an authenticator
+		Authenticator auth = new Authenticator() {
+			public PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(PROP_USERNAME, PROP_PASSWORD);
+			}
+		};
+		Session session = Session.getInstance(properties, auth);
+		// creates a new e-mail message
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress(PROP_USERNAME));
+		String[] emailIds = toAddress.split(",");
+				
+		InternetAddress[] toAddresses = new InternetAddress[emailIds.length];
+		for(int i=0; i<emailIds.length; i++) {
+			toAddresses[i] = new InternetAddress(emailIds[i]);
+		}
+		msg.setRecipients(Message.RecipientType.TO, toAddresses);
+		msg.setSubject(subject);
+		msg.setSentDate(new Date());
+		msg.setContent(message,"text/html");
+		// sends the e-mail
+		Transport.send(msg);
+		isEmailSend = true;
 		}catch(Exception e){
 			e.printStackTrace();
-			return isEmailSent;
+			return false;
 		}
+		return isEmailSend;
 	}
 
 	/*public void sendEmailToAdmin(String message, String subject) {
@@ -230,10 +223,6 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 	
 	private final String PROP_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 	
-	/*private final String PROP_USERNAME = "pratik.hedaoo@bikedoctor.in";
-	
-	private final String PROP_PASSWORD = "PASSWORD_123";
-	*/
 	private final String PROP_HOST = "smtp.gmail.com";
 	
 	private final String PROP_PORT = "587";

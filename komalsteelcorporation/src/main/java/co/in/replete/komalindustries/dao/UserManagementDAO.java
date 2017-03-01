@@ -49,7 +49,7 @@ public interface UserManagementDAO {
 
 	List<DistributorTO> selectDistributor(String dealerTrackId) throws DataAccessException;
 	
-	void updateUserDetail(String trackid, String firstName, String lastName, String cntc_num);
+	void updateUserDetail(String trackid, String firstName, String lastName, String cntc_num/*, String vatNo, String panNo*/);
 	
 	Integer insertOTPDetails(Object... otpDetailsParams);
 

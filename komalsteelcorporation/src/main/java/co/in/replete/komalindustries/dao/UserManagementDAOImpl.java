@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Properties;
 
-import javax.xml.ws.Holder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -323,7 +321,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	 * @throws{@link Exception }
 	 */
 	@Override
-	public void updateUserDetail(String trackid, String firstName, String lastName, String displayName) {
+	public void updateUserDetail(String trackid, String firstName, String lastName, String displayName 
+			/*, String vatNo, String panNo*/) {
 		
 		 jdbcTemplate.update(sqlProperties.getProperty("update.userdetails.bytrackid"),firstName,lastName,displayName,trackid);
 		
@@ -767,7 +766,7 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	@Override
 	public List<LocationDtls> getStateList() throws Exception {
 		
-		return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=0", new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
+		return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=0 order by LOCATION_NAME", new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
 	}
 	
 	@Override

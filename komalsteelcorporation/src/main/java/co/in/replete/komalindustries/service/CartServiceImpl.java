@@ -144,6 +144,7 @@ public class CartServiceImpl implements CartService {
 		try{
 			//Get the user details 
 			UserDetailsTO userDetails = cartDAO.selectUserDetails(trackId);
+			String custEmailId = userDetails.getLoginId();
 			int addressDtlsId = 0;
 			if(null != userDetails) {
 				//Check if user is verified and activated
@@ -256,19 +257,16 @@ public class CartServiceImpl implements CartService {
 					messageUtility.sendMessage(cartDetails.getAlternateCntc(), 
 							String.format(configProperties.getProperty("sms.orderplaced.success"), cartDtlsId));
 					
-					//Send Email Content
+					//Send Order Email to Admin
 					String emailContentPrefix = responseMessageProperties.getProperty("order.book.prefix");
 					String emailContentSuffix = responseMessageProperties.getProperty("order.book.suffix");
+					String customerEmailContentPrefix = responseMessageProperties.getProperty("customer.order.book.prefix");
 					
 					StringBuilder sb = new StringBuilder(emailContentPrefix);
 					
 					for (CartItemDtl cartItemDtl : cartItemDtls){
 						ItemMasterDtl itemMasterDtl = productDAO.selectProductDetailsByItemId(Integer.toString(cartItemDtl.getItemMasterDtlsId()));
-						sb.append("<tr>");
-						sb.append("<td>" + itemMasterDtl.getItemNm() + "</td>");
-						sb.append("<td>" + itemMasterDtl.getUom() + "</td>");
-						sb.append("<td>" + cartItemDtl.getItemQty() + "</td>");
-						sb.append("</tr>");
+						sb = appendData(itemMasterDtl, sb, cartItemDtl.getItemQty());
 					}
 					
 					sb.append(emailContentSuffix);
@@ -285,13 +283,35 @@ public class CartServiceImpl implements CartService {
 							(null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm(),
 									cartDetail.getCartNotes());
 					
-//					System.out.println("FINAL EMAIL STRING: " + finalEmailString);
 					commonUtility.sendEmailToAdmin(finalEmailString, 
 							responseMessageProperties.getProperty("order.book.subject"));
+					
+					//Send Order Email to customer if email id is present
+					if (null != custEmailId && !custEmailId.isEmpty()) {
+						StringBuilder sbCust = new StringBuilder(customerEmailContentPrefix);
+						
+						for (CartItemDtl cartItemDtl : cartItemDtls){
+							ItemMasterDtl itemMasterDtl = productDAO.selectProductDetailsByItemId(Integer.toString(cartItemDtl.getItemMasterDtlsId()));
+							sb = appendData(itemMasterDtl, sb, cartItemDtl.getItemQty());
+							sbCust = appendData(itemMasterDtl, sbCust, cartItemDtl.getItemQty());
+						}
+						
+						sbCust.append(emailContentSuffix);
+						
+						String finalEmailStringCustomer = String .format(sbCust.toString(), 
+								(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
+								null == userDetails.getFirstName() ? "" : userDetails.getFirstName()
+								, null == userDetails.getLastName() ? "" : userDetails.getLastName(),  
+								(null == userDetails.getCntc_num() || userDetails.getCntc_num().isEmpty()) ? "Not Specified": userDetails.getCntc_num(), cartDtlsId,
+								(null == shippingAddressDetail.getMark() || shippingAddressDetail.getMark().isEmpty()) ? "Not Specified" : shippingAddressDetail.getMark(), 
+								(null == shippingAddressDetail.getDestination() || shippingAddressDetail.getDestination().isEmpty()) ? "Not Specified" : shippingAddressDetail.getDestination(), 
+								(null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm(),
+										cartDetail.getCartNotes());
+						
+						commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, responseMessageProperties.getProperty("order.book.subject"));
+					}
 					return new BaseWrapper();
 				}
-			} else {
-				throw new Exception(responseMessageProperties.getProperty("error.trackId.invalid"));
 			}
 		} catch(DataAccessException e){
 			e.printStackTrace();
@@ -299,6 +319,15 @@ public class CartServiceImpl implements CartService {
 		} 
 		
 		return new BaseWrapper();
+	}
+
+	private StringBuilder appendData(ItemMasterDtl itemMasterDtl, StringBuilder sb, int qty) {
+		sb.append("<tr>");
+		sb.append("<td>" + itemMasterDtl.getItemNm() + "</td>");
+		sb.append("<td>" + itemMasterDtl.getUom() + "</td>");
+		sb.append("<td>" + qty + "</td>");
+		sb.append("</tr>");
+		return sb;
 	}
 
 	/**

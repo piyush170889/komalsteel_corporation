@@ -39,7 +39,27 @@ public class UpdateUserTO {
 	 
 	 private String tinNo;
 	 
+	 private String vatNo;
+	 
+	 private String panNo;
+	 
      public UpdateUserTO() {}
+
+	public String getVatNo() {
+		return vatNo;
+	}
+
+	public void setVatNo(String vatNo) {
+		this.vatNo = vatNo;
+	}
+
+	public String getPanNo() {
+		return panNo;
+	}
+
+	public void setPanNo(String panNo) {
+		this.panNo = panNo;
+	}
 
 	public String getMark() {
 		return mark;

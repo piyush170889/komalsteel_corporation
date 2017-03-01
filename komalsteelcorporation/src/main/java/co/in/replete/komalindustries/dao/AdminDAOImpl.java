@@ -189,7 +189,7 @@ public List<WConfigurationTO> selectWConfigurationList() {
 @Override
 public List<LocationDtls> selectCityList() throws DataAccessException {
 	
-	return jdbcTemplate.query("select LOCATION_NAME from location_dtls where LOCATION_PARENT_ID=0", new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
+	return jdbcTemplate.query("select LOCATION_NAME from location_dtls where LOCATION_PARENT_ID=0 order by LOCATION_NAME", new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
 }
 
 @Override
@@ -265,7 +265,8 @@ public void updateSubCategoryDetails(String catId, String catName, String parent
 @Override
 public List<LocationDtls> selectCityListByStateName(String stateId) {
 	
-	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID in(select LOCATION_ID from location_dtls where LOCATION_NAME=?)", new Object[] {stateId},
+	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID in(select LOCATION_ID from location_dtls where LOCATION_NAME=?) "
+			+ "order by LOCATION_NAME", new Object[] {stateId},
 			new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
 }
 
@@ -298,7 +299,8 @@ public List<LocationDtls> selectStateList() {
 @Override
 public List<LocationDtls> selectCityListByStateId(String stateId) {
 	
-	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=? order by LOCATION_NAME", new Object[] {stateId}, new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
+	return jdbcTemplate.query("select * from location_dtls where LOCATION_PARENT_ID=? order by LOCATION_NAME", 
+			new Object[] {stateId}, new BeanPropertyRowMapper<LocationDtls>(LocationDtls.class));
 }
 
 @Override

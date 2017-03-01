@@ -317,7 +317,9 @@ public class UserServiceImpl implements UserService {
        {
     	   UpdateUserTO userDetailsUpdate = request.getUpdateUserTO();
     	   //Update basic details
-    	   userDAO.updateUserDetail(trackid,userDetailsUpdate.getFirstName(), userDetailsUpdate.getLastName() ,	userDetailsUpdate.getDisplayName());
+    	   userDAO.updateUserDetail(trackid,userDetailsUpdate.getFirstName(), userDetailsUpdate.getLastName() ,	
+    			   userDetailsUpdate.getDisplayName()/*, userDetailsUpdate.getVatNo(), userDetailsUpdate.getPanNo()*/);
+
     	   //Update Login Id if not empty
     	   if(!userDetailsUpdate.getEmail().isEmpty()) {
     		   List<UserDetailsTO> userDetails = userDAO.selectUserDetailsBytrackIdWoAddrDetails(trackid);
