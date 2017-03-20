@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayoutParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
+
+    <!-- <android.support.v7.widget.RecyclerView
+         android:id="@+id/recycler_view_track_order"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/toolbar"
+         android:layout_centerInParent="true"/>-->
+
+ <!--   <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">-->
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/toolbar" />
+
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textView_show_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imageView_no_order"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_above="@+id/textView_show_message"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="165dp"
+                android:src="@drawable/ic_empty_order"
+                android:tint="@color/primary"
+                android:visibility="gone" />
+<!--
+        </LinearLayout>
+    </ScrollView>-->
+
+
+</RelativeLayout>
+

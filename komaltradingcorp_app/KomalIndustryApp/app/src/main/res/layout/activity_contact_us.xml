@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:fitsSystemWindows="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/cardviewPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_order_placed_date"
+                android:layout_margin="5dp"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutOrderStatusView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_phone"
+                        android:tint="@color/primary" />
+
+                    <!--
+                                        <TextView
+                                            android:id="@+id/textView7"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:layout_toEndOf="@+id/imageView2"
+                                            android:layout_toRightOf="@+id/imageView2"
+                                            android:text="Contacts"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textStyle="bold" />
+                    -->
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_toEndOf="@+id/imageView2"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:text="Contact No"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView_call_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView8"
+                        android:layout_margin="5dp"
+                        android:layout_toEndOf="@+id/imageView2"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:text="+91 9757222333"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <ImageView
+                        android:id="@+id/imageViewCall1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView_call_1"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_call_support"
+                        android:tint="@color/primary" />
+
+
+                    <TextView
+                        android:id="@+id/textView_call_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView_call_1"
+                        android:layout_margin="5dp"
+                        android:layout_toEndOf="@+id/imageView2"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:text="+91 9833442828"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <ImageView
+                        android:id="@+id/imageViewCall2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/textView_call_1"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_call_support"
+                        android:tint="@color/primary" />
+
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@+id/imageViewCall2"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/primary_dark" />
+
+
+                    <TextView
+                        android:id="@+id/textView_TelNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view1"
+                        android:layout_margin="5dp"
+                        android:layout_toEndOf="@+id/imageView2"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:text="Telephone No"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView_tel_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView_TelNo"
+                        android:layout_margin="5dp"
+                        android:layout_toEndOf="@+id/imageView2"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:text="+ 91 22 2222 3333"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <ImageView
+                        android:id="@+id/imageViewTellCall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView_tel_no"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_call_support"
+                        android:tint="@color/primary" />
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@+id/imageViewTellCall"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/primary_dark" />
+
+                    <TextView
+                        android:id="@+id/textView_customer_care_No"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view2"
+                        android:layout_margin="5dp"
+                        android:layout_toEndOf="@+id/imageView2"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:text="Customer Care No"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView_cust_care_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView_customer_care_No"
+                        android:layout_margin="5dp"
+                        android:layout_toEndOf="@+id/imageView2"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:text="+91 9757222333"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <ImageView
+                        android:id="@+id/imageView_cust_call_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView_cust_care_no"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_call_support"
+                        android:tint="@color/primary" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/cardviewAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardviewPhone"
+                android:layout_margin="5dp"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_home"
+                        android:tint="@color/primary" />
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toEndOf="@+id/imageViewAddress"
+                        android:layout_toRightOf="@+id/imageViewAddress"
+                        android:text="Address"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView1"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toEndOf="@+id/imageViewAddress"
+                        android:layout_toRightOf="@+id/imageViewAddress"
+                        android:text="B/12 Vaishali Industrial Estate, \nB. T. Road,Dahisar (W),\nMumbai 400 068"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+                    <ImageView
+                        android:id="@+id/imageViewGoDirection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_directions_black_24dp"
+                        android:tint="@color/primary" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/cardviewEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardviewAddress"
+                android:layout_margin="5dp"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewEMail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/email"
+                        android:tint="@color/primary" />
+
+                    <TextView
+                        android:id="@+id/textViewEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toEndOf="@+id/imageViewEMail"
+                        android:layout_toRightOf="@+id/imageViewEMail"
+                        android:text="Email"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewEmail2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textViewEmail"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toEndOf="@+id/imageViewEMail"
+                        android:layout_toRightOf="@+id/imageViewEMail"
+                        android:text="tekchandbheda@gmail.com"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+                    <TextView
+                        android:id="@+id/textViewEmail3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textViewEmail2"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toEndOf="@+id/imageViewEMail"
+                        android:layout_toRightOf="@+id/imageViewEMail"
+                        android:text="komal@vsnl.com"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
+                        android:id="@+id/textViewEmail4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textViewEmail3"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toEndOf="@+id/imageViewEMail"
+                        android:layout_toRightOf="@+id/imageViewEMail"
+                        android:text="komal@mtnl.net.in"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

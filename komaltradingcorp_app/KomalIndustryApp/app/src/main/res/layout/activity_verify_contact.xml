@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayoutParent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/primary_dark">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/verify_contact_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/verify_msg"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/editText_contact_no_to_verify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/edittext_bottom_border"
+                android:ems="10"
+                android:hint="Contact No.*"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingBottom="15dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp" />
+
+            <!-- <TextView
+                 android:id="@+id/tvResendOtp"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentRight="true"
+                 android:layout_below="@+id/editText_contact_no_to_verify"
+                 android:layout_marginTop="20dp"
+                 android:text="Resend OTP"
+                 android:textColor="@color/white" />-->
+
+            <EditText
+                android:id="@+id/editText_otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editText_contact_no_to_verify"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/edittext_bottom_border"
+                android:ems="10"
+                android:hint="Enter OTP*"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingBottom="15dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvResendOtp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/editText_otp"
+                android:layout_marginTop="20dp"
+                android:text="Resend OTP"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+
+            <Button
+                android:id="@+id/btn_verify_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvResendOtp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@color/primary"
+                android:text="Verify Contact No"
+                android:textColor="@color/white" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>
+

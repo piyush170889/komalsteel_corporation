@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 Antonio Leiva
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.replete.komalapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:name=".Config.AppController"
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".activity.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+        <!-- <activity
+             android:name=".activity.STGVActivity"
+             android:configChanges="orientation|keyboardHidden|screenSize"
+             android:windowSoftInputMode="stateHidden|adjustResize"></activity>-->
+
+
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.VerifyContactActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.VerifyContactActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.VerifyContactActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.LoginActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.ProductDetailNewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.MainProductListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.MainProductListActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.CartActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.ProductDetailNewActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.ProductDetailNewActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.TrackOrderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.MainProductListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.MainProductListActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.OrderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.MainProductListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.MainProductListActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.PickAddressActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.CartActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.CartActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.ReviewProductActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.PickAddressActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.PickAddressActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.OrderDetailsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.TrackOrderActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.TrackOrderActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.DistributorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+
+        <activity
+            android:name=".UpdateActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+
+
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.MainProductListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.MainProductListActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.OrderLoadMoreActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.MainProductListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.MainProductListActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.ContactUsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.MainProductListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.MainProductListActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.ChangePasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.ProfileActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.ProfileActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.SettingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.MainProductListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.MainProductListActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.ForgetPasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.replete.komalapp.activity.LoginActivity" />
+        </activity>
+
+        <!-- SMS Receiver -->
+        <receiver android:name=".receiver.SmsReceiver">
+            <intent-filter android:priority="99999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Intent service -->
+        <service
+            android:name=".service.HttpService"
+            android:exported="false" />
+
+    </application>
+</manifest>

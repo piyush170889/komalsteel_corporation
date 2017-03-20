@@ -1,0 +1,45 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="220dp" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom">
+
+       <!-- <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/opaque_primary_dark"
+            app:ci_animator="@animator/indicator_animator"
+            app:ci_animator_reverse="@animator/indicator_animator_reverse"
+            app:ci_drawable="@drawable/black_radius"
+            app:ci_height="4dp"
+            app:ci_margin="6dp"
+            app:ci_width="10dp" />-->
+
+          <TextView
+              android:id="@+id/textview1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_alignParentBottom="true"
+              android:gravity="center"
+              android:padding="5dp"
+              android:background="@color/lightGrey"
+              android:text="All products"
+              android:textColor="@color/primary_dark"
+              android:textSize="18dp" />
+
+    </RelativeLayout>
+</FrameLayout>

@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutForShippingAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView_address_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Address : "
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primary_dark" />
+
+
+        <TextView
+            android:id="@+id/textView_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/textView_address_title"
+            android:layout_toRightOf="@+id/textView_address_title"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_address"
+            android:layout_toEndOf="@+id/textView_address_title"
+            android:layout_toRightOf="@+id/textView_address_title"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView_pincode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_address"
+            android:layout_toEndOf="@+id/textView_city"
+            android:layout_toRightOf="@+id/textView_city"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_pincode"
+            android:layout_toEndOf="@+id/textView_address_title"
+            android:layout_toRightOf="@+id/textView_address_title"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+        <TextView
+            android:id="@+id/textView_contact_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_state"
+            android:layout_toEndOf="@+id/textView_address_title"
+            android:layout_toRightOf="@+id/textView_address_title"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+        <!--  <TextView
+              android:id="@+id/textView_email_title"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentStart="true"
+              android:layout_below="@+id/textView_contact_no"
+              android:text="Email : "
+              android:textAllCaps="true"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:textColor="@color/primary_dark" />
+
+
+          <TextView
+              android:id="@+id/textView_email"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/textView_contact_no"
+              android:layout_toEndOf="@+id/textView_mark_title"
+              android:layout_toRightOf="@+id/textView_mark_title"
+              android:textAppearance="?android:attr/textAppearanceSmall" />
+  -->
+
+        <TextView
+            android:id="@+id/textView_mark_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_contact_no"
+            android:text="Mark : "
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primary_dark" />
+
+
+        <TextView
+            android:id="@+id/textView_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_contact_no"
+            android:layout_toEndOf="@+id/textView_mark_title"
+            android:layout_toRightOf="@+id/textView_mark_title"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+        <TextView
+            android:id="@+id/textView_destination_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_mark"
+            android:text="Destination : "
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primary_dark" />
+
+
+        <TextView
+            android:id="@+id/textView_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_mark"
+            android:layout_toEndOf="@+id/textView_destination_title"
+            android:layout_toRightOf="@+id/textView_destination_title"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView_transporter_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_destination"
+            android:text="Transporter Name : "
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primary_dark" />
+
+
+        <TextView
+            android:id="@+id/textView_transporter_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_destination"
+            android:layout_toEndOf="@+id/textView_transporter_title"
+            android:layout_toRightOf="@+id/textView_transporter_title"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+        <TextView
+            android:id="@+id/textView_vat_tin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_transporter_name"
+            android:text="Vat Tin No: "
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primary_dark" />
+
+
+        <TextView
+            android:id="@+id/textView_vat_tin_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_transporter_name"
+            android:layout_toEndOf="@+id/textView_vat_tin_title"
+            android:layout_toRightOf="@+id/textView_vat_tin_title"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+        <ImageView
+            android:id="@+id/imageView_edit_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/textView_address"
+            android:src="@drawable/ic_edit_address"
+            android:tint="@color/primary" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutForNotShippingAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayoutForShippingAddress"
+        android:visibility="gone">
+        <!--  <android.support.design.widget.TextInputLayout
+              android:id="@+id/input_layout_pincode"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/textView_title_address_info"
+              android:textColorHint="@color/aluminum">-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Enter shipping address info to place order Otherwise update from profile"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/input_pincode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayoutSpinnerCity"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:hint="@string/hint_pincode"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="6"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+            <!--   <android.support.design.widget.TextInputLayout
+                   android:id="@+id/input_layout_address"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@+id/input_layout_pincode"
+                   android:textColorHint="@color/aluminum">-->
+
+
+            <EditText
+                android:id="@+id/input_address"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/textMsg"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/whole_border"
+                android:ems="10"
+                android:hint="@string/hint_address"
+                android:inputType="textMultiLine|textCapWords"
+                android:maxHeight="100dp"
+                android:maxLength="100"
+                android:padding="5dp"
+
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+            <!--  <android.support.design.widget.TextInputLayout
+                  android:id="@+id/input_layout_city"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/input_layout_address"
+                  android:textColorHint="@color/aluminum">-->
+
+            <!-- <EditText
+                 android:id="@+id/input_city"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentLeft="true"
+                 android:layout_alignParentStart="true"
+                 android:layout_below="@+id/input_address"
+                 android:layout_toLeftOf="@+id/input_pincode"
+                 android:hint="City*"
+                 android:imeOptions="actionNext"
+                 android:inputType="text|textCapWords"
+                 android:singleLine="true"
+                 android:textColor="@color/black"
+                 android:textSize="14sp" />-->
+
+
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+            <!--   <android.support.design.widget.TextInputLayout
+                   android:id="@+id/input_layout_state"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@+id/input_layout_city"
+                   android:textColorHint="@color/aluminum">-->
+
+            <!--  <EditText
+                  android:id="@+id/input_state"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/input_city"
+                  android:hint="@string/hint_state"
+                  android:imeOptions="actionNext"
+                  android:inputType="text|textCapWords"
+                  android:singleLine="true"
+                  android:textColor="@color/black"
+                  android:textSize="14sp" />-->
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutSpinnerState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input_address"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/button_black_border"
+                android:padding="5dp">
+
+                <Spinner
+                    android:id="@+id/spinnerState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:paddingTop="3dp"
+                    android:spinnerMode="dialog"></Spinner>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutSpinnerCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayoutSpinnerState"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/button_black_border"
+                android:padding="5dp">
+
+                <Spinner
+                    android:id="@+id/spinnerCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:paddingTop="3dp"
+                    android:spinnerMode="dialog"></Spinner>
+            </RelativeLayout>
+
+
+            <!-- <android.support.design.widget.TextInputLayout
+                 android:id="@+id/input_layout_mark"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:textColorHint="@color/aluminum">
+     -->
+            <EditText
+                android:id="@+id/input_mark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_mark"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+            <!-- </android.support.design.widget.TextInputLayout>
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/input_layout_destination"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:textColorHint="@color/aluminum">
+     -->
+            <EditText
+                android:id="@+id/input_destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_destination"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+            <!-- </android.support.design.widget.TextInputLayout>
+
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/input_layout_transName"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/textView_title_address_info"
+                 android:textColorHint="@color/aluminum">
+     -->
+            <EditText
+                android:id="@+id/input_transName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_transprter_name"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+            <!--  </android.support.design.widget.TextInputLayout>
+
+              <android.support.design.widget.TextInputLayout
+                  android:id="@+id/input_layout_vat_tin_no"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/input_layout_pan_no">
+      -->
+            <EditText
+                android:id="@+id/input_vat_tin_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_vat_tin_no"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+            <!--   </android.support.design.widget.TextInputLayout>-->
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!--</android.support.design.widget.TextInputLayout>-->
+
+</RelativeLayout>
