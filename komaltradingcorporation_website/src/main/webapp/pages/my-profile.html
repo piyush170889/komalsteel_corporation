@@ -1,0 +1,84 @@
+<div class="container" ng-controller="userController">
+	<div class="row">
+			<div class="col-md-12">
+			<br/>
+				<h3 class="text-center">My Profile </h3>
+					<div class="well"> 
+					<div class="col-md-12">
+					<span class="pull-right" ng-hide="!isReadOnly"><button type="button" class="btn btn-primary" style="padding:5px 20px;margin-right:10px;" ng-click="editProfile()">Edit Profile</button></span>
+					<span class="pull-right" ng-show="!isReadOnly"><button type="button" class="btn btn-primary" style="padding:5px 20px;margin-right:10px;" ng-click="updateUser()">update Profile</button></span>
+					</div>
+					
+					<h5>Personal Information</h5>
+					    <div class="form-group row">
+							<div class="col-md-6">
+							<label>Company Name</label>
+							<input type="text" ng-model="userDetails.displayName" class="form-control" id="fname" ng-readOnly="isReadOnly">
+							</div>
+						</div>
+					
+						<div class="form-group row">
+							<div class="col-md-6">
+							<label>First Name</label>
+							<input type="text" ng-model="userDetails.firstName" class="form-control" id="fname" ng-readOnly="isReadOnly">
+							</div>
+							<div class="col-md-6">
+							<label>Last Name</label>
+							<input type="text" ng-model="userDetails.lastName" class="form-control" id="lname" ng-readOnly="isReadOnly">
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-md-6">
+							<label>Email Address</label>
+							<input type="email" class="form-control" ng-model="userDetails.loginId" id="email" ng-readOnly="isReadOnly">
+							</div>
+							<div class="col-md-6">
+							<label>Contact</label>
+							<input type="text" class="form-control" ng-model="userDetails.cntc_num" id="contact" ng-readOnly="true">
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-md-6">
+							<label>VAT/TIN Number</label>
+							<input type="text" class="form-control" ng-model="userDetails.tinNo" id="vattin" ng-readOnly="isReadOnly">
+							</div>
+							<div class="col-md-6">
+							<label>PAN Number</label>
+							<input type="text" class="form-control" ng-model="userDetails.panNo" id="pan" ng-readOnly="isReadOnly">
+							</div>
+						</div>
+					</div>
+					<hr/>
+					<!-- <div class="well"> 
+					<div class="col-md-12">
+					<span class="pull-right" ng-hide="!isAddReadOnly"><button type="button" class="btn btn-primary" style="padding:5px 20px;margin-right:10px;" ng-click="editAddress()">Edit Address Information</button></span>
+					<span class="pull-right" ng-show="!isAddReadOnly"><button type="button" class="btn btn-primary" style="padding:5px 20px;margin-right:10px;">Update Address Information</button></span>
+					</div>
+					<h5>Address Information</h5>
+						<div class="form-group row">
+							<div class="col-md-6">
+						   <state></state>
+							</div>
+							<div class="col-md-6">
+							<city></city>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<div class="col-md-6">
+							<label>zipcode</label>
+							<input type="text" class="form-control" ng-model="userDetails.postalCode" id="vattin" ng-readOnly="isReadOnly">
+							</div>
+						</div>
+						<div class="form-group row">
+							
+							<div class="col-md-12">
+							  <label for="comment">Address</label>
+								<textarea ng-model="userDetails.stAddress1" class="form-control" rows="5" id="comment" ng-readOnly="isReadOnly"></textarea>
+							</div>
+						</div>
+						
+					</div> -->
+			</div>
+	</div>
+</div>

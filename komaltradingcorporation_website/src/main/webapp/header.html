@@ -1,0 +1,142 @@
+  <!--=== option Switcher ===-->
+  
+
+    <div class="main-wrapper">
+
+      <!-- HEADER -->
+      <div class="header clearfix">
+
+        <!-- TOPBAR -->
+        <div class="topBar">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 hidden-sm hidden-xs">
+                <ul class="list-inline">
+                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                  <!--<li><a href="#"><i class="fa fa-vimeo"></i></a></li>
+                  <li><a href="#"><i class="fa fa-tumblr"></i></a></li>-->
+                </ul>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <ul class="list-inline pull-right">
+                  <li  ng-hide="user"><span><a data-toggle="modal" href='#login'>Log in</a><small>or</small><a data-toggle="modal" href='#register1'>Create an account</a></span></li>
+                  <li class="dropdown searchBox">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li>
+                        <span class="input-group">
+                          <input type="text" class="form-control" placeholder="Search…" aria-describedby="basic-addon2">
+                          <span class="input-group-addon" id="basic-addon2">Search</span>
+                        </span>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#/cart" class="dropdown-toggle" data-toggle="dropdown disabled"><i class="fa fa-shopping-cart"></i><span class="badge">{{getTotalQuantity()}}</span></a>
+                    
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>    
+        </div>
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-main navbar-default" role="navigation">
+          <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="javascript:void(0)"><img src="img/logo.png" alt=""></a>
+            </div>
+        
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse" ng-controller="homeController">            
+              <ul class="nav navbar-nav navbar-right">
+                <li ui-sref-active="active"><a href="#/" style="font-size:17px;">Home</a></li>
+				<!--<li><a href="javascript:void(0)">Our Profile</a></li>-->
+                <li class="dropdown megaDropMenu">
+                  <a href="javascript:void(0)" ui-sref-active="active"  class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" data-close-others="true" aria-expanded="false" style="font-size:17px;">Product Categories</b></a>
+				  
+                  <ul class="dropdown-menu row">
+				  <p style="text-align:center; font-weight:bold; font-size:18px;">S.S=Stainless Steel</p>
+                    <li class="col-sm-2 col-xs-12" ng-repeat="cat in categories">
+                       <ul id="fontweight" ng-repeat="subcat in cat.subCategoryDetails" ng-if="$index<6">
+                        <li><a href="#/product/{{subcat.parantId}}/{{subcat.id}}">{{subcat.name}}</a></li>
+                      </ul>
+                    </li>
+                   <!--   <li class="col-sm-2 col-xs-12">
+                      <ul id="fontweight" ng-repeat="subcat in subCategories" ng-if="$index+6<6 && $index+6<6">
+                        <li><a href="#/product/{{subcat.parantId}}/{{subcat.id}}">{{subcat.name}}</a></li>
+                      </ul>
+                    </li> 
+                    
+                    <li class="col-sm-2 col-xs-12">
+                      <ul id="fontweight" ng-repeat="subcat in subCategories" ng-if="$index<6">
+                        <li><a href="#/product/{{subcat.parantId}}/{{subcat.id}}">{{subcat.name}}</a></li>
+                      </ul>
+                    </li>
+                    
+                    <li class="col-sm-2 col-xs-12">
+                      <ul id="fontweight" ng-repeat="subcat in subCategories" ng-if="$index<6">
+                        <li><a href="#/product/{{subcat.parantId}}/{{subcat.id}}">{{subcat.name}}</a></li>
+                      </ul>
+                    </li>   -->
+                   
+                  </ul>
+                </li>
+               <!-- <li class="dropdown">
+                  <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">pages</a>
+                  <ul class="dropdown-menu dropdown-menu-left">
+                    <li><a href="about-us.php">About Us</a></li>
+                    <li><a href="signup.php">Register</a></li>
+                    <li><a href="signup-login.php">Register or Login</a></li>
+                    <li><a href="login.php">Login</a></li>
+                    <li><a href="lost-password.php">Password Recovery</a></li>
+                    <li><a href="privacy-policy.php">Privacy Policy</a></li>
+                    <li><a href="terms-and-conditions.php">Terms &amp; Conditions</a></li>
+                    <li><a href="404.php">404 Not Found</a></li>
+                    <li><a href="coming-soon.php">Coming Soon</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">blog</a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="blog-right-sidebar.php">Right Sidebar</a></li>
+                    <li><a href="blog-left-sidebar.php">Left Sidebar</a></li>
+                    <li><a href="blog-fullwidth.php">Full Width</a></li>
+                    <li><a href="blog-single-fullwidth.php">Single Post</a></li>
+                    <li><a href="blog-single-right-sidebar.php">Single Right Sidebar</a></li>
+                    <li><a href="blog-single-left-sidebar.php">Single Left Sidebar</a></li>
+                  </ul>
+                </li>-->
+                
+				<li><a href="#/contact-us" ui-sref-active="active" style="font-size:17px;">Contact</a></li>
+				<li><a href="#/" data-toggle="modal"  data-target="#catalogue" style="font-size:17px;">Catalogue<span><i class="fa fa-download"></i></span></a></li>
+				
+				
+				<li class="dropdown" ng-show="user">
+                  <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-size:17px;">My Account</a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="#/my-profile">My Profile</a></li>
+                    <li><a href="#/order-history">Order History</a></li>
+                    <li><a href="#/change-password">Change Password</a></li>
+                    <li><a ng-click="logout()">Logout</a></li>
+                    <!--<li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Address</a></li>-->
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div>
+        </nav>
+
+      </div>
+	  

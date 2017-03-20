@@ -1,0 +1,77 @@
+<div class="container">
+<div class="row" ng-controller="userController">
+<div class="col-md-12">
+<br/>
+<h3 class="text-center">Order History</h3>
+<br/>
+<div class="panel-group" ng-repeat="oh in orderHistory">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+         Order ID: {{oh.cartDtlsId}} | <span style="padding:0;">Placed On: {{oh.orderDate}}</span> | <span style="padding:0;">Delivery Date: {{oh.actualDlvryDate}}</span> | <span style="padding:0;">Status: {{oh.cartStatus}}</span>
+		<span class="pull-right" ><a data-toggle="collapse" data-target="#collapse{{$index}}" style="color:#000;" >Details<span><i class="fa fa-arrow-down"></i></span></a></span>
+      </h4>
+    </div>
+    <div id="collapse{{$index}}" class="panel-collapse collapse">
+      <div class="panel-body">
+	  <div class="row progress-wizard" style="border-bottom:0;">
+
+                  <div class="col-xs-3 progress-wizard-step complete" >
+                    <div class="text-center progress-wizard-stepnum">ORDER PLACED</div>
+                    <div class="progress"><div class="progress-bar"></div></div>
+                    <a href="#" class="progress-wizard-dot"></a>
+                  </div>
+
+                  <div class="col-xs-3 progress-wizard-step" ng-class=" oh.cartStatus == 'Booked'  ? 'disabled' : 'complete'">
+                    <div class="text-center progress-wizard-stepnum">ORDER DISPATCHED</div>
+                    <div class="progress"><div class="progress-bar"></div></div>
+                    <a href="#" class="progress-wizard-dot"></a>
+                  </div>
+
+                  <div class="col-xs-3 progress-wizard-step" ng-class="oh.cartStatus == 'Completed' ? 'complete' :'disabled'">
+                    <div class="text-center progress-wizard-stepnum">ORDER DELIVERED</div>
+                    <div class="progress"><div class="progress-bar"></div></div>
+                    <a href="#" class="progress-wizard-dot"></a>
+                  </div> 
+                </div>
+	  <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Number Of Items</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="itms in oh.itemOrderDetailsList">
+        <td>{{itms.itemName}}</td>
+        <td>{{itms.itemQty}}</td>
+       
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="col-md-12">
+	  <h4>Delivery Date: {{oh.actualDlvryDate}}</h4>
+	  </div>
+  <div class="col-md-12">
+  <h5>Shipping Address:</h5>
+  <p>{{oh.stAddress1}}</p>
+  <p>{{oh.city}}, {{oh.state}},{{oh.country}}-{{oh.postalCode}}</p>
+  </div>
+  </div>
+      <!-- <div class="panel-footer">Panel Footer</div>
+     </div>-->
+  </div>
+</div>
+
+</div>
+
+  </div>
+</div>
+
+</div> 
+</div>
+</div>
+</div>

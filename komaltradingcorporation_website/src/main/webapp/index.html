@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="exampleApp">
+  
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+
+    <!-- SITE TITTLE -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Komal Steel Industries</title>
+    
+    <!-- Jquery js -->
+    <script src="js/jQuery-2.1.4.min.js"></script>
+    
+    <!-- Angualrjs 1.5.7 -->
+    <script src="js/angular.min.js"></script>
+    
+    <!-- Angualrjs ui router -->
+    <script src="js/angular-ui-router.min.js"></script>
+    
+    <!-- ng cookies -->
+    <script  src="js/angular-cookies.min.js"></script>
+
+   <!-- ng storage -->
+   <script  src="js/ngStorage.min.js"></script>
+   
+   <script src="js/angular-resource.js"></script>
+   
+   <!-- app js and cofigur -->
+    <script type="text/javascript" src="js/config.js"></script> 
+    <script  type="text/javascript" src="js/app.js"></script>
+    
+  
+    <!-- Controllers -->
+     <script src="js/controller/homeController.js"></script>
+     <script src="js/controller/productController.js"></script> 
+     <script src="js/controller/cartController.js"></script>
+       <script src="js/controller/userController.js"></script>
+    
+    <!-- Services -->
+    <script src="js/services/service.js"></script>
+    <script src="js/services/homeService.js"></script>
+    <script src="js/services/productService.js"></script> 
+    <script src="js/services/categoryService.js"></script>
+    <script src="js/services/locationService.js"></script>
+    <script src="js/services/taxService.js"></script>  
+    <script src="js/services/cartService.js"></script>   
+    <script src="js/services/userService.js"></script>
+      <!-- directives -->
+    <script type="text/javascript" src="js/directive.js"></script>
+         
+        <!-- constant -->
+    <script src="js/constant.js"></script>
+    
+    
+    <!-- PLUGINS CSS STYLE -->
+    <link href="plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
+    <link href="plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="plugins/selectbox/select_option1.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="plugins/rs-plugin/css/settings.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="plugins/owl-carousel/owl.carousel.css" media="screen">
+   
+
+  
+   
+
+    <!-- GOOGLE FONT -->
+    <link href='https://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
+    
+    <!-- CUSTOM CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/colors/default.css" id="option_color">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+
+carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 100%;
+      margin: auto;
+  }
+
+</style>
+ </head>
+
+ <body>
+      <div ng-include="'header.html'"></div>
+     <ui-view>
+            <span ng-include="'pages/home.html'"></span>
+     </ui-view>
+        
+
+
+      <div ng-include="'footer.html'"></div> 
+
+
+  </body>
+</html>
