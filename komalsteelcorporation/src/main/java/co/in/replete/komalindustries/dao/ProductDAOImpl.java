@@ -5,11 +5,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
@@ -29,6 +30,8 @@ import co.in.replete.komalindustries.beans.ItemInventoryUpdateTO;
 import co.in.replete.komalindustries.beans.ProductAllDetailsTO;
 import co.in.replete.komalindustries.beans.ProductDetailsByCatAndSubCatTO;
 import co.in.replete.komalindustries.beans.ProductDetailsTO;
+import co.in.replete.komalindustries.beans.ProductInventoryDetailsTo;
+import co.in.replete.komalindustries.beans.ProductRefillDetailsTo;
 import co.in.replete.komalindustries.beans.RefillTO;
 import co.in.replete.komalindustries.beans.SingleValueCommonClass;
 import co.in.replete.komalindustries.beans.SubCategoryTo;
@@ -506,6 +509,15 @@ public class ProductDAOImpl extends BaseDAOImpl implements ProductDAO{
 		});
 	}
 	
+	
+	@Override
+	public List<ProductInventoryDetailsTo> selectInventoryDetailsOfProducts() throws Exception {
+		
+		return jdbcTemplate.query(sqlProperties.getProperty("select.productinventorydetails.all"), 
+				new BeanPropertyRowMapper<ProductInventoryDetailsTo>(ProductInventoryDetailsTo.class));
+	}
+	
+	
 	@Override
 	public Integer selectItemInventoryId(int itemMasterDtlId) {
 		
@@ -674,6 +686,31 @@ public class ProductDAOImpl extends BaseDAOImpl implements ProductDAO{
 		
 		return jdbcTemplate.query("select * from item_master_dtls where ITEM_MASTER_DTLS_ID=?", new Object[] {id}, 
 				new BeanPropertyRowMapper<ItemMasterDtl>(ItemMasterDtl.class)).get(0);
+	}
+	
+	@Override
+	public List<ProductInventoryDetailsTo> selectInventoryDetailsOfOutOfStockProducts() {
+		
+		return jdbcTemplate.query(sqlProperties.getProperty("select.productinventorydetails.outofstock"), 
+				new BeanPropertyRowMapper<ProductInventoryDetailsTo>(ProductInventoryDetailsTo.class));
+	}
+	
+	@Override
+	public List<ProductRefillDetailsTo> selectProductInventoryRefillDetails() {
+		return jdbcTemplate.query(sqlProperties.getProperty("select.productinventoryrefilldetails.all"), 
+				new BeanPropertyRowMapper<ProductRefillDetailsTo>(ProductRefillDetailsTo.class));
+	}
+	
+	@Override
+	public List<ProductRefillDetailsTo> selectProductInventoryRefillDetailsByDateRange(String searchDateRange) throws ParseException {
+		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-mm-yyyy");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("mm/dd/yyyy");
+		String[] dateRange = searchDateRange.split("-");
+		String startDate = sdf1.format(sdf2.parse(dateRange[0]));
+		String endDate = sdf1.format(sdf2.parse(dateRange[1]));
+		
+		return jdbcTemplate.query(sqlProperties.getProperty("select.productinventoryrefilldetails.bydaterange"), 
+				new Object[] {startDate, endDate}, new BeanPropertyRowMapper<ProductRefillDetailsTo>(ProductRefillDetailsTo.class));
 	}
 }	
 

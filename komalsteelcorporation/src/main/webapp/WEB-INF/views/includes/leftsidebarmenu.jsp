@@ -30,10 +30,17 @@
 
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
-            <li class="active"><a href="dashboard"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
-             <li class="active"><a href="order"><i class="fa fa-link"></i> <span>Orders Management</span></a></li>
-              <li class="active"><a href="user"><i class="fa fa-link"></i> <span>Users Management</span></a></li>
-           <li class="active"><a href="wproductdetails"><i class="fa fa-link"></i> <span>Product Management</span></a></li>
+            <li><a href="dashboard"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
+             <li><a href="order"><i class="fa fa-shopping-cart"></i> <span>Orders Management</span></a></li>
+              <li><a href="user"><i class="fa fa-users"></i> <span>Users Management</span></a></li>
+           <li><a href="wproductdetails"><i class="fa fa-wrench" aria-hidden="true"></i><span>Product Management</span></a></li>
+           <li class="treeview">
+           		<a href="#"><i class="fa fa-exchange"></i> <span>Inventory Management</span><i class="fa fa-angle-left pull-right"></i></a>
+              		<ul class="treeview-menu">
+              			<li><a href="wproductinventorydetails?displaymode=0"><i class="fa fa-building-o"></i><span>Stock Management</span></a></li>
+              			<li><a href="wproductrefillhistory"><i class="fa fa-clock-o"></i><span>Stock Refill History</span></a></li>
+              		</ul>
+            </li>
           <!--    <li class="treeview">
               <a href="order"><i class="fa fa-link"></i> <span>Orders Management</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
@@ -47,15 +54,15 @@
                 <li><a href="user">User</a></li>
               </ul>
             </li>  -->
-            <li class="active"><a href="enquiry"><i class="fa fa-link"></i> <span>Enquiries</span></a></li>
+            <li><a href="enquiry"><i class="fa fa-envelope-o"></i> <span>Enquiries</span></a></li>
 			<li class="treeview">
-              <a href="#"><i class="fa fa-link"></i> <span>Masters</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="fa fa-life-ring"></i> <span>Masters</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="configuration">Configuration Master</a></li>
-                 <li><a href="categorymaster">Category Master</a></li>
-                 <li><a href="subcategorymaster">SubCategory Master</a></li>
-                <li><a href="packagingInfoMaster">Packaging Info Master</a></li>
-                <li><a href="locationdetails">Location Master</a></li>
+                <li><a href="configuration"><i class="fa fa-cog"></i><span>Configuration Master</span></a></li>
+                 <li><a href="categorymaster"><i class="fa fa-tags"></i><span>Category Master</span></a></li>
+                 <li><a href="subcategorymaster"><i class="fa fa-tags"></i><span>SubCategory Master</span></a></li>
+                <li><a href="packagingInfoMaster"><i class="fa fa-suitcase"></i><span>Packaging Info Master</span></a></li>
+                <li><a href="locationdetails"><i class="fa fa-location-arrow"></i><span>Location Master</span></a></li>
               </ul>
             </li>
 			<!-- <li class="treeview">

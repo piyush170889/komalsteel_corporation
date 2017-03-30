@@ -96,6 +96,14 @@ public class OrderManagement extends KomalIndustriesConstants {
 
 	}
 	
+	/**
+	 * 
+	 * @param {@link OrderEditTO}
+	 * @param result
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/editOrder", method=RequestMethod.POST)
 	public String orderDetailsProcessEdit(@ModelAttribute("orderEdit") OrderEditTO request, BindingResult result, Model model) throws Exception {
 		String returnViewURL = VIEW_URL_ORDER;

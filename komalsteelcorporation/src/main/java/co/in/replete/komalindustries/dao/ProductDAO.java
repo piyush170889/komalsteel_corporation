@@ -1,6 +1,7 @@
 package co.in.replete.komalindustries.dao;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -12,6 +13,8 @@ import co.in.replete.komalindustries.beans.ItemInventoryUpdateTO;
 import co.in.replete.komalindustries.beans.ProductAllDetailsTO;
 import co.in.replete.komalindustries.beans.ProductDetailsByCatAndSubCatTO;
 import co.in.replete.komalindustries.beans.ProductDetailsTO;
+import co.in.replete.komalindustries.beans.ProductInventoryDetailsTo;
+import co.in.replete.komalindustries.beans.ProductRefillDetailsTo;
 import co.in.replete.komalindustries.beans.RefillTO;
 import co.in.replete.komalindustries.beans.SingleValueCommonClass;
 import co.in.replete.komalindustries.beans.SubCategoryTo;
@@ -71,6 +74,8 @@ public interface ProductDAO{
 
 	Integer selectItemInventoryId(int itemMasterDtlId);
 
+	List<ProductInventoryDetailsTo> selectInventoryDetailsOfProducts() throws Exception;
+	
 	List<CategoryTO> selectCategoryDetails(int pageNum, int maxLimit) throws Exception;
 
 	int selectCategoryCount() throws DataAccessException;
@@ -102,5 +107,11 @@ public interface ProductDAO{
 	void updateProductDetailsForActivation(String id);
 
 	ItemMasterDtl selectProductDetailsByItemId(String id);
+
+	List<ProductInventoryDetailsTo> selectInventoryDetailsOfOutOfStockProducts();
+
+	List<ProductRefillDetailsTo> selectProductInventoryRefillDetails();
+
+	List<ProductRefillDetailsTo> selectProductInventoryRefillDetailsByDateRange(String searchDateRange) throws ParseException;
 
 }

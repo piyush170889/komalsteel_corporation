@@ -61,12 +61,12 @@ public class WProductController {
 			productService.addProductDetails(productRequestWrapper);
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+			redAttr.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
 			return "redirect:wproductdetails";
 		}
 		
 //		model = getInventryDetailsModel(model, KomalIndustriesConstants.SUCCESS_MSSG_LABEL, responseMessageProperties.getProperty("success.product.add"));
-		model.addAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, responseMessageProperties.getProperty("success.product.add"));
+		redAttr.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, responseMessageProperties.getProperty("success.product.add"));
 		return "redirect:wproductdetails";
 	}
 	
@@ -146,9 +146,19 @@ public class WProductController {
 	}
 	
 	
+	/* ADD, EDIT, VIEW, DELETE Product Details */
+	
+	//Product Inventory Details
+
+	/**
+	 * Description: Updates the inventory details of the product and makes an entry into inventory refill details
+	 * @param {@link ItemInventoryUpdateTO}
+	 * @param {@link Model}
+	 * @return
+	 */
 	@RequestMapping(value="/productInventoryDetails", method=RequestMethod.POST)
 	public String productInventoryDetails(@ModelAttribute("editInventory") ItemInventoryUpdateTO request, Model model) {
-		String returnViewURL = "redirect:wproductdetails";
+		String returnViewURL = "redirect:wproductinventorydetails";
 		
 		try {
 			if(null == request.getInvProdMrp() || request.getInvProdMrp().isEmpty() || null == request.getInvProdRefillDt() || request.getInvProdRefillDt().isEmpty() ||
@@ -166,7 +176,30 @@ public class WProductController {
 		return returnViewURL;
 	}
 	
-	/* ADD, EDIT, VIEW, DELETE Product Details */
+	
+	/**
+	 * Description: Displays the product inventory page
+	 * @param {@link Model}
+	 * @param displaymode Used to check if "Out Of Stock" products or all the products inventory details are to be displayed. 
+	 * 			0=Display All Products Inventory info., 1=Display "Out of Stock" products
+	 * @return
+	 */
+	@RequestMapping(value="/wproductinventorydetails", method=RequestMethod.GET)
+	public String viewProductInventory(@RequestParam(value="displaymode", required=true) int displayMode , Model model) {
+		model=getInventoryViewDetails(model);
+		model.addAttribute("display_mode", displayMode);
+		return "inventory/product-inventory-details";
+	}
+	
+	/**
+	 * Description: Displays the product Refill history
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/wproductrefillhistory", method=RequestMethod.GET)
+	public String viewProductRefillHistory(Model model) {
+		return "inventory/product-refill-details";
+	}
 	
 /**** HELPER METHODS ****/
 	
@@ -186,6 +219,11 @@ public class WProductController {
 		  }
 		}
 		
+		return model;
+	}
+	
+	private Model getInventoryViewDetails(Model model) {
+		model.addAttribute("editInventory", new ItemInventoryUpdateTO());
 		return model;
 	}
 	

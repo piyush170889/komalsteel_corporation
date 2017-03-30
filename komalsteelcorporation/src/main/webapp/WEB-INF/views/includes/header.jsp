@@ -7,11 +7,11 @@
 </c:if>
 <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="dashboard" class="logo" style="font-size:15px;">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <!-- <span class="logo-mini"><b>A</b>LT</span> -->
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Komal</b>INDUSTRIES</span>
+          <span><b>Komal</b> Trading Corporation</span>
         </a>
 
         <!-- Header Navbar -->

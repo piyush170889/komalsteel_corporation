@@ -26,6 +26,7 @@ import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
 import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
+import co.in.replete.komalindustries.beans.entity.ItemsInventoryDtl;
 import co.in.replete.komalindustries.beans.entity.ShippingAddressDetail;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.AdminDAO;
@@ -207,29 +208,30 @@ public class CartServiceImpl implements CartService {
 						
 						cartItemDtls.add(cartItemDtl);
 						
-
-						/*//Get ordered stock
+						//Update Inventory Details for the Product
+						//Get ordered stock
 						Float orderedStock = Float.parseFloat(cartItemDetails.getItemQty());
 						
 						//Get item inventory details
 						ItemsInventoryDtl itemsInventoryDtl = cartDAO.selectItemInventoryDtl(cartItemDetails.getItemMasterDtlsId());
 						
-						//Set available quantity
-						Float availableStock = itemsInventoryDtl.getAvlQty();
+						//Notify Admin If available quantity goes down after placing order for this product
+						/*Float availableStock = itemsInventoryDtl.getAvlQty();
 						Float updatedAvailableStock = availableStock - orderedStock;
 						
 						if(updatedAvailableStock <= itemsInventoryDtl.getThrhldVal()) {
-						  //TODO Notify admin about depletion of stock for the item	
-						}
+						  commonUtility.sendEmailToAdmin("", "Product Threshold Reached for product: " + );
+						}*/
 						
-						itemsInventoryDtl.setAvlQty(updatedAvailableStock);
+//						itemsInventoryDtl.setAvlQty(updatedAvailableStock);
 						
 						//Set booked quantity
 						Float bookedQuantity = itemsInventoryDtl.getBookedQty();
-						itemsInventoryDtl.setBookedQty(bookedQuantity + orderedStock);
+						Float updatedBookedQuantity = bookedQuantity + orderedStock;
+						itemsInventoryDtl.setBookedQty(updatedBookedQuantity);
 						
 						//Update the Items Inventory details
-						cartDAO.updateItemInventoryDetails(itemsInventoryDtl.getAvlQty(), itemsInventoryDtl.getBookedQty(), itemsInventoryDtl.getItemsInventoryDtlsId());*/
+						cartDAO.updateItemInventoryDetails(itemsInventoryDtl.getAvlQty(), itemsInventoryDtl.getBookedQty(), itemsInventoryDtl.getItemsInventoryDtlsId());
 					}
 					
 					if(cartItemDtls.size() > 0)

@@ -190,16 +190,16 @@ public class ProductServiceImpl implements ProductService{
 		try
 		{       // fetch value from request
 			    String itemSubCategory=request.getAddProductTO().getItemSubCategory();
-			   /* double thresholdValue=request.getAddProductTO().getThrhldVal();
+			    double thresholdValue=request.getAddProductTO().getThrhldVal();
 			    double bookedQuantity=request.getAddProductTO().getBookedQty();
   			    double rejectedScrap=request.getAddProductTO().getRejectedScrapQty();
 			    double rejectedRework=request.getAddProductTO().getRejectedReworkQty();
-			    double initialQuantity=request.getAddProductTO().getInitialQuantity();*/
+			    double initialQuantity=request.getAddProductTO().getInitialQuantity();
 		        String cmpnyInfoId=request.getAddProductTO().getCmpnyInfoId();
-		        /*double mrp=request.getAddProductTO().getMrp();
+		        double mrp=request.getAddProductTO().getMrp();
 		        int vendorId=request.getAddProductTO().getVendorId();
 		        double perUnitPrice=request.getAddProductTO().getPerUnitCostPrice();
-		        double refilPrice=request.getAddProductTO().getRefilPrice();*/
+		        double refilPrice=request.getAddProductTO().getRefilPrice();
 		        MultipartFile file = request.getAddProductTO().getItemImage();
 //		        Float masterCartonPrice = request.getAddProductTO().getMasterCartonPrice();
 		        int itemsInMasterCarton = request.getAddProductTO().getItemsInMasterCarton();
@@ -226,7 +226,7 @@ public class ProductServiceImpl implements ProductService{
 		        }
 		        
 		       // check request for zero integer values
-		       /* if(thresholdValue <= 0)
+		        if(thresholdValue <= 0)
 		        {
 		        	throw new Exception(responseMessageProperties.getProperty("error.thresholdValue.required"));
 		        }
@@ -241,11 +241,11 @@ public class ProductServiceImpl implements ProductService{
 		        if(perUnitPrice <= 0)
 		        {
 		        	throw new Exception(responseMessageProperties.getProperty("error.perUnitPrice.required"));
-		        }*/
-		        /*if(refilPrice <= 0)
+		        }
+		        if(refilPrice <= 0)
 		        {
 		        	throw new Exception(responseMessageProperties.getProperty("error.refilPrice.required"));
-		        }*/
+		        }
 		        if(file.isEmpty()) {
 		        	throw new Exception("Product Image is required");
 		        }
@@ -263,9 +263,9 @@ public class ProductServiceImpl implements ProductService{
 						request.getAddProductTO().getOfferDtlsId(), itemsInMasterCarton, masterCartonPrice,"0-" + masterCartonQtyRange.trim(), 
 						masterCartonQtyIncVal.trim(), request.getAddProductTO().getItemNo());
 
-//				productDAO.insertItemsInventoryDetails(itemMasterId,initialQuantity,mrp,thresholdValue, cmpnyInfoId,bookedQuantity);
+				productDAO.insertItemsInventoryDetails(itemMasterId,initialQuantity,mrp,thresholdValue, cmpnyInfoId,bookedQuantity);
 
-//				productDAO.insertInventoryRefilDetails(itemMasterId,initialQuantity,mrp, rejectedScrap,rejectedRework, vendorId, refilPrice, perUnitPrice,cmpnyInfoId);
+				productDAO.insertInventoryRefilDetails(itemMasterId,initialQuantity,mrp, rejectedScrap,rejectedRework, vendorId, refilPrice, perUnitPrice,cmpnyInfoId);
 				
 				return request;
 			
@@ -359,7 +359,7 @@ public class ProductServiceImpl implements ProductService{
 		double bookedQty=request.getRefilInventoryTO().getBookedQty();
 		double threshol=request.getRefilInventoryTO().getThrhldVal();
 		double mrp=request.getRefilInventoryTO().getMrp();
-		String shelfCode=request.getRefilInventoryTO().getShelfCode();
+//		String shelfCode=request.getRefilInventoryTO().getShelfCode();
 		double rejectedScrapQty=request.getRefilInventoryTO().getRejectedScrapQty();
 		double rejectedReworkQty= request.getRefilInventoryTO().getRejectedReworkQty();
 		int vendorId=request.getRefilInventoryTO().getVendorId();

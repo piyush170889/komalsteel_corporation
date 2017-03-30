@@ -15,6 +15,38 @@
   </tag>
   
   <tag>
+  	<name>productInventoryDetailsList</name>
+  	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.ProductInventoryDetails</tag-class>
+  	<attribute>
+		 <name>productDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <attribute>
+		 <name>doShowOnlyOutOfStockProducts</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+  <tag>
+  	<name>productInventoryRefillDetails</name>
+  	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.ProductInventoryRefillDetails</tag-class>
+  	<attribute>
+		 <name>productDAO</name>
+		 <required>true</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <attribute>
+		 <name>searchDateRange</name>
+		 <required>false</required>
+		 <rtexprvalue>true</rtexprvalue>
+	 </attribute>
+	 <body-content>empty</body-content>
+  </tag>
+  
+  <tag>
   	<name>categoryDetailsList</name>
   	<tag-class>co.in.replete.komalindustries.webcontroller.taghandlers.CategoryMasterDetails</tag-class>
   	<attribute>

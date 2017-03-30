@@ -16,6 +16,7 @@ import co.in.replete.komalindustries.beans.entity.AddressDetail;
 import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
+import co.in.replete.komalindustries.beans.entity.ItemsInventoryDtl;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.OrderDetailsDAO;
 import co.in.replete.komalindustries.exception.ServicesException;
@@ -56,7 +57,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		String orderStatus = request.getOrderStatus();
 		
 		if(!cartStatus.equalsIgnoreCase(orderStatus)) {
-			//If Order Status is Dispatched than send proper message to the Customer
+			//If Order Status is Dispatched than send proper message to the Customer and deduct the qty from available stock in inventory and booked Qty
 			if(orderStatus.equals(UDValues.CART_STATUS_DISPATCHED.toString())) {
 				if(0 != cartDetails.getCartDlvryDtlsId()) {
 					int cartDlvrDtlsId = cartDetails.getCartDlvryDtlsId();
@@ -68,36 +69,34 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 								cartDetails.getLrNo(), new SimpleDateFormat("dd/MM/yyyy").format(new Date()), cartDetails.getNoOfCartonLoaded()));
 					}
 				}
-			}
-			//If order status changed to dispatched then deduct the item details from Inventory
-			/*if(orderStatus.equals(UDValues.CART_STATUS_DISPATCHED.toString())) {
-				//Get Item details by cart Dtls id
-				List<CartItemDtl> cartItemsList = orderDetailsDAO.selectCartItemsByCartDtlsId(orderId);
 				
-				//Deduct Each item quantity from the Inventory
-				for(CartItemDtl cartItem : cartItemsList) {
-					int itemMasterDtlsId = cartItem.getItemMasterDtlsId();
-					int itemQty = cartItem.getItemQty();
-					
-					//Get Inventory Details
-					ItemsInventoryDtl itemsInventoryDtl = orderDetailsDAO.selectItemInventoryDetailsByItemMasterId(itemMasterDtlsId);
-					
-					//Get Final Booked Qty 
-					Float finalBookedQty = itemsInventoryDtl.getBookedQty() - itemQty;
-					
-					//Get Final Available Quantity
-					Float finalAvailableQty = itemsInventoryDtl.getAvlQty() - itemQty;
-					
-					//Update the final available and booked qty of the item
-					orderDetailsDAO.updateInventoryDetailsByItemInventoryDtlsId(finalAvailableQty, finalBookedQty, itemsInventoryDtl.getItemsInventoryDtlsId());
-				}
-			}*/
-			
-			/*String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
-			messageUtility.sendMessage(contactNo, "Thank U for choosing us. Ur order status is :" + orderStatus + ". You can track your "
-					+ "order from LR NO : " + cartDetails.getLrNo());*/
+				doUpdateInventoryDetailsAfterProductDispatch(orderId);
+			}
 		}
 		
+	}
+	
+	private void doUpdateInventoryDetailsAfterProductDispatch(int orderId) {
+		//Get Item details by cart Dtls id
+		List<CartItemDtl> cartItemsList = orderDetailsDAO.selectCartItemsByCartDtlsId(orderId);
+		
+		//Deduct Each item quantity from the Inventory
+		for(CartItemDtl cartItem : cartItemsList) {
+			int itemMasterDtlsId = cartItem.getItemMasterDtlsId();
+			int itemQty = cartItem.getItemQty();
+			
+			//Get Inventory Details
+			ItemsInventoryDtl itemsInventoryDtl = orderDetailsDAO.selectItemInventoryDetailsByItemMasterId(itemMasterDtlsId);
+			
+			//Get Final Booked Qty 
+			Float finalBookedQty = itemsInventoryDtl.getBookedQty() - itemQty;
+			
+			//Get Final Available Quantity
+			Float finalAvailableQty = itemsInventoryDtl.getAvlQty() - itemQty;
+			
+			//Update the final available and booked qty of the item
+			orderDetailsDAO.updateInventoryDetailsByItemInventoryDtlsId(finalAvailableQty, finalBookedQty, itemsInventoryDtl.getItemsInventoryDtlsId());
+		}
 	}
 
 	@Override
