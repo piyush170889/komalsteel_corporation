@@ -65,8 +65,6 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 				//Add order Status List
 				orderStatusList.add(UDValues.CART_STATUS_BOOKED.toString());
 				orderStatusList.add(UDValues.CART_STATUS_DISPATCHED.toString());
-				orderStatusList.add(UDValues.CART_STATUS_COMPLETED.toString());
-				orderStatusList.add(UDValues.CART_STATUS_PENDING.toString());
 				model.addAttribute("orderStatusList", orderStatusList);
 				
 				model.addAttribute("orderEdit", new OrderEditTO());

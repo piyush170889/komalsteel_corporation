@@ -31,79 +31,113 @@ public class CartDetailsTO {
 	private String offerApldId;
 	
 	private String cartStatus;
+	
 	private String actualDlvryDt;
+	
 	@NotNull(message="error.alternateCntc.required")
 	@NotEmpty(message="error.alternateCntc.required")
 	private String alternateCntc;
+	
 	private String dlvryByTrackId;
+	
 	@NotNull(message="error.dlvryType.required")
 	@NotEmpty(message="error.dlvryType.required")
 	private String dlvryType;
+	
 	private String expDlvryDt;
+	
 	@NotNull(message="error.addressType.required")
 	@NotEmpty(message="error.addressType.required")
 	private String addressType;
+	
 	@NotNull(message="error.city.required")
 	@NotEmpty(message="error.city.required")
 	private String city;
+	
 	@NotNull(message="error.country.required")
 	@NotEmpty(message="error.country.required")
 	private String country;
+	
 	private String latitude;
+	
 	private String longitude;
+	
 	@NotNull(message="error.postalCode.required")
 	@NotEmpty(message="error.postalCode.required")
 	private String postalCode;
+	
 	@NotNull(message="error.stAddress1.required")
 	@NotEmpty(message="error.stAddress1.required")
 	private String stAddress1;
+	
 	private String stAddress2;
+	
 	private String stAddress3;
+	
 	@NotNull(message="error.state.required")
 	@NotEmpty(message="error.state.required")
 	private String state;
+	
 	@NotNull(message="error.paymentAmount.required")
 	@NotEmpty(message="error.paymentAmount.required")
 	private String paymentAmount;
+	
 	private String paymentTs;
+	
 	private String txnData;
+	
 	private String txnRefNo;
+	
 	@NotNull(message="error.paymentGateway.required")
 	@NotEmpty(message="error.paymentGateway.required")
 	private String paymentGateway;
+	
 	@NotNull(message="error.paymentMode.required")
 	@NotEmpty(message="error.paymentMode.required")
 	private String paymentMode;
+	
 	private String paymentStatus;
+	
 	@NotNull(message="error.amountBal.required")
 	@NotEmpty(message="error.amountBal.required")
 	private String amountBal;
+	
 	@NotNull(message="error.amountPaid.required")
 	@NotEmpty(message="error.amountPaid.required")
 	private String amountPaid;
+	
 	private String discount;
+	
 	private String discountValue;
+	
 	@NotNull(message="error.grandTotal.required")
 	@NotEmpty(message="error.grandTotal.required")
 	private String grandTotal;
+	
 	@NotNull(message="error.miscCharges.required")
 	@NotEmpty(message="error.miscCharges.required")
 	private String miscCharges;
+	
 	@NotNull(message="error.serviceTax.required")
 	@NotEmpty(message="error.serviceTax.required")
 	private String serviceTax;
+	
 	@NotNull(message="error.serviceTaxValue.required")
 	@NotEmpty(message="error.serviceTaxValue.required")
 	private String serviceTaxValue;
+	
 	@NotNull(message="error.shippingCharges.required")
 	@NotEmpty(message="error.shippingCharges.required")
 	private String shippingCharges;
+	
 	@NotNull(message="error.subTotal.required")
 	@NotEmpty(message="error.subTotal.required")
 	private String subTotal;
+	
 	@NotNull(message="error.vat.required")
 	@NotEmpty(message="error.vat.required")
 	private String vat;
+	
 	@NotNull(message="error.vatValue.required")
 	@NotEmpty(message="error.vatValue.required")
 	private String vatValue;
