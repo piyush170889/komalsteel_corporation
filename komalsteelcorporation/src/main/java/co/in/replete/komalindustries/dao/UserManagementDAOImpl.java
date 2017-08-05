@@ -202,7 +202,7 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	 */
 	@Override
 	public String insertUserDtl(final String firstName, final String lastName, final String contactNum, final String displayName, final String panNum,
-			final String vatTinNum, final String cmpnyInfoId) {
+			final String vatTinNum, final String cmpnyInfoId, String gstNo, Float discount) {
 
 		final String uuid = getUUID();
 		
@@ -220,6 +220,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 		                    ps.setString(6, contactNum);
 		                    ps.setString(7, cmpnyInfoId);
 		                    ps.setString(8, displayName);
+		                    ps.setString(9, gstNo);
+		                    ps.setFloat(10, discount);
 		                    return ps;
 		                }
 		            });
@@ -321,10 +323,10 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	 * @throws{@link Exception }
 	 */
 	@Override
-	public void updateUserDetail(String trackid, String firstName, String lastName, String displayName 
+	public void updateUserDetail(String trackid, String firstName, String lastName, String displayName, String gstNo 
 			/*, String vatNo, String panNo*/) {
 		
-		 jdbcTemplate.update(sqlProperties.getProperty("update.userdetails.bytrackid"),firstName,lastName,displayName,trackid);
+		 jdbcTemplate.update(sqlProperties.getProperty("update.userdetails.bytrackid"),firstName,lastName,displayName, gstNo,trackid);
 		
 	}
 	
@@ -495,7 +497,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 				wUserDetailsTO.setMark(rs.getString("MARK"));
 				wUserDetailsTO.setDestination(rs.getString("DESTINATION"));
 				wUserDetailsTO.setTransportName(rs.getString("TRAN_NM"));
-				
+				wUserDetailsTO.setGstNo(rs.getString("GSTNO"));
+				wUserDetailsTO.setDiscount(rs.getFloat("DISCOUNT"));
 				return wUserDetailsTO;
 			}
 		});
@@ -591,8 +594,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 		jdbcTemplate.update("update user_login_dtls set STATUS=?,USER_TYPE=? where TRACK_ID=?", new Object[] {request.getStatus(), 
 				request.getUserType(), request.getUserId()});
 		jdbcTemplate.update("update user_dtls set FIRST_NAME=?,LAST_NAME=?,PAN_NO=?,VAT_TIN_NO=?,DISPLAY_NAME=?,"
-				+ "CNTC_NUM=? where TRACK_ID=?", new Object[] {request.getFirstName(), request.getLastName(), request.getPanNo(),
-				request.getVatNo(), request.getDisplayName(), request.getContactNo(), request.getUserId()});
+				+ "CNTC_NUM=?,GSTNO=?,DISCOUNT=? where TRACK_ID=?", new Object[] {request.getFirstName(), request.getLastName(), request.getPanNo(),
+				request.getVatNo(), request.getDisplayName(), request.getContactNo(), request.getGstNo(), request.getDiscount(), request.getUserId()});
 		
 	}
 	
@@ -691,6 +694,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 				wUserDetailsTO.setMark(rs.getString("MARK"));
 				wUserDetailsTO.setDestination(rs.getString("DESTINATION"));
 				wUserDetailsTO.setTransportName(rs.getString("TRAN_NM"));
+				wUserDetailsTO.setGstNo(rs.getString("GSTNO"));
+				wUserDetailsTO.setDiscount(rs.getFloat("DISCOUNT"));
 				
 				return wUserDetailsTO;
 			}
@@ -757,6 +762,7 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 					userDetailsTO.setUserType(rs.getString("USER_TYPE"));
 					userDetailsTO.setUserTrackId(rs.getString("TRACK_ID"));
 					userDetailsTO.setDisplayName(rs.getString("DISPLAY_NAME"));
+					userDetailsTO.setGstNo(rs.getString("GSTNO"));
 					
 					return userDetailsTO;
 				}
@@ -859,6 +865,12 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	public void updateAssociatedDistributor(int userDistributorListId, String associatedDistributor) {
 		
 		jdbcTemplate.update("update user_distributors_list set DISTRIBUTOR_TRACK_ID=? where USER_DISTRIBUTION_LIST_ID=?", new Object[] {associatedDistributor, userDistributorListId});
+	}
+	
+	@Override
+	public int updateGstNo(String trackId, String gstNo) {
+		
+		return jdbcTemplate.update("update user_dtls set GSTNO=? where TRACK_ID=?", gstNo, trackId); 
 	}
 
 }

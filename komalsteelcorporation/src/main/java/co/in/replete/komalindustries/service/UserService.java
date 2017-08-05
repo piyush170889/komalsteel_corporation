@@ -45,4 +45,6 @@ public interface UserService {
 	void verifyEmail(String activationCode, HttpServletResponse response) throws Exception;
 
 	BaseWrapper getUserProfileInfoAll(String trackid) throws Exception;
+
+	BaseWrapper updateGstNo(String trackId, String gstNo) throws Exception;
 }

@@ -47,7 +47,7 @@ public interface ProductDAO{
 	int insertProduct(final String cmpnyInfoId,final String itemNm,final String itemCategoryCd,final String itemSubCategoryCd,
 			final String itemContentInfo, final String itemDesc, final MultipartFile itemImage, final String itemManufacturer, final String itemPckgInfo,
 			final String itemPckgTypeCd, int offerId, int itemsInMasterCarton, Float masterCartonPrice, String masterCartonQtyRange, String masterCartonQtyIncVal, 
-			String itemNo)throws DataAccessException, IOException;
+			String itemNo, int hsnDtlsId, double perUnitPrice)throws DataAccessException, IOException;
 
 	void insertItemsInventoryDetails(int itemMasterId, double initialQuantity, double mrp, double threshholdValue,String cmpnyinfoId, double bookedQty) throws Exception;
 
@@ -58,7 +58,7 @@ public interface ProductDAO{
 	void updateProductDetails(int id, String contentInfo, String itemCategory, String itemDesc, byte[] itemImage,
 			String itemName, String manufacturer, int offerDetailsId, String packInfo, String packType,
 			String subCategory, int itemInMasterCarton, Float masterCartonPrice, String masterCartonQtyRange, 
-			String masterCartonQtyIncVal, String itemNo) throws DataAccessException;
+			String masterCartonQtyIncVal, String itemNo, int hsnDtlsId, double perUnitPrice) throws DataAccessException;
 
 	void updateInventoryItem(int id, int itemMasterDtlId, String cmpnyInfoId, double avlQty,
 			double threshol, double mrp) throws DataAccessException;

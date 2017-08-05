@@ -23,6 +23,7 @@ import co.in.replete.komalindustries.beans.BaseWrapper;
 import co.in.replete.komalindustries.beans.ChangePasswordWrapper;
 import co.in.replete.komalindustries.beans.DistributorTO;
 import co.in.replete.komalindustries.beans.DistributorWrapper;
+import co.in.replete.komalindustries.beans.GstUpdateTo;
 import co.in.replete.komalindustries.beans.LoginRequestWrapper;
 import co.in.replete.komalindustries.beans.LoginResponseWrapper;
 import co.in.replete.komalindustries.beans.MResetPasswordTO;
@@ -210,7 +211,7 @@ public class UserServiceImpl implements UserService {
 		*/
 		   // insert new user details
 		   String activationCode = UUID.randomUUID().toString();
-		   String insertedTrackId = userDAO.insertUserDtl(firstName,lastName,contactNum,displayName,panNum,vatTinNum,cmpnyInfoId);
+		   String insertedTrackId = userDAO.insertUserDtl(firstName,lastName,contactNum,displayName,panNum,vatTinNum,cmpnyInfoId, "", 0F);
 		   userDAO.insertLoginDtl(insertedTrackId, emailId,password,userType,cmpnyInfoId,activationCode);
 		 
 		   /*String message=createLink("Hi check your verification link : ", servletRequest, activationCode, "/emailverification/");
@@ -318,7 +319,7 @@ public class UserServiceImpl implements UserService {
     	   UpdateUserTO userDetailsUpdate = request.getUpdateUserTO();
     	   //Update basic details
     	   userDAO.updateUserDetail(trackid,userDetailsUpdate.getFirstName(), userDetailsUpdate.getLastName() ,	
-    			   userDetailsUpdate.getDisplayName()/*, userDetailsUpdate.getVatNo(), userDetailsUpdate.getPanNo()*/);
+    			   userDetailsUpdate.getDisplayName(), userDetailsUpdate.getGstNo() /*, userDetailsUpdate.getVatNo(), userDetailsUpdate.getPanNo()*/);
 
     	   //Update Login Id if not empty
     	   if(!userDetailsUpdate.getEmail().isEmpty()) {
@@ -764,6 +765,27 @@ public class UserServiceImpl implements UserService {
 			else
 			{
 				throw new Exception("Multiple Records Found");
+			}
+		}
+		
+		@Override
+		public BaseWrapper updateGstNo(String trackId, String gstNo) throws Exception {
+			
+			try {
+				if (null != trackId && !trackId.isEmpty() && null != gstNo && !gstNo.isEmpty()) {
+					int rowAffected = userDAO.updateGstNo(trackId, gstNo);
+					if (rowAffected != 1) {
+						throw new Exception("Error Updating GST No.");
+					} else {
+						GstUpdateTo gstUpdateTo = new GstUpdateTo(trackId, gstNo);
+						return gstUpdateTo;
+					}
+				} else {
+					throw new Exception("Invalid Values supplied");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
 			}
 		}
 		//*************HELPER METHODS*********************//

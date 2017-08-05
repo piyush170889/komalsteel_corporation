@@ -1,6 +1,7 @@
 package co.in.replete.komalindustries.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -13,18 +14,22 @@ import co.in.replete.komalindustries.beans.BaseWrapper;
 import co.in.replete.komalindustries.beans.CartDetailRequest;
 import co.in.replete.komalindustries.beans.CartDetailsTO;
 import co.in.replete.komalindustries.beans.CartItemDetailsListTO;
+import co.in.replete.komalindustries.beans.Invoice;
 import co.in.replete.komalindustries.beans.ItemDetailsResponse;
 import co.in.replete.komalindustries.beans.ItemDetailsTO;
 import co.in.replete.komalindustries.beans.ItemsDetailsRequest;
 import co.in.replete.komalindustries.beans.NewCartDetailsTO;
 import co.in.replete.komalindustries.beans.PaginationDetailsTO;
 import co.in.replete.komalindustries.beans.ResponseMessage;
+import co.in.replete.komalindustries.beans.TaxDescription;
+import co.in.replete.komalindustries.beans.Transaction;
 import co.in.replete.komalindustries.beans.UserDetailsTO;
 import co.in.replete.komalindustries.beans.UserOrderDetailsResposneWrapper;
 import co.in.replete.komalindustries.beans.entity.AppConfiguration;
 import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
+import co.in.replete.komalindustries.beans.entity.HSNDetails;
 import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.beans.entity.ItemsInventoryDtl;
 import co.in.replete.komalindustries.beans.entity.ShippingAddressDetail;
@@ -32,7 +37,12 @@ import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.AdminDAO;
 import co.in.replete.komalindustries.dao.CartDAO;
 import co.in.replete.komalindustries.dao.ProductDAO;
+import co.in.replete.komalindustries.dao.UserManagementDAO;
+import co.in.replete.komalindustries.dao.WMasterDAO;
+import co.in.replete.komalindustries.exception.ServicesException;
 import co.in.replete.komalindustries.utils.CommonUtility;
+import co.in.replete.komalindustries.utils.GSTINValidator;
+import co.in.replete.komalindustries.utils.GeneratePdf;
 import co.in.replete.komalindustries.utils.MessageUtility;
 import co.in.replete.komalindustries.utils.UDValues;
 
@@ -42,6 +52,9 @@ public class CartServiceImpl implements CartService {
 
 	@Autowired
 	private CartDAO cartDAO;
+	
+	@Autowired
+	private UserManagementDAO userDAO;
 	
 	@Autowired
 	Properties responseMessageProperties;
@@ -66,6 +79,9 @@ public class CartServiceImpl implements CartService {
 	
 	@Autowired
 	private ProductDAO productDAO;
+	
+	@Autowired
+	private WMasterDAO wMasterDAO;
 	
 	/**
 	 * Description : Get's the list of order details for the user as per the page number supplied
@@ -145,6 +161,7 @@ public class CartServiceImpl implements CartService {
 		try{
 			//Get the user details 
 			UserDetailsTO userDetails = cartDAO.selectUserDetails(trackId);
+			
 			String custEmailId = userDetails.getLoginId();
 			int addressDtlsId = 0;
 			if(null != userDetails) {
@@ -155,9 +172,27 @@ public class CartServiceImpl implements CartService {
 							configProperties.getProperty("api.version"));
 					return new BaseWrapper(responseMessage);					
 				}
+				
 				List<CartDetailsTO> cartDetailsList = request.getOrdersList();
 				for(CartDetailsTO cartDetails : cartDetailsList)
 				{
+					String gstNo = userDetails.getGstNo();
+					//If GST for user is empty than update the GST sent in the request
+					if (null == gstNo || gstNo.isEmpty()) {
+						gstNo = cartDetails.getGstNo();
+						if (null == gstNo || gstNo.isEmpty()) {
+							throw new ServicesException("GST No not supplied");
+						}
+						//Check if GST no sent is Valid
+						GSTINValidator gstinValidator = new GSTINValidator();
+						if (!gstinValidator.validateGSTIN(gstNo)) {
+							throw new Exception("Invalid GST No. Supplied. Please supply a legitimate GSTIN NO");
+						}
+						int gstUpdateRowAffected =userDAO.updateGstNo(trackId, gstNo);
+						if (gstUpdateRowAffected != 1) {
+							throw new Exception("GST No. cannot be updated to your profile now. Please try again later");
+						}
+					}
 					
 					//Add Shipping Address details
 					if(cartDetails.getIsDefaultAddress().equalsIgnoreCase("true")) {
@@ -284,17 +319,47 @@ public class CartServiceImpl implements CartService {
 							(null == shippingAddressDetail.getDestination() || shippingAddressDetail.getDestination().isEmpty()) ? "Not Specified" : shippingAddressDetail.getDestination(), 
 							(null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm(),
 									cartDetail.getCartNotes());
-					
+
 					commonUtility.sendEmailToAdmin(finalEmailString, 
 							responseMessageProperties.getProperty("order.book.subject"));
 					
-					//Send Order Email to customer if email id is present
+					//Send Order Email to customer if email id is present and create Invoice Data to attach and send
+					List<Transaction> transactionList = new ArrayList<Transaction>();
+					List<TaxDescription> taxDescriptionList = new ArrayList<TaxDescription>();
+					int totalItemInCart = 0;
+					double totalChargableAmount = 0;
+					double totalTaxableValue = 0;
+					double iGstAmount = 0;
+					
 					if (null != custEmailId && !custEmailId.isEmpty()) {
 						StringBuilder sbCust = new StringBuilder(customerEmailContentPrefix);
 						
 						for (CartItemDtl cartItemDtl : cartItemDtls){
 							ItemMasterDtl itemMasterDtl = productDAO.selectProductDetailsByItemId(Integer.toString(cartItemDtl.getItemMasterDtlsId()));
-							sb = appendData(itemMasterDtl, sb, cartItemDtl.getItemQty());
+							HSNDetails hsnDetails = wMasterDAO.selectHsnDetailsByHsnDtlsId(itemMasterDtl.getHsnDtlsId());
+							
+							int itemQty = cartItemDtl.getItemQty();
+							
+							double perUnitPrice = itemMasterDtl.getPerUnitPrice();
+							Double amount = perUnitPrice * itemQty;
+							float gstRate = hsnDetails.getiGst();
+							float taxAmount = (float) ((amount * gstRate)/100);
+							String hsnSac = Integer.toString(hsnDetails.getHsnNo());
+							
+							Transaction transaction = new Transaction(itemMasterDtl.getItemNm() + "-" + itemMasterDtl.getUom(), 
+									hsnSac, gstRate, itemQty, 
+									Float.parseFloat(Double.toString(perUnitPrice)), "Pc.", Float.parseFloat(Double.toString(amount)));
+							transactionList.add(transaction);
+							
+							TaxDescription taxDescription = new TaxDescription(hsnSac, Float.parseFloat(Double.toString(amount)), hsnDetails.getiGst(), taxAmount);
+							taxDescriptionList.add(taxDescription);
+						
+							totalItemInCart += itemQty;
+							totalChargableAmount += amount + taxAmount;
+							totalTaxableValue += amount;
+							iGstAmount += taxAmount;
+							
+							sb = appendData(itemMasterDtl, sb, itemQty);
 							sbCust = appendData(itemMasterDtl, sbCust, cartItemDtl.getItemQty());
 						}
 						
@@ -309,8 +374,30 @@ public class CartServiceImpl implements CartService {
 								(null == shippingAddressDetail.getDestination() || shippingAddressDetail.getDestination().isEmpty()) ? "Not Specified" : shippingAddressDetail.getDestination(), 
 								(null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm(),
 										cartDetail.getCartNotes());
+						String todaysDate = new Date().toString();
 						
-						commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, responseMessageProperties.getProperty("order.book.subject"));
+						ShippingAddressDetail buyersShippingAddress = null;
+						if(cartDetails.getIsDefaultAddress().equalsIgnoreCase("true")) {
+							buyersShippingAddress = cartDAO.selectShippingAddressDetailsById(addressDtlsId);
+						} else {
+							buyersShippingAddress = shippingAddressDetail;
+						}
+						
+						
+						Invoice invoiceDetails = new Invoice(Integer.toString(cartDtlsId), todaysDate, Integer.toString(totalItemInCart), 
+								"", "", "", "", todaysDate, cartDetails.getTranNm(), cartDetails.getDestination(), "Komal Trading Corporation", 
+								"komal@vsnl.com", "27AABPB6207H1Z6", "AABPB6207H", "HDFC BANK", "01452560000971", "HDFC0000145", 
+								(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
+								buyersShippingAddress.getStAddress1(), buyersShippingAddress.getCity(), buyersShippingAddress.getState(), buyersShippingAddress.getState(), 
+								gstNo, (float)iGstAmount, totalItemInCart, (float)totalChargableAmount, (float)totalTaxableValue, 
+								(float)iGstAmount, transactionList, taxDescriptionList); //Create the PDF to send
+						
+						String pdfFilePath = "D://Acounting-Voucher-"+cartDtlsId + ".pdf";
+						GeneratePdf generatePdf = new GeneratePdf();
+						generatePdf.genearatePDF(invoiceDetails, pdfFilePath);
+						
+						commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, 
+								responseMessageProperties.getProperty("order.book.subject"), pdfFilePath);
 					}
 					return new BaseWrapper();
 				}

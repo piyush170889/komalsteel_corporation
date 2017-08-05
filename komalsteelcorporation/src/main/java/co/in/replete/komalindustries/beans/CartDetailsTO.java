@@ -157,6 +157,11 @@ public class CartDetailsTO {
 	
 	private String shippingDtlsId;
 	
+	@NotNull(message="error.gstno.required")
+	@NotEmpty(message="error.gstno.required")
+	private String gstNo;
+	
+	
 	public CartDetailsTO(String cartDtlsId, String cartNotes, String cartPrice, String isOfferApld, String cartStatus,
 			String actualDlvryDt, String alternateCntc, String dlvryByTrackId, String dlvryType,
 			String expDlvryDt, String addressType, String city, String country, String latitude, String longitude,
@@ -215,6 +220,14 @@ public class CartDetailsTO {
 		this.shippingDtlsId=shippingDtlsId;
 	}
 	
+	public String getGstNo() {
+		return gstNo;
+	}
+
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
+	}
+
 	public CartDetailsTO() {}
 	
 	public String getShippingDtlsId() {

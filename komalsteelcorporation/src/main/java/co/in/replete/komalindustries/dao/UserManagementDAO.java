@@ -37,7 +37,7 @@ public interface UserManagementDAO {
 	int selectVatTinCount(String vatTinNum);
 
 	String insertUserDtl(String firstName, String lastName, String contactNum, String displayName, String panNum,
-			String vatTinNum, String cmpnyInfoId);
+			String vatTinNum, String cmpnyInfoId, String gstNo, Float discount);
 
 	String insertLoginDtl(String userTrackid, String emailId, String password, String userType, String cmpnyInfoId,String activationCode);
 
@@ -49,7 +49,7 @@ public interface UserManagementDAO {
 
 	List<DistributorTO> selectDistributor(String dealerTrackId) throws DataAccessException;
 	
-	void updateUserDetail(String trackid, String firstName, String lastName, String cntc_num/*, String vatNo, String panNo*/);
+	void updateUserDetail(String trackid, String firstName, String lastName, String cntc_num, String gstNo/*, String vatNo, String panNo*/);
 	
 	Integer insertOTPDetails(Object... otpDetailsParams);
 
@@ -114,6 +114,8 @@ public interface UserManagementDAO {
 			String activationCode, String userStatus);
 
 	void updateAssociatedDistributor(int userDistributorListId, String associatedDistributor);
+
+	int updateGstNo(String trackId, String gstNo);
 
 //	Integer selectOTPRecord(String deviceInfo, String cellNum, int otp);
 

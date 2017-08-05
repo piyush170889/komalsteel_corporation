@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.twilio.sdk.TwilioRestException;
-
 import co.in.replete.komalindustries.beans.UserAddTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
@@ -121,7 +119,7 @@ public class UserManagementController extends KomalIndustriesConstants {
 				throw new ServicesException("Contact Number already exists");
 			}
 			String userTrackid = userDAO.insertUserDtl(request.getFirstName(), request.getLastName(), contactNo, request.getDisplayName(), request.getPanNo(), 
-					request.getVatNo(), CMPNY_INFO_ID);
+					request.getVatNo(), CMPNY_INFO_ID, request.getGstNo().trim(), request.getDiscount());
 
 			int addressDtlsId = 0;
 			//Add user default shipping details

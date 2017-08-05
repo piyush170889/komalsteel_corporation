@@ -77,4 +77,5 @@ public interface CartDAO {
 	UserDetailsTO selectUserUserDetailsByTrackId(String trackId);
 
 	ShippingAddressDetail selectShippingAddressDetailsById(int addressDtlsId);
+
 }

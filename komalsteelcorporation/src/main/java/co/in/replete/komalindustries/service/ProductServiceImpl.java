@@ -198,12 +198,12 @@ public class ProductServiceImpl implements ProductService{
 		        String cmpnyInfoId=request.getAddProductTO().getCmpnyInfoId();
 		        double mrp=request.getAddProductTO().getMrp();
 		        int vendorId=request.getAddProductTO().getVendorId();
-		        double perUnitPrice=request.getAddProductTO().getPerUnitCostPrice();
+		        double perUnitCostPrice=request.getAddProductTO().getPerUnitCostPrice();
 		        double refilPrice=request.getAddProductTO().getRefilPrice();
 		        MultipartFile file = request.getAddProductTO().getItemImage();
 //		        Float masterCartonPrice = request.getAddProductTO().getMasterCartonPrice();
 		        int itemsInMasterCarton = request.getAddProductTO().getItemsInMasterCarton();
-		        
+		        double perUnitPrice=request.getAddProductTO().getPerUnitPrice();
 		       /* double thresholdValue=0;
 			    double bookedQuantity=0;
   			    double rejectedScrap=0;
@@ -213,10 +213,13 @@ public class ProductServiceImpl implements ProductService{
 		        int vendorId=0;
 		        double perUnitPrice=0;
 		        double refilPrice=0;*/
-		        Float masterCartonPrice=0F;
 		        String masterCartonQtyRange = request.getAddProductTO().getMasterCartonQtyRange();
 		        String masterCartonQtyIncVal = request.getAddProductTO().getMasterCartonQtyIncVal();
+		        int hsnDtlsId = request.getAddProductTO().getHsnDtlsId();
 		        
+		        if (hsnDtlsId == 0) {
+		        	throw new Exception("Please specify the HSN No for the Product");
+		        }
 		        if(null == masterCartonQtyIncVal || masterCartonQtyIncVal.isEmpty()) {
 		        	throw new Exception("Please specify the increment value for master carton quantity");
 		        }
@@ -255,17 +258,18 @@ public class ProductServiceImpl implements ProductService{
 		        /*if(itemsInMasterCarton == 0) {
 		        	throw new Exception("Items in master carton is required");
 		        }*/
-
+		        
+		        Float masterCartonPrice=Float.parseFloat(Double.toString(perUnitPrice)) * Float.parseFloat(Integer.toString(itemsInMasterCarton));
 		        // ADD Products Details 
 				int itemMasterId=productDAO.insertProduct(cmpnyInfoId, request.getAddProductTO().getItemNm(), request.getAddProductTO().getItemCategory(),
 						itemSubCategory ,request.getAddProductTO().getItemContentInfo(),request.getAddProductTO().getItemDesc(),request.getAddProductTO().getItemImage(),
 						request.getAddProductTO().getItemManufacturer(),request.getAddProductTO().getItemPckgInfo(), request.getAddProductTO().getItemPckgType(), 
 						request.getAddProductTO().getOfferDtlsId(), itemsInMasterCarton, masterCartonPrice,"0-" + masterCartonQtyRange.trim(), 
-						masterCartonQtyIncVal.trim(), request.getAddProductTO().getItemNo());
+						masterCartonQtyIncVal.trim(), request.getAddProductTO().getItemNo(), hsnDtlsId, perUnitPrice);
 
 				productDAO.insertItemsInventoryDetails(itemMasterId,initialQuantity,mrp,thresholdValue, cmpnyInfoId,bookedQuantity);
 
-				productDAO.insertInventoryRefilDetails(itemMasterId,initialQuantity,mrp, rejectedScrap,rejectedRework, vendorId, refilPrice, perUnitPrice,cmpnyInfoId);
+				productDAO.insertInventoryRefilDetails(itemMasterId,initialQuantity,mrp, rejectedScrap,rejectedRework, vendorId, refilPrice, perUnitCostPrice,cmpnyInfoId);
 				
 				return request;
 			
@@ -299,20 +303,21 @@ public class ProductServiceImpl implements ProductService{
         	  
         	  String itemCategory=  productDetailsToUpdate.getItemCategory();
     		  String itemSubCategory = productDetailsToUpdate.getItemSubCategory();
+    		  double perUnitPrice = productDetailsToUpdate.getPerUnitPrice();
     		  
         	  if(null == file || file.isEmpty()) {
         		  productDAO.updateProductDetails(id,productDetailsToUpdate.getItemContentInfo(), itemCategory, productDetailsToUpdate.getItemDesc(),
         			  null, productDetailsToUpdate.getItemNm(), productDetailsToUpdate.getManufacturer(), offerDetailsId,
         			  productDetailsToUpdate.getItemPckgInfo(), productDetailsToUpdate.getItemPckgType(), itemSubCategory,
         			  productDetailsToUpdate.getItemsInMasterCarton(),productDetailsToUpdate.getMasterCartonPrice(),productDetailsToUpdate.getMasterCartonQtyRange(),
-        			  productDetailsToUpdate.getMasterCartonQtyIncVal(), productDetailsToUpdate.getItemNo());
+        			  productDetailsToUpdate.getMasterCartonQtyIncVal(), productDetailsToUpdate.getItemNo(), productDetailsToUpdate.getHsnDtlsId(), perUnitPrice);
         	  } else {
         		  byte[] itemImageBytes = file.getBytes();
         		  productDAO.updateProductDetails(id,productDetailsToUpdate.getItemContentInfo(), productDetailsToUpdate.getItemCategory(), productDetailsToUpdate.getItemDesc(),
         				  itemImageBytes, productDetailsToUpdate.getItemNm(), productDetailsToUpdate.getManufacturer(), offerDetailsId,
             			  productDetailsToUpdate.getItemPckgInfo(), productDetailsToUpdate.getItemPckgType(), productDetailsToUpdate.getItemSubCategory(),
             			  productDetailsToUpdate.getItemsInMasterCarton(),productDetailsToUpdate.getMasterCartonPrice(),productDetailsToUpdate.getMasterCartonQtyRange(),
-            			  productDetailsToUpdate.getMasterCartonQtyIncVal(), productDetailsToUpdate.getItemNo());
+            			  productDetailsToUpdate.getMasterCartonQtyIncVal(), productDetailsToUpdate.getItemNo(),productDetailsToUpdate.getHsnDtlsId(), perUnitPrice);
         	  }
         	  //Update Subcategory cache holding this Product 
         	  productDAO.updateCacheWithImage(Integer.parseInt(itemCategory), Integer.parseInt(itemSubCategory), "56");

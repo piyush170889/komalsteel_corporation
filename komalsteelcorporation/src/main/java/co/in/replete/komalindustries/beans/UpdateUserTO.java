@@ -43,7 +43,19 @@ public class UpdateUserTO {
 	 
 	 private String panNo;
 	 
+	 @NotNull(message="error.gstno.required")
+	 @NotEmpty(message="error.gstno.required")
+	 private String gstNo;
+	 
      public UpdateUserTO() {}
+
+	public String getGstNo() {
+		return gstNo;
+	}
+
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
+	}
 
 	public String getVatNo() {
 		return vatNo;

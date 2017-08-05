@@ -1,5 +1,9 @@
 package co.in.replete.komalindustries.beans;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserAddTO {
 
 	private String userId;
@@ -46,7 +50,31 @@ public class UserAddTO {
 	
 	private String transportName;	
 	
+	@NotNull(message="error.gstno.required")
+	@NotEmpty(message="error.gstno.required")
+	private String gstNo;
+	
+	@NotNull(message="error.discount.required")
+	@NotEmpty(message="error.discount.required")
+	private Float discount;
+	
 	public UserAddTO() {}
+
+	public Float getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Float discount) {
+		this.discount = discount;
+	}
+
+	public String getGstNo() {
+		return gstNo;
+	}
+
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
+	}
 
 	public String getMark() {
 		return mark;

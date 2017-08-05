@@ -59,6 +59,7 @@ public class UpdateProductTO {
     
     private int itemsInMasterCarton;
 	
+    @NotNull(message="error.mastercartonprice.required")
 	private Float masterCartonPrice;
 	
 	private String masterCartonQtyRange;
@@ -69,7 +70,27 @@ public class UpdateProductTO {
 	
 	private String itemNo;
 	
+	private int hsnDtlsId;
+	
+	private double perUnitPrice;
+	
     public UpdateProductTO(){}
+
+	public double getPerUnitPrice() {
+		return perUnitPrice;
+	}
+
+	public void setPerUnitPrice(double perUnitPrice) {
+		this.perUnitPrice = perUnitPrice;
+	}
+
+	public int getHsnDtlsId() {
+		return hsnDtlsId;
+	}
+
+	public void setHsnDtlsId(int hsnDtlsId) {
+		this.hsnDtlsId = hsnDtlsId;
+	}
 
 	public String getItemNo() {
 		return itemNo;

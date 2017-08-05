@@ -67,4 +67,6 @@ public class KomalIndustriesConstants {
 	
 	public static final String SMS_GATEWAY_MSSG_91="Mssg91";
 	
+	public static final String VIEW_URL_HSN = "master/hsnMaster";
+	
 }

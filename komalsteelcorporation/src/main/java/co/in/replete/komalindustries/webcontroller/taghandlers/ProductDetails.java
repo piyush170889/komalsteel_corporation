@@ -36,11 +36,12 @@ public class ProductDetails extends SimpleTagSupport {
 					out.println("<td>" + productDetails.getIsActive() + "</td>");
 					out.println("<td><img src=\"Image/productImg?pid="+productDetails.getProductId()+"\" width=\"100\" height=\"100\" /></td>");
 					out.println("<td>" + productDetails.getProductName() + "</td>");
+					out.println("<td>" + productDetails.getHsnNo() + "</td>");
 					out.println("<td>" + productDetails.getCategoryName() + "</td>");
 					out.println("<td>" + productDetails.getSubCategoryName() + "</td>");
 //					out.println("<td>" + productDetails.getProductDescription() + "</td>");
 					out.println("<td>" + productDetails.getItemsInMasterCarton() + "</td>");
-					/*out.println("<td>" + productDetails.getMasterCartonPrice() + "</td>");*/
+					out.println("<td>" + productDetails.getPerUnitPrice() + "</td>");
 					out.println("<td>" + productDetails.getProductPackagingInfo() + "</td>");
 					out.println("<td>" + productDetails.getMasterCartonQtyRange() + "</td>");
 					out.println("<td>" + productDetails.getMasterCartonQtyIncVal() + "</td>");
@@ -61,7 +62,7 @@ public class ProductDetails extends SimpleTagSupport {
 							+ productDetails.getProductSubCategory() +"','"
 							+ productDetails.getProductDescription() +"','"
 							+ productDetails.getItemsInMasterCarton() +"','"
-							/*+ productDetails.getMasterCartonPrice() +"','"*/
+							+ productDetails.getMasterCartonPrice() +"','"
 							+ productDetails.getProductPackaging() +"','"
 							+ productDetails.getProductPackagingInfo() + "','"
 							+ productDetails.getMasterCartonQtyRange() + "','"
@@ -69,6 +70,8 @@ public class ProductDetails extends SimpleTagSupport {
 							/*+ productDetails.getProductAvlQty() +"','"
 							+ productDetails.getProductThresholdVal() + "','"*/
 							+ productDetails.getItemNo() + "','"
+							+ productDetails.getHsnDtlsId() + "','"
+							+ productDetails.getPerUnitPrice() + "','"
 							+ i	+ "')\"><i class=\"fa fa-pencil\"></i></a>");
 					if(productDetails.getIsActive().equalsIgnoreCase("Active")) {
 						out.print("&nbsp&nbsp&nbsp&nbsp<a title=\"Inactivate Product\" href=\"DeleteProduct?id=" + productDetails.getProductId() + 

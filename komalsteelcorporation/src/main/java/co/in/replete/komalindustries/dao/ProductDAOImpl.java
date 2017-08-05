@@ -302,7 +302,7 @@ public class ProductDAOImpl extends BaseDAOImpl implements ProductDAO{
 	public int insertProduct(final String cmpnyInfoId, final String itemNm, final String itemCategoryCd, final String itemSubCategoryCd,
 			final String itemContentInfo, final String itemDesc, final MultipartFile itemImage, final String itemManufacturer, final String itemPckgInfo,
 		    final String itemPckgTypeCd, int offerId, int itemsInMasterCarton, Float masterCartonPrice, String masterCartonQtyRange, String masterCartonIncVal,
-		    String itemNo) throws DataAccessException, IOException {
+		    String itemNo, int hsnDtlsId, double perUnitPric) throws DataAccessException, IOException {
 			
 		byte[] itemImageBytes = itemImage.getBytes();
 		//Create the prepared Statement as needed
@@ -328,6 +328,8 @@ public class ProductDAOImpl extends BaseDAOImpl implements ProductDAO{
 				psmt.setString(14, masterCartonQtyRange);
 				psmt.setString(15, masterCartonIncVal);
 				psmt.setString(16, itemNo);
+				psmt.setInt(17, hsnDtlsId);
+				psmt.setDouble(18, perUnitPric);
 				
 				return psmt;
 				
@@ -390,17 +392,20 @@ public class ProductDAOImpl extends BaseDAOImpl implements ProductDAO{
 	public void updateProductDetails(int id, String contentInfo, String itemCategory, String itemDesc, byte[] itemImage,
 			String itemName, String manufacturer, int offerDetailsId, String packInfo, String packType,
 			String subCategory, int itemInMasterCarton, Float masterCartonPrice, String masterCartonQtyRange, 
-			String masterCartonQtyIncVal, String itemNo) throws DataAccessException {
+			String masterCartonQtyIncVal, String itemNo, int hsnDtlsId, double perUnitPrice) throws DataAccessException {
 	
 		if(null == itemImage || itemImage.length == 0) {
 			jdbcTemplate.update(sqlProperties.getProperty("update.itemmasterdtl.item"),itemName,itemCategory,subCategory,itemDesc,contentInfo,packType,packInfo,
-					manufacturer,offerDetailsId,itemInMasterCarton,masterCartonPrice, "0-" + masterCartonQtyRange, masterCartonQtyIncVal, itemNo, id);
+					manufacturer,offerDetailsId,itemInMasterCarton,masterCartonPrice, "0-" + masterCartonQtyRange, masterCartonQtyIncVal, itemNo, hsnDtlsId, 
+					perUnitPrice, id);
 		} else {
 			String sql = "update item_master_dtls set ITEM_NM=?,ITEM_CATEGORY=?,ITEM_SUB_CATEGORY=?,ITEM_DESC=?,"
 					+ "ITEM_CONTENT_INFO=?,ITEM_PCKG_TYPE=?,UOM=?,ITEM_MANUFACTURER=?,OFFER_DTLS_ID=?,ITEMS_IN_MASTER_CARTON=?,"
-					+ "MASTER_CARTON_PRICE=?,MASTER_CARTON_QTY_RANGE=?,MASTER_CARTON_QTY_INC_VAL=?,ITEM_IMAGE=?,ITEM_NO=? where ITEM_MASTER_DTLS_ID=?";
+					+ "MASTER_CARTON_PRICE=?,MASTER_CARTON_QTY_RANGE=?,MASTER_CARTON_QTY_INC_VAL=?,ITEM_IMAGE=?,ITEM_NO=?,HSN_DTLS_ID=?"
+					+ ",PER_UNIT_PRICE=? where ITEM_MASTER_DTLS_ID=?";
 			jdbcTemplate.update(sql,itemName,itemCategory,subCategory,itemDesc,contentInfo,packType,packInfo,
-					manufacturer,offerDetailsId,itemInMasterCarton,masterCartonPrice, "0-" + masterCartonQtyRange, masterCartonQtyIncVal, itemImage, itemNo, id);
+					manufacturer,offerDetailsId,itemInMasterCarton,masterCartonPrice, "0-" + masterCartonQtyRange, masterCartonQtyIncVal, itemImage, itemNo, 
+					hsnDtlsId, perUnitPrice, id);
 		}
 		
 		
@@ -498,11 +503,14 @@ public class ProductDAOImpl extends BaseDAOImpl implements ProductDAO{
 				wItemDetailsTO.setProductThresholdVal(Float.toString(rs.getFloat("THRHLD_VAL")));
 				wItemDetailsTO.setProductMrp(Float.toString(rs.getFloat("MRP")));*/
 				wItemDetailsTO.setItemsInMasterCarton(rs.getInt("ITEMS_IN_MASTER_CARTON"));
-				/*wItemDetailsTO.setMasterCartonPrice(rs.getFloat("MASTER_CARTON_PRICE"));*/
+				wItemDetailsTO.setMasterCartonPrice(rs.getFloat("MASTER_CARTON_PRICE"));
 				wItemDetailsTO.setMasterCartonQtyRange(rs.getString("MASTER_CARTON_QTY_RANGE"));
 				wItemDetailsTO.setMasterCartonQtyIncVal(rs.getString("MASTER_CARTON_QTY_INC_VAL"));
 				wItemDetailsTO.setItemNo(rs.getString("ITEM_NO"));
 				wItemDetailsTO.setIsActive(rs.getString("IS_ACTIVE"));
+				wItemDetailsTO.setHsnNo(rs.getInt("HSN_NO"));
+				wItemDetailsTO.setHsnDtlsId(rs.getInt("HSN_DTLS_ID"));
+				wItemDetailsTO.setPerUnitPrice(rs.getDouble("PER_UNIT_PRICE"));
 				
 				return wItemDetailsTO;
 			}

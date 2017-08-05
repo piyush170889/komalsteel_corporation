@@ -64,7 +64,29 @@ public class UserDtl implements Serializable {
 	@Column(name="DISPLAY_NAME")
 	private String displayName;
 	
+	@Column(name="GSTNO")
+	private String gstNo;
+	
+	@Column(name="DISCOUNT")
+	private String discount;
+	
 	public UserDtl() {
+	}
+
+	public String getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
+
+	public String getGstNo() {
+		return gstNo;
+	}
+
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
 	}
 
 	public String getDisplayName() {

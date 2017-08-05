@@ -14,11 +14,14 @@ import org.springframework.ui.ModelMap;
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
 import co.in.replete.komalindustries.beans.UserAddTO;
+import co.in.replete.komalindustries.beans.entity.HSNDetails;
 import co.in.replete.komalindustries.beans.entity.LocationDtls;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.AdminDAO;
 import co.in.replete.komalindustries.dao.UserManagementDAO;
+import co.in.replete.komalindustries.dao.WMasterDAO;
 import co.in.replete.komalindustries.exception.PrepareViewModelException;
+import co.in.replete.komalindustries.service.WMasterService;
 import co.in.replete.komalindustries.webcontroller.beans.EditCartItemDtlsTO;
 
 @Component
@@ -32,6 +35,9 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 	
 	@Autowired
 	UserManagementDAO userDAO;
+	
+	@Autowired
+	private WMasterDAO wMasterDAO;
 	
 	/**
 	 * Description :
@@ -94,7 +100,14 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 				model.addAttribute("pagenum", 1);
 				break;
 				
-			default :
+			case VIEW_URL_HSN:
+				List<HSNDetails> hsnDetailsList = wMasterDAO.selectAllHsnDetails();
+				model.addAttribute("hsnDetailsList", hsnDetailsList);
+				model.addAttribute("hsnAdd", new HSNDetails());
+				model.addAttribute("hsnEdit", new HSNDetails());
+				break;
+				
+ 			default :
 				throw new Exception(responseMessageProperties.getProperty("error.invalid.input"));
 			}
 			

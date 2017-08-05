@@ -198,5 +198,11 @@ public class UserController extends KomalIndustriesConstants {
 		
 		return userService.getUserProfileInfoAll(trackId);
 	}
+	
+	@RequestMapping(value="gst/{trackId}/{gstno}", method=RequestMethod.GET)
+	public BaseWrapper updateGstNo(@PathVariable("trackId") String trackId, @PathVariable("gstno") String gstNo) throws Exception {
+		
+		return userService.updateGstNo(trackId, gstNo);
+	}
 	 
 }

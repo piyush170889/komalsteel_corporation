@@ -62,6 +62,8 @@ public class UserDetails extends SimpleTagSupport {
     				String startDate = dateRange[0].trim();
     				String endDate = dateRange[1].trim();
     				sql = sql_1 + "uld.STATUS='Inactive' and DATE_FORMAT(uld.CREATED_TS,'%m/%d/%Y') >='" + startDate + "' and DATE_FORMAT(uld.CREATED_TS,'%m/%d/%Y')<='" + endDate + "'" + sql_2;
+    			} else if (searchBy.equals("gstNo")) {
+    				sql = sql_1 + "ud.GSTNO LIKE '%" + searchValue + "%'" + sql_2;
     			}
 //    			System.out.println("SQL QUERY : " + sql);
     			userDetailsList = userDAO.selectWuserDetailsByCriteria(sql);
@@ -76,10 +78,15 @@ public class UserDetails extends SimpleTagSupport {
 					out.println("<tr>");
 					out.println("<td>"+ i++ +"</td>");
 					out.println("<td>" +"<a href='userdetails?trackid="+ userDetails.getUserTrackid()+ "'>"+ userDetails.getUserFirstName()+" "+userDetails.getUserLastName() +"</a>"+ "</td>");
+					/*out.println("<td>" + null == userDetails.getDisplayName() ? "" : userDetails.getDisplayName() + "</td>");*/
 					out.println("<td>" + userDetails.getDisplayName() + "</td>");
 					out.println("<td>" + userDetails.getStatus() + "</td>");
-					out.println("<td>" + userDetails.getPanNo() + "</td>");
-					out.println("<td>" + userDetails.getVatNo() + "</td>");
+					/*out.println("<td>" + userDetails.getPanNo() + "</td>");
+					out.println("<td>" + userDetails.getVatNo() + "</td>");*/
+					//TODO: Dont sow null values
+					/*out.println("<td>" + "null" == userDetails.getGstNo() ? "" : userDetails.getGstNo() + "</td>");*/
+					out.println("<td>" + userDetails.getGstNo() + "</td>");
+					out.println("<td>" + userDetails.getDiscount() + "</td>");
 					out.println("<td>" + userDetails.getContactNo() + "</td>");
 				    out.println("<td>" + userDetails.getEmailId() + "</td>");
 					out.println("<td>" + userDetails.getUserType() + "</td>");
@@ -104,7 +111,9 @@ public class UserDetails extends SimpleTagSupport {
 							+ userDetails.getUserDistributorListId() + "','"
 							+ userDetails.getMark() + "','"
 							+ userDetails.getDestination() + "','"
-							+ userDetails.getTransportName() + "'"
+							+ userDetails.getTransportName() + "','"
+							+ userDetails.getGstNo() + "','"
+							+ userDetails.getDiscount() + "'"
 							+ ")\"><i class=\"fa fa-pencil\"></i></a>");
 //					out.print("&nbsp&nbsp&nbsp&nbsp<a href=\"deleteUser?trackId=" +userDetails.getUserTrackid() + "\" onclick=\"return confirm('Are you sure?')\"><i class=\"fa fa-trash\"></i></a>");
 					out.print("</td>");

@@ -78,7 +78,27 @@ public class ItemMasterDtl implements Serializable {
 	
 	private String isActive;
 	
+	private double perUnitPrice;
+	
+	private int hsnDtlsId;
+	
 	public ItemMasterDtl() {}
+
+	public double getPerUnitPrice() {
+		return perUnitPrice;
+	}
+
+	public void setPerUnitPrice(double perUnitPrice) {
+		this.perUnitPrice = perUnitPrice;
+	}
+
+	public int getHsnDtlsId() {
+		return hsnDtlsId;
+	}
+
+	public void setHsnDtlsId(int hsnDtlsId) {
+		this.hsnDtlsId = hsnDtlsId;
+	}
 
 	public String getIsActive() {
 		return isActive;

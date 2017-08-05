@@ -46,7 +46,27 @@ public class WUserDetailsTO {
 	
 	private String transportName;
 	
+	private String gstNo;
+	
+	private Float discount;
+	
 	public WUserDetailsTO(){}
+
+	public Float getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Float discount) {
+		this.discount = discount;
+	}
+
+	public String getGstNo() {
+		return gstNo;
+	}
+
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
+	}
 
 	public String getMark() {
 		return mark;

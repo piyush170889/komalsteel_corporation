@@ -527,6 +527,7 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 					userDetails.setLoginId(rs.getString("LOGIN_ID"));
 					userDetails.setStatus(rs.getString("STATUS"));
 					userDetails.setDisplayName(rs.getString("DISPLAY_NAME"));
+					userDetails.setGstNo(rs.getString("GSTNO"));
 				}
 				
 				return userDetails;

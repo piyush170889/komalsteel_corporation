@@ -25,10 +25,18 @@ import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.AdminDAO;
 import co.in.replete.komalindustries.exception.ServicesException;
 import co.in.replete.komalindustries.service.ProductService;
+import co.in.replete.komalindustries.service.WMasterService;
+
 
 @Controller
 public class WProductController {
 
+	/**
+	 * Note: For any product Per Piece Price is stored in Master Carton Price
+	 * @author Piyush
+	 *
+	 */
+	
 	@Autowired
 	ProductService productService;
 	
@@ -37,6 +45,9 @@ public class WProductController {
 	
 	@Autowired
 	AdminDAO adminDAO;
+	
+	@Autowired
+	private WMasterService wMasterService;
 	
 	/* ADD, EDIT, VIEW Product Details */
 	/**
@@ -211,6 +222,7 @@ public class WProductController {
 		//TODO Put appropriate data
 		model.addAttribute("itemsSubCategoryList", adminDAO.getSubCategoryList());
 		model.addAttribute("itemsPackingInfoList", adminDAO.getPackingInfoList());
+		model.addAttribute("hsnDetailsList", wMasterService.doGetAllActiveHSNDetails());
 		if(null != messageType) {
 		  if(messageType.equals(KomalIndustriesConstants.ERROR_MSSG_LABEL)) {
 		    model.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, message);

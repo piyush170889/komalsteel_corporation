@@ -33,7 +33,7 @@
   <script>
 	function sendEditUserValues(userId1, firstName1, panNo1, lastName1, displayName1, status1, 
 			vatNo1, contactNo1, userType1, stAddress1, state, city, pincode, associatedDistributor,
-			otherAddressDtlsId, userDistributorListId,mark,dest,tranNm) {
+			otherAddressDtlsId, userDistributorListId,mark,dest,tranNm, gstNo, discount) {
 		try{
 			document.getElementById("userId1").value=userId1;
   			document.getElementById("firstName1").value = firstName1;
@@ -54,6 +54,8 @@
   			document.getElementById("mark1").value=mark;
   			document.getElementById("destination1").value=dest;
   			document.getElementById("transportName1").value=tranNm;
+  			document.getElementById("gstNo1").value=gstNo;
+  			document.getElementById("discount1").value=discount;
 		} catch (e) {
 			alert(e);
 		}
@@ -119,6 +121,7 @@
 			                        <option value="vatno">VAT.No</option>
 			                        <option value="cntcNo">Contact.No</option>
 			                        <option value="emailId">EmailId</option>
+			                        <option value="gstNo">GST No</option>
 			                      </select>
 		                      </div>
 		                    </div>
@@ -174,8 +177,10 @@
                         <th>User Name</th>
                         <th>Display Name</th>
                         <th>Status</th>
-                         <th>PAN.No</th> 
-                        <th>VAT.No</th>
+                        <!-- <th>PAN.No</th> 
+                        <th>VAT.No</th> -->
+                        <th>GST No</th>
+                        <th>Discount(%)</th>
                         <th>Contact.No</th>
                         <th>EmailId</th>
                         <th>User Type</th>
@@ -194,8 +199,10 @@
                         <th>User Name</th>
                         <th>Display Name</th>
                         <th>Status</th>
-                         <th>PAN.No</th> 
-                        <th>VAT.No</th>
+                        <!-- <th>PAN.No</th> 
+                        <th>VAT.No</th> -->
+                        <th>GST No</th>
+                        <th>Discount</th>
                         <th>Contact.No</th>
                         <th>EmailId</th>
                         <th>User Type</th>
@@ -286,6 +293,14 @@
                     <div class="form-group">
                       <label for="exampleInputPassword1">PAN.No</label>
                       <form:input class="form-control" placeholder="Pan No" path="panNo" />
+                    </div>
+                     <div class="form-group">
+                      <label for="exampleInputPassword1">GST No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <form:input class="form-control" placeholder="GST No" path="gstNo" required="required" />
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Discount</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <form:input class="form-control" placeholder="Discount" path="discount" required="required" />
                     </div>
                     </div>
                     
@@ -473,7 +488,11 @@
                     <div class="form-group">
                       <label for="exampleInputPassword1">Contact.No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Contact Number" path="contactNo" id="contactNo1" required="required"/>
-                    </div>                
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">GST No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <form:input class="form-control" placeholder="GST No" path="gstNo" id="gstNo1" required="required" />
+                    </div>
                     </div>
                     
                     <div class="col-md-6">
@@ -504,7 +523,12 @@
 	                        <option value="Distributor">Distributor</option>
 	                        <option value="Dealer">Dealer</option>
 	                      </form:select>                  
-	                        </div>
+	                   </div>
+	                   
+	                   <div class="form-group">
+	                      <label for="exampleInputPassword1">Discount</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+	                      <form:input class="form-control" placeholder="Discount" path="discount" id="discount1" required="required" />
+	                    </div>
                     </div>
                   </div>
                   

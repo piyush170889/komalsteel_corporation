@@ -100,8 +100,17 @@ public class UserDetailsTO {
  	
  	private String tinNo;
  	
+ 	private String gstNo;
+ 	
 	public UserDetailsTO() {	}
 
+	public String getGstNo() {
+		return gstNo;
+	}
+
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
+	}
 
 	public String getMark() {
 		return mark;

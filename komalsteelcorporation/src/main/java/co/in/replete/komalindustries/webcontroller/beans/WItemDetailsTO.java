@@ -42,7 +42,37 @@ public class WItemDetailsTO {
 	
 	private String isActive;
 	
+	private int hsnNo;
+	
+	private int hsnDtlsId;
+	
+	private double perUnitPrice;
+	
 	public WItemDetailsTO() {}
+
+	public double getPerUnitPrice() {
+		return perUnitPrice;
+	}
+
+	public void setPerUnitPrice(double perUnitPrice) {
+		this.perUnitPrice = perUnitPrice;
+	}
+
+	public int getHsnDtlsId() {
+		return hsnDtlsId;
+	}
+
+	public void setHsnDtlsId(int hsnDtlsId) {
+		this.hsnDtlsId = hsnDtlsId;
+	}
+
+	public int getHsnNo() {
+		return hsnNo;
+	}
+
+	public void setHsnNo(int hsnNo) {
+		this.hsnNo = hsnNo;
+	}
 
 	public String getIsActive() {
 		return isActive;

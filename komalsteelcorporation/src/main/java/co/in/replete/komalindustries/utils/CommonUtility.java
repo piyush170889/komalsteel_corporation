@@ -6,7 +6,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
@@ -162,6 +166,80 @@ public class CommonUtility {
 		}
 		return isEmailSend;
 	}
+	
+	
+	/**
+	 * Sends email to the toAddress specified, with message body containing the baseURL appended with activate user account page. This forms the activation link for the user's account
+	 * 
+	 * @param 		toAddress		The email address to which mail is to be sent
+	 * @param 		baseURL			The base URl of the application
+	 * @return		isEmailSent		true if mail is sent successfully.false if mail sending fails
+	 */
+	public boolean sendEmail(String toAddress, String message, String subject, String attachmentFilePath){
+		
+		final String PROP_USERNAME = configProperties.getProperty("email.username");
+		
+		final String PROP_PASSWORD = configProperties.getProperty("email.password");
+		
+		
+		boolean isEmailSend = false;
+		try{
+		// sets SMTP server properties
+		Properties properties = new Properties();
+		properties.put(PROP_SMTP_HOST, PROP_HOST);
+		properties.put(PROP_SMTP_PORT, PROP_PORT);
+		properties.put(PROP_SMTP_AUTH, PROP_AUTH);
+		properties.put(PROP_SMTP_STARTTLS_ENABLE, PROP_STARTTLS_ENABLE);
+		// creates a new session with an authenticator
+		Authenticator auth = new Authenticator() {
+			public PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(PROP_USERNAME, PROP_PASSWORD);
+			}
+		};
+		Session session = Session.getInstance(properties, auth);
+		// creates a new e-mail message
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress(PROP_USERNAME));
+		String[] emailIds = toAddress.split(",");
+				
+		InternetAddress[] toAddresses = new InternetAddress[emailIds.length];
+		for(int i=0; i<emailIds.length; i++) {
+			toAddresses[i] = new InternetAddress(emailIds[i]);
+		}
+		msg.setRecipients(Message.RecipientType.TO, toAddresses);
+		msg.setSubject(subject);
+		msg.setSentDate(new Date());
+		
+		// Create a multipar message
+        Multipart multipart = new MimeMultipart();
+
+		// Create the message part
+        BodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(message, "text/html");
+        multipart.addBodyPart(messageBodyPart);	// Set text message part
+        
+
+        // Part two is attachment
+        BodyPart attachmentBodyPart = new MimeBodyPart();
+        DataSource source = new FileDataSource(attachmentFilePath);
+        attachmentBodyPart.setDataHandler(new DataHandler(source));
+        attachmentBodyPart.setFileName(attachmentFilePath);
+        multipart.addBodyPart(attachmentBodyPart);
+
+        // Send the complete message parts
+        msg.setContent(multipart);
+        
+//		msg.setContent(message,"text/html");
+		// sends the e-mail
+		Transport.send(msg);
+		isEmailSend = true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return isEmailSend;
+	}
+	
 
 	/*public void sendEmailToAdmin(String message, String subject) {
 final String userName =configProperties.getProperty("email.username");
