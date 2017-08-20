@@ -321,7 +321,7 @@ public class CartServiceImpl implements CartService {
 									cartDetail.getCartNotes());
 
 					commonUtility.sendEmailToAdmin(finalEmailString, 
-							responseMessageProperties.getProperty("order.book.subject"));
+							configProperties.getProperty("order.book.subject"));
 					
 					//Send Order Email to customer if email id is present and create Invoice Data to attach and send
 					List<Transaction> transactionList = new ArrayList<Transaction>();
@@ -392,12 +392,12 @@ public class CartServiceImpl implements CartService {
 								gstNo, (float)iGstAmount, totalItemInCart, (float)totalChargableAmount, (float)totalTaxableValue, 
 								(float)iGstAmount, transactionList, taxDescriptionList); //Create the PDF to send
 						
-						String pdfFilePath = "D://Acounting-Voucher-"+cartDtlsId + ".pdf";
+						String pdfFilePath = configProperties.getProperty("pdf.savepath")+cartDtlsId + ".pdf";
 						GeneratePdf generatePdf = new GeneratePdf();
 						generatePdf.genearatePDF(invoiceDetails, pdfFilePath);
 						
-						commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, 
-								responseMessageProperties.getProperty("order.book.subject"), pdfFilePath);
+						commonUtility.sendEmail(configProperties.getProperty("email.test"), finalEmailStringCustomer, 
+								configProperties.getProperty("order.book.subject"), pdfFilePath);
 					}
 					return new BaseWrapper();
 				}
