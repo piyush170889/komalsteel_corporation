@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -238,7 +239,7 @@ public class GeneratePdf {
 		amountWordCell.setPaddingBottom(5);
 		amountWordCell.setColspan(8);
 		amountWordCell.addElement(new Phrase("Amount Chargeable (in words)",defFont));
-		amountWordCell.addElement(new Phrase("",infoFont));
+		amountWordCell.addElement(new Phrase(WordUtils.capitalize(commonUtility.doGetWords((int)invoice.getTotalChargableAmount())),infoFont));
 		transTable.addCell(amountWordCell);
 		document.add(transTable);
 		
@@ -280,7 +281,7 @@ public class GeneratePdf {
 		//Tax Amount in words
 		Paragraph p = new Paragraph();
 		Chunk textPhrase = new Chunk("Tax Amount (in words): ", defFont);
-		Chunk amountWord = new Chunk("", infoFont);
+		Chunk amountWord = new Chunk(WordUtils.capitalize(commonUtility.doGetWords((int)invoice.getTotalTaxableValue())), infoFont);
 		p.add(textPhrase);
 		p.add(amountWord);
 		PdfPCell taxInWordCell=new PdfPCell(p);
@@ -601,7 +602,7 @@ public class GeneratePdf {
 		amountWordCell.setPaddingBottom(5);
 		amountWordCell.setColspan(8);
 		amountWordCell.addElement(new Phrase("Amount Chargeable (in words)",defFont));
-		amountWordCell.addElement(new Phrase("",infoFont));
+		amountWordCell.addElement(new Phrase(WordUtils.capitalize(commonUtility.doGetWords((int)invoice.getTotalChargableAmount())),infoFont));
 		transTable.addCell(amountWordCell);
 		document.add(transTable);
 		
@@ -653,7 +654,7 @@ public class GeneratePdf {
 		Paragraph p = new Paragraph();
 		Chunk textPhrase = new Chunk("Tax Amount (in words): ", defFont);
 		//TODO: Added total in words
-		Chunk amountWord = new Chunk("", infoFont);
+		Chunk amountWord = new Chunk(WordUtils.capitalize(commonUtility.doGetWords((int)invoice.getTotalTaxableValue())), infoFont);
 		p.add(textPhrase);
 		p.add(amountWord);
 		PdfPCell taxInWordCell=new PdfPCell(p);
