@@ -218,7 +218,7 @@ public class GeneratePdf {
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getiGstAmount(), 2)),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getiGstAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		
 		// Transaction total Amount printing
@@ -266,7 +266,7 @@ public class GeneratePdf {
 		for(TaxDescription taxDescription:invoice.getTaxDescription())
 		{
 		taxTable.addCell(insertCell(taxDescription.getHsnSac(),defFont,Element.ALIGN_LEFT));
-		taxTable.addCell(insertCell(String.valueOf(taxDescription.getTaxableValue()),defFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(taxDescription.getTaxableValue(), 2)),defFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell(Math.round(taxDescription.getiGstRate())+"%",defFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(taxDescription.getiGsttaxAmount(), 2)),defFont,Element.ALIGN_RIGHT));
 		}
@@ -634,20 +634,20 @@ public class GeneratePdf {
 		for(TaxDescription taxDescription:invoice.getTaxDescription())
 		{
 		taxTable.addCell(insertCell(taxDescription.getHsnSac(),defFont,Element.ALIGN_LEFT));
-		taxTable.addCell(insertCell(String.valueOf(taxDescription.getTaxableValue()),defFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(taxDescription.getTaxableValue(), 2)),defFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell(Math.round(taxDescription.getcGstRate())+"%",defFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(String.valueOf(taxDescription.getcGsttaxAmount()),defFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(taxDescription.getcGsttaxAmount(), 2)),defFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell(Math.round(taxDescription.getsGstRate())+"%",defFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(String.valueOf(taxDescription.getsGsttaxAmount()),defFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(taxDescription.getsGsttaxAmount(), 2)),defFont,Element.ALIGN_RIGHT));
 		}
 		
 		// Total Tax amount printing
 		taxTable.addCell(insertCell("Total",infoFont,Element.ALIGN_RIGHT));
-		taxTable.addCell(insertCell(String.valueOf(invoice.getTotalTaxableValue()),infoFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getTotalTaxableValue(), 2)),infoFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell("",infoFont,Element.ALIGN_CENTER));
 		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getcGsttotalTaxAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell("",infoFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getsGsttotalTaxAmount(), 2)),infoFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getsGsttotalTaxAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		//Tax Amount in words
 		Paragraph p = new Paragraph();
