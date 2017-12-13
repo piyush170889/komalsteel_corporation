@@ -1,5 +1,6 @@
 package co.in.replete.komalindustries.utils;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
@@ -358,6 +359,12 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 	public String getGstCode(String gstNo) {
 		System.out.println("Gst No.: " + gstNo + ", GstCode: " + gstNo.substring(0, 2));
 		return gstNo.substring(0, 2);
+	}
+
+	public BigDecimal roundUpToTwoDecimal(Float value, int decimalPlace) {
+		BigDecimal bd = new BigDecimal(Float.toString(value));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);       
+        return bd;
 	}
 	
 }

@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -22,8 +25,12 @@ import co.in.replete.komalindustries.beans.Invoice;
 import co.in.replete.komalindustries.beans.TaxDescription;
 import co.in.replete.komalindustries.beans.Transaction;
 
+@Component
 public class GeneratePdf {
 
+	@Autowired
+	private CommonUtility commonUtility;
+	
 	static Font infoFont = new Font(Font.FontFamily.TIMES_ROMAN, 10,Font.BOLD);
 	static Font defFont = new Font(Font.FontFamily.TIMES_ROMAN, 10);
 	static Font invoiceDetailsFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,Font.BOLD);
@@ -195,11 +202,11 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getDescriptioOFGoods(),infoFont,Element.ALIGN_LEFT));
 		transTable.addCell(insertCell(transaction.getHsnSac(),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(transaction.getGstRate().toString()+"%",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(Integer.toString(Math.round(transaction.getGstRate()))+"%",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(transaction.getQuantity()+"Pc.",infoFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(transaction.getRate().toString(),defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getPer(),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(transaction.getAmount().toString(),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2).toString(),infoFont,Element.ALIGN_RIGHT));
 		count++;
 		}
 		
@@ -544,14 +551,14 @@ public class GeneratePdf {
 		int count=1;
 		for(Transaction transaction:invoice.getTransactionList())
 		{
-		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(transaction.getDescriptioOFGoods(),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell(transaction.getDescriptioOFGoods(),infoFont,Element.ALIGN_LEFT));
 		transTable.addCell(insertCell(transaction.getHsnSac(),defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(transaction.getGstRate().toString()+"%",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(transaction.getQuantity()+"Pc.",infoFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(transaction.getRate().toString(),defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getPer(),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(transaction.getAmount().toString(),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2).toString(),infoFont,Element.ALIGN_RIGHT));
 		count++;
 		}
 		
