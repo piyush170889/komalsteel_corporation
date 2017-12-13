@@ -129,7 +129,7 @@ public class GeneratePdf {
 		//Despatch Document No.
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Despatch Document No.",defFont));
+		invoiceDetailsCell.addElement(new Phrase("Dispatch Document No.",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
@@ -144,7 +144,7 @@ public class GeneratePdf {
 		//Despatched through
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Despatched through",defFont));
+		invoiceDetailsCell.addElement(new Phrase("Dispatched through",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispatchedThrough(),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
@@ -169,7 +169,6 @@ public class GeneratePdf {
 		
 		
 		//Transaction table
-
 		PdfPTable transTable = new PdfPTable(8);
 		transTable.setWidthPercentage(100);
 		float[] columnWidths2 = {3f, 34f, 10f, 10f, 10f,10f,4f,19f};
@@ -193,8 +192,8 @@ public class GeneratePdf {
 		int count=1;
 		for(Transaction transaction:invoice.getTransactionList())
 		{
-		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(transaction.getDescriptioOFGoods(),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell(transaction.getDescriptioOFGoods(),infoFont,Element.ALIGN_LEFT));
 		transTable.addCell(insertCell(transaction.getHsnSac(),defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(transaction.getGstRate().toString()+"%",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(transaction.getQuantity()+"Pc.",infoFont,Element.ALIGN_CENTER));
