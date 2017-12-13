@@ -84,6 +84,9 @@ public class CartServiceImpl implements CartService {
 	@Autowired
 	private WMasterDAO wMasterDAO;
 	
+	@Autowired
+	private GeneratePdf generatePdf;
+	
 	/**
 	 * Description : Get's the list of order details for the user as per the page number supplied
 	 * @return {@link BaseWrapper}
@@ -472,7 +475,6 @@ public class CartServiceImpl implements CartService {
 						}
 						
 						String pdfFilePath = configProperties.getProperty("pdf.savepath")+cartDtlsId + ".pdf";
-						GeneratePdf generatePdf = new GeneratePdf();
 						
 						System.out.println("PDF Filepath: " + pdfFilePath);
 						

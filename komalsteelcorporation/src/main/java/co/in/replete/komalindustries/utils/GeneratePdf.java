@@ -204,9 +204,9 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(transaction.getHsnSac(),defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(Integer.toString(Math.round(transaction.getGstRate()))+"%",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(transaction.getQuantity()+"Pc.",infoFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell(null==transaction.getRate() ? "" :commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getPer(),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2).toString(),infoFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell(null==transaction.getAmount() ? "" : commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2).toString(),infoFont,Element.ALIGN_RIGHT));
 		count++;
 		}
 		
@@ -218,7 +218,7 @@ public class GeneratePdf {
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(String.valueOf(invoice.getiGstAmount()),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getiGstAmount(), 2)),infoFont,Element.ALIGN_CENTER));
 		
 		
 		// Transaction total Amount printing
@@ -230,7 +230,7 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(String.valueOf(invoice.getTotalQuantity())+"Pc.",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell("Rs."+String.valueOf(invoice.getTotalChargableAmount()),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("Rs."+String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getTotalChargableAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		
 		//Print amount in words
@@ -267,15 +267,15 @@ public class GeneratePdf {
 		{
 		taxTable.addCell(insertCell(taxDescription.getHsnSac(),defFont,Element.ALIGN_LEFT));
 		taxTable.addCell(insertCell(String.valueOf(taxDescription.getTaxableValue()),defFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(taxDescription.getiGstRate()+"%",defFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(String.valueOf(taxDescription.getiGsttaxAmount()),defFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(Math.round(taxDescription.getiGstRate())+"%",defFont,Element.ALIGN_RIGHT));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(taxDescription.getiGsttaxAmount(), 2)),defFont,Element.ALIGN_RIGHT));
 		}
 		
 		// Total Tax amount printing
 		taxTable.addCell(insertCell("Total",infoFont,Element.ALIGN_RIGHT));
-		taxTable.addCell(insertCell(String.valueOf(invoice.getTotalTaxableValue()),infoFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getTotalTaxableValue(), 2)),infoFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell("",infoFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(String.valueOf(invoice.getTotalTaxAmount()),infoFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getTotalTaxAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		//Tax Amount in words
 		Paragraph p = new Paragraph();
@@ -554,11 +554,11 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getDescriptioOFGoods(),infoFont,Element.ALIGN_LEFT));
 		transTable.addCell(insertCell(transaction.getHsnSac(),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(transaction.getGstRate().toString()+"%",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(Integer.toString(Math.round(transaction.getGstRate()))+"%",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(transaction.getQuantity()+"Pc.",infoFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell(null==transaction.getRate() ? "" : commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getPer(),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2).toString(),infoFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell(null==transaction.getAmount() ? "" : commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2).toString(),infoFont,Element.ALIGN_RIGHT));
 		count++;
 		}
 		
@@ -570,7 +570,7 @@ public class GeneratePdf {
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(String.valueOf(invoice.getcGstAmount()),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getcGstAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		
 		//Row For SGST Print
@@ -581,7 +581,7 @@ public class GeneratePdf {
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(String.valueOf(invoice.getsGstAmount()),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getsGstAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 				
 		
 		// Transaction total Amount printing
@@ -593,7 +593,7 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(String.valueOf(invoice.getTotalQuantity())+"Pc.",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell("Rs."+String.valueOf(invoice.getTotalChargableAmount()),infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("Rs."+String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getTotalChargableAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		
 		//Print amount in words
@@ -635,9 +635,9 @@ public class GeneratePdf {
 		{
 		taxTable.addCell(insertCell(taxDescription.getHsnSac(),defFont,Element.ALIGN_LEFT));
 		taxTable.addCell(insertCell(String.valueOf(taxDescription.getTaxableValue()),defFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(taxDescription.getcGstRate()+"%",defFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(Math.round(taxDescription.getcGstRate())+"%",defFont,Element.ALIGN_CENTER));
 		taxTable.addCell(insertCell(String.valueOf(taxDescription.getcGsttaxAmount()),defFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(taxDescription.getsGstRate()+"%",defFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(Math.round(taxDescription.getsGstRate())+"%",defFont,Element.ALIGN_CENTER));
 		taxTable.addCell(insertCell(String.valueOf(taxDescription.getsGsttaxAmount()),defFont,Element.ALIGN_CENTER));
 		}
 		
@@ -645,9 +645,9 @@ public class GeneratePdf {
 		taxTable.addCell(insertCell("Total",infoFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell(String.valueOf(invoice.getTotalTaxableValue()),infoFont,Element.ALIGN_CENTER));
 		taxTable.addCell(insertCell("",infoFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(String.valueOf(invoice.getcGsttotalTaxAmount()),infoFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getcGsttotalTaxAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell("",infoFont,Element.ALIGN_CENTER));
-		taxTable.addCell(insertCell(String.valueOf(invoice.getsGsttotalTaxAmount()),infoFont,Element.ALIGN_CENTER));
+		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getsGsttotalTaxAmount(), 2)),infoFont,Element.ALIGN_CENTER));
 		
 		//Tax Amount in words
 		Paragraph p = new Paragraph();
