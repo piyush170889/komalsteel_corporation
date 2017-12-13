@@ -68,16 +68,16 @@ public class UserDtl implements Serializable {
 	private String gstNo;
 	
 	@Column(name="DISCOUNT")
-	private String discount;
+	private Float discount;
 	
 	public UserDtl() {
 	}
 
-	public String getDiscount() {
+	public Float getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(String discount) {
+	public void setDiscount(Float discount) {
 		this.discount = discount;
 	}
 

@@ -354,5 +354,10 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 		}
 		return isEmailSend;
 	}
+
+	public String getGstCode(String gstNo) {
+		System.out.println("Gst No.: " + gstNo + ", GstCode: " + gstNo.substring(0, 2));
+		return gstNo.substring(0, 2);
+	}
 	
 }

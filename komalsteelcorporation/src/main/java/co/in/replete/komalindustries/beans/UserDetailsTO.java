@@ -102,7 +102,19 @@ public class UserDetailsTO {
  	
  	private String gstNo;
  	
+	private Float discount;
+	
 	public UserDetailsTO() {	}
+
+	public Float getDiscount() {
+		return discount;
+	}
+
+
+	public void setDiscount(Float discount) {
+		this.discount = discount;
+	}
+
 
 	public String getGstNo() {
 		return gstNo;

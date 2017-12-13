@@ -384,14 +384,40 @@ public class CartServiceImpl implements CartService {
 									Float.parseFloat(Double.toString(amount)));
 							transactionList.add(transaction);
 							
-							if (gstCode.equalsIgnoreCase("27")) {
-								taxDescription = new TaxDescription(hsnSac, Float.parseFloat(Double.toString(amount)), 
-										cGstRate, cGsttaxAmount, sGstRate, sGsttaxAmount);
+							if (existsHsn(hsnSac, taxDescriptionList)) {
+								//If exists than update the taxable amount and tax detials
+								int taxDescriptionListSize = taxDescriptionList.size();
+								for (int i=0; i<taxDescriptionListSize; i++) {
+									TaxDescription taxDescriptionToCompare = taxDescriptionList.get(i);
+									if (hsnSac.equalsIgnoreCase(taxDescriptionToCompare.getHsnSac())) {
+										float updatedCGstTaxAmmount = 0F;
+										float updatedSGstTaxAmmount = 0F;
+										float updatedIGstTaxAmmount = 0F;
+										
+										Float updatedTaxableValue = taxDescriptionToCompare.getTaxableValue() + Float.parseFloat(Double.toString(amount));
+										if (gstCode.equalsIgnoreCase("27")) {
+											updatedCGstTaxAmmount = taxDescriptionToCompare.getcGsttaxAmount() + cGsttaxAmount;
+											updatedSGstTaxAmmount = taxDescriptionToCompare.getsGsttaxAmount() + sGsttaxAmount;
+											taxDescription = new TaxDescription(hsnSac, updatedTaxableValue, 
+													cGstRate, updatedCGstTaxAmmount, sGstRate, updatedSGstTaxAmmount);
+										} else {
+											updatedIGstTaxAmmount = taxDescriptionToCompare.getiGsttaxAmount() + taxAmount;
+											taxDescription = new TaxDescription(hsnSac, updatedTaxableValue, hsnDetails.getiGst(), updatedIGstTaxAmmount);
+										}
+										taxDescriptionList.set(i, taxDescription);
+										break;
+									}
+								}
 							} else {
-								taxDescription = new TaxDescription(hsnSac, Float.parseFloat(Double.toString(amount)), hsnDetails.getiGst(), taxAmount);
+								if (gstCode.equalsIgnoreCase("27")) {
+									taxDescription = new TaxDescription(hsnSac, Float.parseFloat(Double.toString(amount)), 
+											cGstRate, cGsttaxAmount, sGstRate, sGsttaxAmount);
+								} else {
+									taxDescription = new TaxDescription(hsnSac, Float.parseFloat(Double.toString(amount)), hsnDetails.getiGst(), taxAmount);
+								}
+								taxDescriptionList.add(taxDescription);
 							}
-							taxDescriptionList.add(taxDescription);
-						
+							
 							totalItemInCart += itemQty;
 							totalChargableAmount += amount + taxAmount;
 							totalTaxableValue += amount;
@@ -471,6 +497,19 @@ public class CartServiceImpl implements CartService {
 		} 
 		
 		return new BaseWrapper();
+	}
+
+	private boolean existsHsn(String hsnSac, List<TaxDescription> taxDescriptionList) {
+		boolean isHsnSacNoExists = false;
+		
+		for (TaxDescription taxDescription : taxDescriptionList) {
+			if (hsnSac.equalsIgnoreCase(taxDescription.getHsnSac().trim())) {
+				isHsnSacNoExists = true;
+				break;
+			}
+		}
+		
+		return isHsnSacNoExists;
 	}
 
 	private StringBuilder appendData(ItemMasterDtl itemMasterDtl, StringBuilder sb, int qty) {

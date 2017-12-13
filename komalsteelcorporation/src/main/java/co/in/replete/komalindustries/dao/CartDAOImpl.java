@@ -528,6 +528,7 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 					userDetails.setStatus(rs.getString("STATUS"));
 					userDetails.setDisplayName(rs.getString("DISPLAY_NAME"));
 					userDetails.setGstNo(rs.getString("GSTNO"));
+					userDetails.setDiscount(rs.getFloat("DISCOUNT"));
 				}
 				
 				return userDetails;
