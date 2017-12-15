@@ -317,10 +317,9 @@ public class CartServiceImpl implements CartService {
 						throw new Exception(responseMessageProperties.getProperty("error.paymentmode.invalid"));
 					}*/
 					
-					//TODO: Remove Comment
 					//Send Notification to alternate number
-					/*messageUtility.sendMessage(cartDetails.getAlternateCntc(), 
-							String.format(configProperties.getProperty("sms.orderplaced.success"), cartDtlsId));*/
+					messageUtility.sendMessage(cartDetails.getAlternateCntc(), 
+							String.format(configProperties.getProperty("sms.orderplaced.success"), cartDtlsId));
 					
 					
 					ShippingAddressDetail shippingAddressDetail = cartDAO.selectShippingAddressDetailsById(addressDtlsId);
@@ -335,9 +334,8 @@ public class CartServiceImpl implements CartService {
 							(null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm(),
 									cartDetail.getCartNotes());
 					
-					//TODO: Remove Comment
-					/*commonUtility.sendEmailToAdmin(finalEmailString, 
-							configProperties.getProperty("order.book.subject"));*/
+					commonUtility.sendEmailToAdmin(finalEmailString, 
+							configProperties.getProperty("order.book.subject"));
 					
 					//Send Order Email to customer if email id is present and create Invoice Data to attach and send
 					List<Transaction> transactionList = new ArrayList<Transaction>();
@@ -487,9 +485,8 @@ public class CartServiceImpl implements CartService {
 						//Replace the email id with user-email Id
 						/*commonUtility.sendEmail(configProperties.getProperty("email.test"), finalEmailStringCustomer, 
 								configProperties.getProperty("order.book.subject"), pdfFilePath);*/
-						//TODO: Remove Comment
-						/*commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, 
-								configProperties.getProperty("order.book.subject"), pdfFilePath);*/
+						commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, 
+								configProperties.getProperty("order.book.subject"), pdfFilePath);
 					}
 					return new BaseWrapper();
 				}
