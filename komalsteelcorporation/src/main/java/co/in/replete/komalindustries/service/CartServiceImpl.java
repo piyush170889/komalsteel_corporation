@@ -318,8 +318,9 @@ public class CartServiceImpl implements CartService {
 					}*/
 					
 					//Send Notification to alternate number
-					messageUtility.sendMessage(cartDetails.getAlternateCntc(), 
-							String.format(configProperties.getProperty("sms.orderplaced.success"), cartDtlsId));
+					//TODO: Uncomment to send Mssg
+					/*messageUtility.sendMessage(cartDetails.getAlternateCntc(), 
+							String.format(configProperties.getProperty("sms.orderplaced.success"), cartDtlsId));*/
 					
 					
 					ShippingAddressDetail shippingAddressDetail = cartDAO.selectShippingAddressDetailsById(addressDtlsId);
@@ -334,8 +335,9 @@ public class CartServiceImpl implements CartService {
 							(null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm(),
 									cartDetail.getCartNotes());
 					
-					commonUtility.sendEmailToAdmin(finalEmailString, 
-							configProperties.getProperty("order.book.subject"));
+					//TODO: Uncomment to send email
+					/*commonUtility.sendEmailToAdmin(finalEmailString, 
+							configProperties.getProperty("order.book.subject"));*/
 					
 					//Send Order Email to customer if email id is present and create Invoice Data to attach and send
 					List<Transaction> transactionList = new ArrayList<Transaction>();
@@ -485,8 +487,9 @@ public class CartServiceImpl implements CartService {
 						//Replace the email id with user-email Id
 						/*commonUtility.sendEmail(configProperties.getProperty("email.test"), finalEmailStringCustomer, 
 								configProperties.getProperty("order.book.subject"), pdfFilePath);*/
-						commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, 
-								configProperties.getProperty("order.book.subject"), pdfFilePath);
+						//TODO: Uncomment to send email
+						/*commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, 
+								configProperties.getProperty("order.book.subject"), pdfFilePath);*/
 					}
 					return new BaseWrapper();
 				}

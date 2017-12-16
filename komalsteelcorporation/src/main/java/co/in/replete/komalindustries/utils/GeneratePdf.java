@@ -137,11 +137,12 @@ public class GeneratePdf {
 		//Despatch Document No.
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Dispatch Document No.",defFont));
+		invoiceDetailsCell.addElement(new Phrase("Mark: ",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
+		invoiceDetailsCell.setColspan(2);
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		//Delivery Note Date
+		/*//Delivery Note Date
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
@@ -157,12 +158,12 @@ public class GeneratePdf {
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		
-		//Despatched through
+		//Destination
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Destination",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDestination(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 		
 		//Terms Of Delivery
 		invoiceDetailsCell = new PdfPCell();
@@ -231,7 +232,7 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(String.valueOf(invoice.getTotalQuantity())+"Pc.",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell("Rs."+String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getTotalChargableAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell("Rs."+String.valueOf(commonUtility.roundUpToTwoDecimal((float)Math.round(invoice.getTotalChargableAmount()), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		
 		//Print amount in words
@@ -279,7 +280,7 @@ public class GeneratePdf {
 		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getTotalTaxAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		//Tax Amount in words
-		Paragraph p = new Paragraph();
+		/*Paragraph p = new Paragraph();
 		Chunk textPhrase = new Chunk("Tax Amount (in words): ", defFont);
 		Chunk amountWord = new Chunk(WordUtils.capitalize(commonUtility.doGetWords((int)invoice.getTotalTaxableValue())), infoFont);
 		p.add(textPhrase);
@@ -289,7 +290,7 @@ public class GeneratePdf {
 		taxInWordCell.setPaddingTop(5);
 		taxInWordCell.setPaddingBottom(5);
 		taxInWordCell.setColspan(4);
-		taxTable.addCell(taxInWordCell);
+		taxTable.addCell(taxInWordCell);*/
 		
 		//Company Bank details
 		PdfPCell bankInfocell=new PdfPCell();
@@ -491,18 +492,19 @@ public class GeneratePdf {
 		//Despatch Document No.
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Despatch Document No.",defFont));
+		invoiceDetailsCell.addElement(new Phrase("Mark:",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
+		invoiceDetailsCell.setColspan(2);
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		//Delivery Note Date
+		/*//Delivery Note Date
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNoteDate(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);
+		//invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNoteDate(),infoFont));
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 		
-		
+		/*
 		//Despatched through
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
@@ -516,7 +518,7 @@ public class GeneratePdf {
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Destination",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDestination(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 		
 		//Terms Of Delivery
 		invoiceDetailsCell = new PdfPCell();
@@ -594,7 +596,7 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(String.valueOf(invoice.getTotalQuantity())+"Pc.",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell("Rs."+String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getTotalChargableAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell("Rs."+String.valueOf(commonUtility.roundUpToTwoDecimal((float) Math.round(invoice.getTotalChargableAmount()), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		
 		//Print amount in words
@@ -651,7 +653,7 @@ public class GeneratePdf {
 		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getsGsttotalTaxAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		//Tax Amount in words
-		Paragraph p = new Paragraph();
+		/*Paragraph p = new Paragraph();
 		Chunk textPhrase = new Chunk("Tax Amount (in words): ", defFont);
 		//TODO: Added total in words
 		Chunk amountWord = new Chunk(WordUtils.capitalize(commonUtility.doGetWords((int)invoice.getTotalTaxableValue())), infoFont);
@@ -662,7 +664,7 @@ public class GeneratePdf {
 		taxInWordCell.setPaddingTop(5);
 		taxInWordCell.setPaddingBottom(5);
 		taxInWordCell.setColspan(6);
-		taxTable.addCell(taxInWordCell);
+		taxTable.addCell(taxInWordCell);*/
 		
 		//Company Bank details
 		PdfPCell bankInfocell=new PdfPCell();
