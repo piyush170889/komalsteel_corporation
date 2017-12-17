@@ -226,7 +226,7 @@ public class GeneratePdf {
 		// Transaction total Amount printing
 		//TODO: Add your Total amount of All transaction
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell("Total",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("Total (Round Off)",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(String.valueOf(invoice.getTotalQuantity())+"Pc.",infoFont,Element.ALIGN_CENTER));
@@ -590,7 +590,7 @@ public class GeneratePdf {
 		// Transaction total Amount printing
 		//TODO: Add your Total amount of All transaction
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell("Total",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("Total (Round Off)",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(String.valueOf(invoice.getTotalQuantity())+"Pc.",infoFont,Element.ALIGN_CENTER));

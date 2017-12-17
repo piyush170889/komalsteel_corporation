@@ -252,11 +252,22 @@ public class CommonUtility {
 		for(int i=0; i<emailIds.length; i++) {
 			toAddresses[i] = new InternetAddress(emailIds[i]);
 		}
+		
+		//Set Admin Email ID's as BCC
+		String adminEmailList = configProperties.getProperty("email.admin.list");
+		String[] adminEmailIds = adminEmailList.split(",");
+				
+		InternetAddress[] bccAddresses = new InternetAddress[adminEmailIds.length];
+		for(int i=0; i<adminEmailIds.length; i++) {
+			bccAddresses[i] = new InternetAddress(adminEmailIds[i]);
+		}
+		
 		msg.setRecipients(Message.RecipientType.TO, toAddresses);
+		msg.setRecipients(Message.RecipientType.BCC, bccAddresses);
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
 		
-		// Create a multipar message
+		//Create a multipart message
         Multipart multipart = new MimeMultipart();
 
 		// Create the message part
