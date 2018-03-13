@@ -361,7 +361,7 @@ public class CartServiceImpl implements CartService {
 							float sGstRate = 0; 
 							float sGsttaxAmount = 0;
 							
-							if (gstCode.equalsIgnoreCase("27")) {
+							if (!gstCode.equalsIgnoreCase("27")) {
 								cGstRate = hsnDetails.getcGst();
 								cGsttaxAmount = (float) ((amount * cGstRate)/100);
 								sGstRate = hsnDetails.getsGst(); 
@@ -402,7 +402,7 @@ public class CartServiceImpl implements CartService {
 									}
 								}
 							} else {
-								if (gstCode.equalsIgnoreCase("27")) {
+								if (!gstCode.equalsIgnoreCase("27")) {
 									taxDescription = new TaxDescription(hsnSac, Float.parseFloat(Double.toString(amount)), 
 											cGstRate, cGsttaxAmount, sGstRate, sGsttaxAmount);
 								} else {
@@ -444,7 +444,7 @@ public class CartServiceImpl implements CartService {
 						
 						Invoice invoiceDetails = null;
 						
-						if (gstCode.equalsIgnoreCase("27")) {
+						if (!gstCode.equalsIgnoreCase("27")) {
 							invoiceDetails = new Invoice(Integer.toString(cartDtlsId), todaysDate, Integer.toString(totalItemInCart), 
 									"", "", "", "", todaysDate, cartDetails.getTranNm(), cartDetails.getDestination(), "Komal Trading Corporation", 
 									"komal@vsnl.com", "27AABPB6207H1Z6", "AABPB6207H", "HDFC BANK", "01452560000971", "HDFC0000145", 
@@ -468,7 +468,7 @@ public class CartServiceImpl implements CartService {
 						
 						System.out.println("PDF Filepath: " + pdfFilePath);
 						
-						if (gstCode.equalsIgnoreCase("27")) {
+						if (!gstCode.equalsIgnoreCase("27")) {
 							generatePdf.genearatePDFForMaharashtra(invoiceDetails, pdfFilePath);
 						} else {
 							generatePdf.genearatePDFOutsideMaharashtra(invoiceDetails, pdfFilePath);
@@ -479,7 +479,7 @@ public class CartServiceImpl implements CartService {
 								configProperties.getProperty("order.book.subject"), pdfFilePath);*/
 						
 						//Send Email To Admin about the order
-						commonUtility.sendEmailToAdmin(finalEmailString, 
+						/*commonUtility.sendEmailToAdmin(finalEmailString, 
 								configProperties.getProperty("order.book.subject"));
 						
 						//Send Email To Customer about the order
@@ -489,7 +489,7 @@ public class CartServiceImpl implements CartService {
 						//Send Notification to alternate number
 						messageUtility.sendMessage(cartDetails.getAlternateCntc(), 
 								String.format(configProperties.getProperty("sms.orderplaced.success"), cartDtlsId));
-						
+						*/
 					}
 					return new BaseWrapper();
 				}

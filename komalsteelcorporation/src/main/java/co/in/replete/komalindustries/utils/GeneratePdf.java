@@ -92,13 +92,40 @@ public class GeneratePdf {
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Delivery Note
+		
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Delivery Note",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNote(),infoFont));
+		invoiceDetailsCell.addElement(new Phrase("Mark :" ,defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getMode_TermsPayment(),infoFont));
+		invoiceDetailsCell.setColspan(2);
+		//invoiceDetailsCell.setRowspan(2);
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		//Mode/Terms of Payment
+		//Terms Of Delivery
+		invoiceDetailsCell = new PdfPCell();
+		invoiceDetailsCell.setPaddingBottom(5f);
+		invoiceDetailsCell.addElement(new Phrase("Terms of Delivery",defFont));
+		invoiceDetailsCell.addElement(new Phrase("",infoFont));	
+		invoiceDetailsCell.setColspan(2);
+		//invoiceDetailsCell.setRowspan(2);
+		invoiceDetails.addCell(invoiceDetailsCell);	
+		
+		/*invoiceDetailsCell = new PdfPCell();
+		invoiceDetailsCell.setPaddingBottom(5f);
+		invoiceDetailsCell.addElement(new Phrase("Mark :",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
+		invoiceDetailsCell.setColspan(2);
+		invoiceDetailsCell.setRowspan(4);
+		invoiceDetails.addCell(invoiceDetailsCell);*/
+		
+		/*invoiceDetailsCell = new PdfPCell();
+		invoiceDetailsCell.setPaddingBottom(5f);
+		//invoiceDetailsCell.addElement(new Phrase("Delivery Note",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNote(),infoFont));
+		//invoiceDetailsCell.setColspan(2);
+		invoiceDetails.addCell(invoiceDetailsCell);*/
+		
+		/*//Mode/Terms of Payment
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Mode/Terms of Payment",defFont));
@@ -117,7 +144,7 @@ public class GeneratePdf {
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Other Reference(s)",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getOtherRef(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 		
 		//Buyers Information
 		invoiceDetailsCell = new PdfPCell();
@@ -132,17 +159,14 @@ public class GeneratePdf {
 		invoiceDetailsCell.setRowspan(3);
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		
-		
 		//Despatch Document No.
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Mark: ",defFont));
+		invoiceDetailsCell.addElement(new Phrase("Despatch Document No.: ",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
-		invoiceDetailsCell.setColspan(2);
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		/*//Delivery Note Date
+		//Delivery Note Date
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
@@ -157,21 +181,20 @@ public class GeneratePdf {
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispatchedThrough(),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		
 		//Destination
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Destination",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDestination(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);*/
+		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		//Terms Of Delivery
+		/*//Terms Of Delivery
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Terms of Delivery",defFont));
 		invoiceDetailsCell.addElement(new Phrase("",infoFont));	
 		invoiceDetailsCell.setColspan(2);
-		invoiceDetails.addCell(invoiceDetailsCell);	
+		invoiceDetails.addCell(invoiceDetailsCell);	*/
 		
 		//Add Invoice Details Table
 		document.add(invoiceDetails);
@@ -447,32 +470,64 @@ public class GeneratePdf {
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Delivery Note
+		
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Delivery Note",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNote(),infoFont));
+		invoiceDetailsCell.addElement(new Phrase("Mark. :",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
+		invoiceDetailsCell.setColspan(2);
+		invoiceDetailsCell.setRowspan(4);
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		//Mode/Terms of Payment
-		invoiceDetailsCell = new PdfPCell();
+		/*invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Mode/Terms of Payment",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getMode_TermsPayment(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);
+		//invoiceDetailsCell.addElement(new Phrase("Delivery Note",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNote(),infoFont));
+		invoiceDetails.addCell(invoiceDetailsCell);*/
+		
+		//Mode/Terms of Payment
+		
+		/*invoiceDetailsCell = new PdfPCell();
+		invoiceDetailsCell.setPaddingBottom(5f);
+		//invoiceDetailsCell.addElement(new Phrase("Despatch Document No.:",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
+		invoiceDetailsCell.setColspan(2);
+		invoiceDetailsCell.setRowspan(1);
+		invoiceDetails.addCell(invoiceDetailsCell);*/
+		
+		/*invoiceDetailsCell = new PdfPCell();
+		invoiceDetailsCell.setPaddingBottom(5f);
+		//invoiceDetailsCell.addElement(new Phrase("Mode/Terms of Payment",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getMode_TermsPayment(),infoFont));
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 
 		//Supplier’s Ref.
-		invoiceDetailsCell = new PdfPCell();
+		/*invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Supplier’s Ref.",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getSupplierRef(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);
+		//invoiceDetailsCell.addElement(new Phrase("Despatch Document No.:",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
+		invoiceDetailsCell.setColspan(2);
+		invoiceDetails.addCell(invoiceDetailsCell);*/
+		
+		/*invoiceDetailsCell = new PdfPCell();
+		invoiceDetailsCell.setPaddingBottom(5f);
+		//invoiceDetailsCell.addElement(new Phrase("Supplier’s Ref.",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getSupplierRef(),infoFont));
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 
 		//Other Reference(s)
-		invoiceDetailsCell = new PdfPCell();
+		/*invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Other Reference(s)",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getOtherRef(),infoFont));
+		//invoiceDetailsCell.addElement(new Phrase("Despatch Document No.:",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
+		invoiceDetailsCell.setColspan(2);
 		invoiceDetails.addCell(invoiceDetailsCell);
+		*/
+		/*invoiceDetailsCell = new PdfPCell();
+		invoiceDetailsCell.setPaddingBottom(5f);
+		//invoiceDetailsCell.addElement(new Phrase("Other Reference(s)",defFont));
+		//invoiceDetailsCell.addElement(new Phrase(invoice.getOtherRef(),infoFont));
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 		
 		//Buyers Information
 		invoiceDetailsCell = new PdfPCell();
@@ -492,19 +547,19 @@ public class GeneratePdf {
 		//Despatch Document No.
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Mark:",defFont));
+		invoiceDetailsCell.addElement(new Phrase("Despatch Document No.:",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
-		invoiceDetailsCell.setColspan(2);
+		//invoiceDetailsCell.setColspan(2);
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		/*//Delivery Note Date
+		//Delivery Note Date
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		//invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
-		//invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNoteDate(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);*/
+		invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
+		invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNoteDate(),infoFont));
+		invoiceDetails.addCell(invoiceDetailsCell);
 		
-		/*
+		
 		//Despatched through
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
@@ -518,7 +573,7 @@ public class GeneratePdf {
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Destination",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDestination(),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);*/
+		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Terms Of Delivery
 		invoiceDetailsCell = new PdfPCell();
