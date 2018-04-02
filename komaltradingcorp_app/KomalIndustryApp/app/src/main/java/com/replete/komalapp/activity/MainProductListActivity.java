@@ -615,14 +615,14 @@ public class MainProductListActivity extends AppCompatActivity implements Naviga
             progressBar.setVisibility(View.VISIBLE);
         previousPageNo = currentPageNo;
         progressbarFooter.setVisibility(View.VISIBLE);
-        Log.d(TAG, "url=" + ConfigUrls.URL_GET_CATEGORY + currentPageNo);
+        Log.d(TAG, "url= get category" + ConfigUrls.URL_GET_CATEGORY + currentPageNo);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.GET, ConfigUrls.URL_GET_CATEGORY + currentPageNo,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, ConfigUrls.URL_GET_CATEGORY + currentPageNo);
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG, "url= get category  "+ConfigUrls.URL_GET_CATEGORY + currentPageNo);
+                        Log.d(TAG, "response get category  " + response.toString());
                         textViewPullUpMsg.setVisibility(View.VISIBLE);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");

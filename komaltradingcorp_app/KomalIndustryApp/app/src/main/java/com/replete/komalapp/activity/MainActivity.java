@@ -2,13 +2,10 @@ package com.replete.komalapp.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +14,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -157,12 +152,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         progressBar.setVisibility(View.VISIBLE);
         String tag_string_req = "json_req";
         count++;
+        Log.d(" URL MAIN SUB ACTIVITY", ConfigUrls.URL_GET_SUBCATEGORY_OF_CATEGORY + itemId);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.GET, ConfigUrls.URL_GET_SUBCATEGORY_OF_CATEGORY + itemId,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(final JSONObject response) {
-                        Log.d(TAG, response.toString());
+
+                        Log.d("URL_GET_SUBCATEGORY_OF_CATEGORY MAIN ACTIVITY", response.toString());
                         Category category = null;
 
                         SubCategory subCategory = null;
@@ -465,7 +462,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG + "  URL_GET_PRODUCT_LIST", ConfigUrls.URL_GET_PRODUCT_LIST + "56");
+                        Log.d(TAG + "  URL_GET_PRODUCT_LIST", response.toString());
                         Category category = null;
 
                         SubCategory subCategory = null;
@@ -486,6 +484,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     e.printStackTrace();
                                 }
                                 int versionCode = pInfo.versionCode;
+                                System.out.println("versionCode  " + versionCode);
+
 
                                 if (versionCode == Integer.parseInt(appVersion)) {
 

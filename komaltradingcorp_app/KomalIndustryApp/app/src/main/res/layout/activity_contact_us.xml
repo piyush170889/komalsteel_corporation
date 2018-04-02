@@ -195,12 +195,11 @@
                         android:id="@+id/imageView_cust_call_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/textView_cust_care_no"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="5dp"
                         android:src="@drawable/ic_call_support"
-                        android:tint="@color/primary" />
+                        android:tint="@color/primary"
+                        android:layout_alignBottom="@+id/textView_cust_care_no"
+                        android:layout_alignLeft="@+id/imageViewTellCall"
+                        android:layout_alignStart="@+id/imageViewTellCall" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 

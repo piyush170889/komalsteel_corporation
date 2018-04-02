@@ -30,10 +30,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.replete.komalapp.Config.AppController;
 import com.replete.komalapp.Config.ConfigUrls;
 import com.replete.komalapp.R;
-import com.replete.komalapp.StaggeredGridView.StaggeredGridView;
 import com.replete.komalapp.helper.DatabaseHandler;
 import com.replete.komalapp.recyclerutils.State;
-import com.replete.komalapp.rowitem.AssociatedDistributor;
 import com.replete.komalapp.rowitem.ShippingAddress;
 import com.replete.komalapp.utils.SingletonUtil;
 
@@ -61,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Spinner spinnerCity;
 
     private EditText editTextFirstName, editTextEmail, editTextContactNo, editTextDisplayName, editTextPanNo,
-            editTextVatTinNo, editTextUserType;
+            editTextVatTinNo,editTextGSTNo, editTextUserType;
     private Button buttonSave;
     DatabaseHandler databaseHandler = new DatabaseHandler(this);
     //    SharedPreferences tempSharedPref;
@@ -130,7 +128,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-
+        swEditProfile.setChecked(true);
         swEditProfile.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -189,15 +187,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         editTextVatTinNo = (EditText) findViewById(R.id.input_vat_tin_no);
         editTextUserType = (EditText) findViewById(R.id.input_user_type);
         swEditProfile = (SwitchCompat) findViewById(R.id.swEditProfile);
+        editTextGSTNo = (EditText)findViewById(R.id.input_gst_no);
+
+//        input_layout_gst_no
         progressBar = ((ProgressBar) findViewById(R.id.progress_bar));
         textView_change_password_link = (TextView) findViewById(R.id.textView_change_password_link);
 //        textView_change_associated_distributor_link = ((TextView) findViewById(R.id.textView_change_associated_distributor_link));
         textView_change_password_link.setOnClickListener(this);
         buttonSave = (Button) findViewById(R.id.button_update);
         buttonSave.setOnClickListener(this);
-
-        buttonSave.setEnabled(false);
-        buttonSave.setClickable(false);
+//SHRADHA CHANGES
+//        buttonSave.setEnabled(false);
+//        buttonSave.setClickable(false);
 
         userDetails = databaseHandler.getUserDetails();
         stateList = new ArrayList<>();
@@ -262,6 +263,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         editTextPinCode.setFocusable(value);
         editTextPinCode.setCursorVisible(value);
 
+        editTextGSTNo.setFocusableInTouchMode(value);
+        editTextGSTNo.setFocusable(value);
+        editTextGSTNo.setCursorVisible(value);
+
+
         editTextAddress.setFocusableInTouchMode(value);
         editTextAddress.setFocusable(value);
         editTextAddress.setCursorVisible(value);
@@ -296,6 +302,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         String firstName = editTextFirstName.getText().toString();
         String lastName = editTextLastName.getText().toString();
         String pincode = editTextPinCode.getText().toString();
+        String GstNo =  editTextGSTNo.getText().toString();
 //        String city = spinnerCity.getSelectedItem().toString();
 //        String state = editTextState.getText().toString();
 //        String city=spinnerCity.getSelectedItem().toString();
@@ -312,6 +319,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             valid = false;
         } else
             editTextPinCode.setError(null);
+
+
+        if (GstNo.isEmpty() || GstNo.length() < 3) {
+            editTextGSTNo.setError(Html.fromHtml("<font color='red'>Please enter GST</font>"));
+            requestFocus(editTextGSTNo);
+            valid = false;
+        } else
+            editTextGSTNo.setError(null);
 
 
 
@@ -447,6 +462,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             requestJson.put("address", editTextAddress.getText().toString());
             requestJson.put("city", spinnerCity.getSelectedItem().toString() == null ? "" : spinnerCity.getSelectedItem().toString());
             requestJson.put("state", spinnerState.getSelectedItem().toString() == null ? "" : spinnerState.getSelectedItem().toString());
+            requestJson.put("gstNo", editTextGSTNo.getText().toString());
+
 
             requestJson.put("mark", editTextMark.getText().toString());
             requestJson.put("destination", editTextDestination.getText().toString());
@@ -454,7 +471,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
             finalObject.put("request", requestJson);
-            Log.d(TAG, "finalObject" + finalObject.toString());
+            Log.d(TAG + " update profile", "finalObject" + finalObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -463,8 +480,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        Log.d(TAG, ConfigUrls.URL_UPDATE_PROFILE + userTrackId);
+                        Log.d(TAG+ " update profile", response.toString());
+                        Log.d(TAG+ " update profile", ConfigUrls.URL_UPDATE_PROFILE + userTrackId);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
                             progressBar.setVisibility(View.GONE);
@@ -475,7 +492,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 ShippingAddress shippingAddress = new ShippingAddress(shippingAddressId, updatedResponseObj.getString("pincode"), updatedResponseObj.getString("address"),
                                         updatedResponseObj.getString("city"), updatedResponseObj.getString("state"),
                                         updatedResponseObj.getString("mark"), updatedResponseObj.getString("destination"), updatedResponseObj.getString("tranNm")
-                                        , updatedResponseObj.getString("tinNo"));
+                                        , updatedResponseObj.getString("tinNo"),updatedResponseObj.getString("gstNo"));
                                 databaseHandler.addShippingAddress(shippingAddress);
 
 //                                setUserDetailsFromDB();
@@ -516,9 +533,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG,"Get profile response  " +  response.toString());
 
-                        Log.d(TAG, "onResponse: " + ConfigUrls.URL_GET_PROFILE + userDetails.get("userTrackId"));
+                        Log.d(TAG, "get profile url onResponse: " + ConfigUrls.URL_GET_PROFILE + userDetails.get("userTrackId"));
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
                             progressBar.setVisibility(View.GONE);
@@ -572,7 +589,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 editTextMark.setText(userDetailsObj.getString("mark") == "null" ? "" : userDetailsObj.getString("mark"));
                                 editTextDestination.setText(userDetailsObj.getString("destination") == "null" ? "" : userDetailsObj.getString("destination"));
                                 editTextTransporterName.setText(userDetailsObj.getString("tranNm") == "null" ? "" : userDetailsObj.getString("tranNm"));
-
+                                editTextGSTNo.setText(userDetailsObj.getString("gstNo") == "null" ? "" : userDetailsObj.getString("gstNo"));
 //                                editTextState.setText(userDetailsObj.getString("state") == "null" ? "" : userDetailsObj.getString("state"));
 //                                editTextCity.setText(userDetailsObj.getString("city") == "null" ? "" : userDetailsObj.getString("city"));
 
@@ -604,7 +621,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 ShippingAddress shippingAddress = new ShippingAddress(shippingAddressId, userDetailsObj.getString("postalCode"), userDetailsObj.getString("stAddress1"),
                                         userDetailsObj.getString("city"), userDetailsObj.getString("state"),
                                         userDetailsObj.getString("mark"), userDetailsObj.getString("destination"), userDetailsObj.getString("tranNm"),
-                                        userDetailsObj.getString("tinNo"));
+                                        userDetailsObj.getString("tinNo"), userDetailsObj.getString("gstNo"));
                                 databaseHandler.addShippingAddress(shippingAddress);
 /*
                                 if (userDetailsObj.getString("userType").equals(getString(R.string.USER_TYPE_DEALER))) {
@@ -613,7 +630,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 } else {
                                     textView_change_associated_distributor_link.setVisibility(View.GONE);
                                 }*/
-                                showHideEditTexts(false);
+                                showHideEditTexts(true);
                             } else
                                 singletonUtil.showSnackBar(responseObj.getString("message"), (RelativeLayout) findViewById(R.id.relativeLayoutParent));
                         } catch (JSONException e) {
@@ -645,7 +662,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG , "GET STATE " + response.toString());
                         progressBar.setVisibility(View.GONE);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
@@ -739,12 +756,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "GET CITY URL  " + url.toString());
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.GET, url.toString(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG, "GET CITY  " + response.toString());
+
                         progressBar.setVisibility(View.GONE);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");

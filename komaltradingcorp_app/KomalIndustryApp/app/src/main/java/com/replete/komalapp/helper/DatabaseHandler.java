@@ -2,18 +2,15 @@ package com.replete.komalapp.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.replete.komalapp.rowitem.AssociatedDistributor;
-import com.replete.komalapp.rowitem.CartProductNSubCategories;
 import com.replete.komalapp.rowitem.CartProducts;
 import com.replete.komalapp.rowitem.CartSubcategoryInfo;
 import com.replete.komalapp.rowitem.ShippingAddress;
-import com.replete.komalapp.rowitem.SubCategory;
 import com.replete.komalapp.utils.SingletonUtil;
 
 import java.util.ArrayList;
@@ -67,6 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private final String DESTINATION = "destination";
     private final String TRANSPORTER_NAME = "transporterName";
     private final String VAT_TIN_NO = "vatTinNo";
+    private final String GST_NO = "gstNo";
 
     // User Details Table Columns names
     private final String USER_ID = "userTrackId";
@@ -131,7 +129,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 MARK + " TEXT, " +
                 DESTINATION + " TEXT, " +
                 TRANSPORTER_NAME + " TEXT, " +
-                VAT_TIN_NO + " TEXT" +
+                VAT_TIN_NO + " TEXT, " +
+                GST_NO + " TEXT" +
                 ") ";
         Log.d("SQLiteHandler", CREATE_SHIPPING_ADDRESS_TABLE);
         db.execSQL(CREATE_SHIPPING_ADDRESS_TABLE);
@@ -353,6 +352,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(DESTINATION, shippingAddress.getDestination());
         values.put(TRANSPORTER_NAME, shippingAddress.getTransporterName());
         values.put(VAT_TIN_NO, shippingAddress.getVatTinNo());
+        values.put(GST_NO,shippingAddress.getGSTNo());
         // Inserting Row
         db.insert(TABLE_SHIPPING_ADDRESS, null, values);
         Log.d(TAG, TABLE_SHIPPING_ADDRESS + values);
@@ -363,17 +363,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ShippingAddress getShippingAddress() {
         ShippingAddress shippingAddress = null;
         SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.query(TABLE_SHIPPING_ADDRESS,
+//                new String[]{ADDRESS_ID,
+//                        PINCODE, ADDRESS, CITY, STATE,
+//                        MARK, DESTINATION, TRANSPORTER_NAME, VAT_TIN_NO},
+//                null, null, null, null, null, null);
         Cursor cursor = db.query(TABLE_SHIPPING_ADDRESS,
                 new String[]{ADDRESS_ID,
                         PINCODE, ADDRESS, CITY, STATE,
-                        MARK, DESTINATION, TRANSPORTER_NAME, VAT_TIN_NO},
+                        MARK, DESTINATION, TRANSPORTER_NAME, VAT_TIN_NO, GST_NO},
                 null, null, null, null, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
                     shippingAddress = new ShippingAddress(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                             cursor.getString(5), cursor.getString(6)
-                            , cursor.getString(7), cursor.getString(8));
+                            , cursor.getString(7), cursor.getString(8),cursor.getString(9));
                 } while (cursor.moveToNext());
             }
         }

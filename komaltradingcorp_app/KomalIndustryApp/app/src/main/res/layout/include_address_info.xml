@@ -136,6 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView_mark"
+
             android:layout_toEndOf="@+id/textView_destination_title"
             android:layout_toRightOf="@+id/textView_destination_title"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -172,6 +173,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView_transporter_name"
             android:text="Vat Tin No: "
+            android:visibility="gone"
             android:textAllCaps="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/primary_dark" />
@@ -181,11 +183,40 @@
             android:id="@+id/textView_vat_tin_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_below="@+id/textView_transporter_name"
             android:layout_toEndOf="@+id/textView_vat_tin_title"
             android:layout_toRightOf="@+id/textView_vat_tin_title"
             android:text=""
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+        <TextView
+            android:id="@+id/textView_gst_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_vat_tin_no"
+            android:text="GST No: "
+            android:visibility="gone"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primary_dark" />
+
+
+        <TextView
+            android:id="@+id/textView_gst_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_below="@+id/textView_vat_tin_no"
+            android:layout_toEndOf="@+id/textView_gst_title"
+            android:layout_toRightOf="@+id/textView_gst_title"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
 
 
         <ImageView
@@ -365,7 +396,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_mark"
                 android:imeOptions="actionNext"
-                android:inputType="text"
+                android:inputType="text|textCapCharacters"
+
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -383,7 +415,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_destination"
                 android:imeOptions="actionNext"
-                android:inputType="text"
+                android:inputType="text|textCapCharacters"
+
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -403,7 +436,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_transprter_name"
                 android:imeOptions="actionNext"
-                android:inputType="text"
+
+                android:inputType="text|textCapCharacters"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -420,6 +454,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_vat_tin_no"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:visibility="gone"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+
+            <EditText
+                android:id="@+id/input_gst_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_gst_no"
+                android:visibility="gone"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:singleLine="true"

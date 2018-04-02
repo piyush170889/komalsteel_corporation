@@ -199,7 +199,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            requestJson.put("userType", radiobtn.getText().toString());
             requestJson.put("cmpnyInfoId", "56");
             finalObject.put("request", requestJson);
-            Log.d(TAG, "finalObject" + finalObject.toString());
+            Log.d(TAG + "login ", "finalObject" + finalObject.toString());
             Log.d(TAG, ConfigUrls.URL_LOGIN);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, ConfigUrls.URL_LOGIN);
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG+ "login", response.toString());
 
                         progressBar.setVisibility(View.GONE);
 
@@ -444,8 +444,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        Log.d(TAG, "onResponse: URL=" + ConfigUrls.URL_FORGET_PASSWORD + contactNo + "/");
+                        Log.d(TAG + "Forgot password", response.toString());
+                        Log.d(TAG + "Forgot password", "onResponse: URL=" + ConfigUrls.URL_FORGET_PASSWORD + contactNo + "/");
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
                             progressBar.setVisibility(View.GONE);

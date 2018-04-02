@@ -13,8 +13,11 @@ public class ShippingAddress {
     private String destination;
     private String transporterName;
     private String vatTinNo;
+    private String GSTNo;
 
-    public ShippingAddress(int shippingAddressId, String pincode, String address, String city, String state, String mark, String destination, String transporterName, String vatTinNo) {
+    public ShippingAddress(int shippingAddressId, String pincode, String address, String city,
+                           String state, String mark, String destination, String transporterName,
+                           String vatTinNo, String GSTNo) {
         this.shippingAddressId = shippingAddressId;
         this.pincode = pincode;
         this.address = address;
@@ -24,8 +27,28 @@ public class ShippingAddress {
         this.destination = destination;
         this.transporterName = transporterName;
         this.vatTinNo = vatTinNo;
+        this.GSTNo = GSTNo;
+    }
+    //    public ShippingAddress(int shippingAddressId, String pincode, String address, String city, String state, String mark, String destination, String transporterName, String vatTinNo) {
+//        this.shippingAddressId = shippingAddressId;
+//        this.pincode = pincode;
+//        this.address = address;
+//        this.city = city;
+//        this.state = state;
+//        this.mark = mark;
+//        this.destination = destination;
+//        this.transporterName = transporterName;
+//        this.vatTinNo = vatTinNo;
+//    }
+
+
+    public String getGSTNo() {
+        return GSTNo;
     }
 
+    public void setGSTNo(String GSTNo) {
+        this.GSTNo = GSTNo;
+    }
 
     public String getPincode() {
         return pincode;

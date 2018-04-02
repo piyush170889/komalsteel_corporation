@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_mark"
                 android:imeOptions="actionNext"
-                android:inputType="text"
+                android:inputType="text|textCapCharacters"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_destination"
                 android:imeOptions="actionNext"
-                android:inputType="text"
+                android:inputType="text|textCapCharacters"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_transprter_name"
                 android:imeOptions="actionNext"
-                android:inputType="text"
+                android:inputType="text|textCapCharacters"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -88,6 +88,7 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_vat_tin_no"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_layout_pan_no">
 
@@ -103,6 +104,25 @@
                 android:textSize="14sp" />
         </android.support.design.widget.TextInputLayout>
 
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_gst_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_below="@+id/input_layout_pan_no">
+
+            <EditText
+                android:id="@+id/input_gst_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_gst_no"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

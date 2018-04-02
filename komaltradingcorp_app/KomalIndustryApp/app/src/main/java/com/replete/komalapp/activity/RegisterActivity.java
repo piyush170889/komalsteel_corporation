@@ -169,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //            requestJson.put("vatTinNo", editTextVatTinNo.getText().toString());
 //            requestJson.put("panNo", editTextPANNo.getText().toString());
             finalObject.put("userDetails", requestJson);
-            Log.d(TAG, "finalObject" + finalObject.toString());
+            Log.d(TAG + " register", "finalObject" + finalObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -178,7 +178,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG+ " register", response.toString());
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
                             progressBar.setVisibility(View.GONE);

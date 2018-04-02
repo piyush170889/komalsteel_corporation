@@ -133,14 +133,14 @@ public class VerifyContactActivity extends AppCompatActivity implements BaseInte
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "finalJsonObject=" + finalJsonObject);
+        Log.d(TAG + " send otp", "finalJsonObject=" + finalJsonObject);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.POST, ConfigUrls.URL_SEND_OTP, finalJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG+ " send otp", response.toString());
 //                        buttonVerifyContact.setEnabled(true);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");

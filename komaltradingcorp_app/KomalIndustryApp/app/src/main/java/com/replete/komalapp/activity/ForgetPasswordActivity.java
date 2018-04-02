@@ -160,7 +160,7 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
             requestJson.put("cellNumber", contactNo);
             requestJson.put("otp", otp);
             requestJson.put("newPassword", newPassword);
-            Log.d(TAG, "finalObject" + requestJson.toString());
+            Log.d(TAG, "finalObject reset password" + requestJson.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -170,7 +170,8 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG, "response reset password  " + response.toString());
+                        Log.d(TAG, "URL  reset password  " + ConfigUrls.URL_RESET_PASSWORD);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
                             progressBar.setVisibility(View.GONE);

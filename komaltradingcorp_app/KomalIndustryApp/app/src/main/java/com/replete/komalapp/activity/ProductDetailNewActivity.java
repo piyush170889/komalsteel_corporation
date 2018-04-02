@@ -1043,8 +1043,8 @@ public class ProductDetailNewActivity extends AppCompatActivity implements View.
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        Log.d(TAG, response.toString());
-                        Log.d(TAG, "onResponse: " + finalUrl.toString());
+                        Log.d(TAG + "  URL_GET_PRODUCT_DETAILS", response.toString());
+                        Log.d(TAG+ "  URL_GET_PRODUCT_DETAILS", "onResponse: " + finalUrl.toString());
 
                         progressBar.setVisibility(View.GONE);
                         try {

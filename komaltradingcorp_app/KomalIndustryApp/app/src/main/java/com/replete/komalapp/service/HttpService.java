@@ -62,14 +62,14 @@ public class HttpService extends IntentService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "finalJsonObject=" + finalJsonObject);
+        Log.d(TAG+ " confirm otp", "finalJsonObject=" + finalJsonObject);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.POST, ConfigUrls.URL_CONFIRM_OTP,jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG + " confirm otp", response.toString());
 //                        buttonVerifyContact.setEnabled(false);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");

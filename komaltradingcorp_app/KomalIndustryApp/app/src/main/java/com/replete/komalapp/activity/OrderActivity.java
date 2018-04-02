@@ -215,8 +215,8 @@ public class OrderActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        Log.d(TAG, "url=" + ConfigUrls.URL_GET_ORDER_STATUS + userTrackId + "/" + page_No);
+                        Log.d(TAG + "  get order status", response.toString());
+                        Log.d(TAG+ "  get order status", "url=" + ConfigUrls.URL_GET_ORDER_STATUS + userTrackId + "/" + page_No);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
                             if (responseObj.getString("status").equals("200")) {

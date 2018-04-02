@@ -5,9 +5,11 @@ package com.replete.komalapp.Config;
  */
 public class ConfigUrls {
 
-//    public static String IP = "http://192.168.0.104:8080/basemodule";//test url
+//    public static String IP = "http://192.168.0.112:81/basemodule";//test url
 
-    public static String IP = "http://66.45.245.70:81/komal";//new live url
+    //    public static String IP = "http://66.45.245.70:81/komal";//new live
+    public static String IP = "http://132.148.151.28:8080/komal";//new live
+//    public static String IP = "http://66.45.245.70:81/komaltest";//sample live url
 //    public static String IP = "http://ko|malindustriesportal-env.us-west-2.elasticbeanstalk.com";//live url
 
     //        public static String IP = "http://komalindustries-env.us-west-2.elasticbeanstalk.com";
@@ -36,6 +38,8 @@ public class ConfigUrls {
     public static final String URL_GET_SUBCATEGORY_OF_CATEGORY = IP + "/categoryandsubcategorydetailsbycategoryid/";
     public static final String URL_GET_STATE = IP + "/getStateList";
     public static final String URL_GET_CITY = IP + "/getCityList";
+    public static final String URL_GST = IP + "/gst";
+
 
     // SMS provider identification
     // It should match with your SMS gateway origin
@@ -47,3 +51,4 @@ public class ConfigUrls {
 
 
 }
+

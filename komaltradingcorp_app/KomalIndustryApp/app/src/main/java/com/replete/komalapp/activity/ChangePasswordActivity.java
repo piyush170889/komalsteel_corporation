@@ -168,7 +168,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             requestJson.put("oldPassWord", editTextOldPassword.getText().toString());
             requestJson.put("newPassword", editTextPassword.getText().toString());
             finalObject.put("request", requestJson);
-            Log.d(TAG, "finalObject" + finalObject.toString());
+            Log.d(TAG + " change password", "finalObject" + finalObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -178,7 +178,8 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.d(TAG+ " change password", response.toString());
+                        Log.d(TAG+ " change password", "URL==> " +ConfigUrls.URL_CHANGE_PASSWORD + userDetails.get("userTrackId"));
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
 //                            progressBar.setVisibility(View.GONE);

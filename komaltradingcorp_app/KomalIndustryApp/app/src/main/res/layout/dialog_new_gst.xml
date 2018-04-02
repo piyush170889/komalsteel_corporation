@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="@color/white">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/primary_dark"
+            android:gravity="center_horizontal"
+            android:padding="15dp"
+            android:text="Enter GST No"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+
+
+
+
+
+
+
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_gst_no2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/input_layout_pan_no">
+
+            <EditText
+                android:id="@+id/input_gst_no2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_gst_no"
+                android:imeOptions="actionDone"
+                android:inputType="text|textCapCharacters"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@color/primary"
+                android:text="Cancel"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btnOK"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@color/primary"
+                android:text="OK"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>

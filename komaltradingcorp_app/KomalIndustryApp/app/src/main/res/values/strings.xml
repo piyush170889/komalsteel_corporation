@@ -51,7 +51,9 @@
     <string name="hint_display_name">Display Name</string>
     <string name="hint_pan_no">PAN No.</string>
     <string name="hint_vat_tin_no">VAT TIN No.</string>
+    <string name="hint_gst_no">GST No.*</string>
     <string name="hint_user_type">User Type*</string>
+
     <string name="USER_TYPE_DEALER">Dealer</string>
     <string name="USER_TYPE_DISTRIBUTOR">Distributor</string>
     <string name="check_net_connection">Please check internet connection</string>

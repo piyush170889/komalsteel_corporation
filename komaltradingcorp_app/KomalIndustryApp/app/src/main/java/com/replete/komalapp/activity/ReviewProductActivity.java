@@ -46,10 +46,10 @@ import com.replete.komalapp.Config.ConfigUrls;
 import com.replete.komalapp.Config.Constants;
 import com.replete.komalapp.R;
 import com.replete.komalapp.helper.DatabaseHandler;
+import com.replete.komalapp.recyclerutils.ReviewProductsNSubcategoriesAdapter;
 import com.replete.komalapp.recyclerutils.State;
 import com.replete.komalapp.rowitem.CartProductNSubCategories;
 import com.replete.komalapp.rowitem.CartProducts;
-import com.replete.komalapp.recyclerutils.ReviewProductsNSubcategoriesAdapter;
 import com.replete.komalapp.rowitem.CartSubcategoryInfo;
 import com.replete.komalapp.rowitem.ShippingAddress;
 import com.replete.komalapp.utils.SimpleDividerItemDecoration;
@@ -63,7 +63,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +88,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
     private String vat;
     private int count = 0;
     private boolean isOrderPlaced = false;
+    private String updatedGSt;
 
     private BadgeStyle style = ActionItemBadge.BadgeStyles.GREY.getStyle();
 
@@ -107,7 +107,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
     private double finalAmount;
     private ImageView imageViewEditAddress;
     private JSONArray cartJsonArray;
-
+    private EditText input_dialog_gst2;
     private ProgressBar progressBar;
     private EditText editTextPinCode;
     private EditText editTextAddress;
@@ -129,12 +129,15 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
     private TextView textView_destination;
     private TextView textView_transporter_name;
     private TextView textViewVatTinNo;
+    private TextView textView_GST;
     private int shippingAddressId;
     private EditText input_dialog_mark;
+    private EditText input_dialog_gst;
     private EditText input_dialog_destination;
     private EditText input_dialog_transName;
     private EditText input_dialog_vat_tin_no;
     private EditText input_mark;
+    private EditText input_gst_no;
     private EditText input_destination;
     private EditText input_transName;
     private EditText input_vat_tin_no;
@@ -287,6 +290,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
         editTextPinCode = (EditText) findViewById(R.id.input_pincode);
         editTextAddress = (EditText) findViewById(R.id.input_address);
         input_mark = (EditText) findViewById(R.id.input_mark);
+        input_gst_no = (EditText) findViewById(R.id.input_gst_no);
         input_destination = (EditText) findViewById(R.id.input_destination);
         input_transName = (EditText) findViewById(R.id.input_transName);
         input_vat_tin_no = (EditText) findViewById(R.id.input_vat_tin_no);
@@ -311,6 +315,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
         textView_destination = (TextView) findViewById(R.id.textView_destination);
         textView_transporter_name = (TextView) findViewById(R.id.textView_transporter_name);
         textViewVatTinNo = (TextView) findViewById(R.id.textView_vat_tin_no);
+        textView_GST = (TextView) findViewById(R.id.textView_gst_no);
 
 //        textViewServiceCharges = (TextView) findViewById(R.id.textView_service_tax);
 //        textViewVat = (TextView) findViewById(R.id.textView_vat);
@@ -437,22 +442,30 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
 
                     } else if (spinnerCity.getSelectedItem().toString().equals(SELECT_CITY)) {
                         Toast.makeText(this, "Please select city name", Toast.LENGTH_SHORT).show();
+                    } else if (shippingAddressFromDb.getGSTNo().toString().equals("")) {
+                        callTOGSTDialog();
                     } else {
 //                        String paymentGateway;
 //                        paymentMode = "COD";
 //                        paymentGateway = "";
+//                        *************
 
 
                         callForPlaceOrder();
                         break;
                     }
                 } else {
+//                    input_gst_no textView_GST
+                    if (shippingAddressFromDb.getGSTNo().toString().equals("")) {
+                        callTOGSTDialog();
+                    } else {
                      /*if shipping address fetched from db*/
 //                    String paymentGateway;
 //                    paymentMode = "COD";
 //                    paymentGateway = "";
 
-                    callForPlaceOrder();
+                        callForPlaceOrder();
+                    }
                     break;
                 }
         }
@@ -474,6 +487,12 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
         input_dialog_destination = (EditText) mDialogView.findViewById(R.id.input_destination);
         input_dialog_transName = (EditText) mDialogView.findViewById(R.id.input_transName);
         input_dialog_vat_tin_no = (EditText) mDialogView.findViewById(R.id.input_vat_tin_no);
+        input_dialog_gst = (EditText) mDialogView.findViewById(R.id.input_gst_no);
+
+        input_dialog_mark.setText(textView_mark.getText().toString());
+        input_dialog_destination.setText(textView_destination.getText().toString());
+        input_dialog_transName.setText(textView_transporter_name.getText().toString());
+        input_dialog_gst.setText(textView_GST.getText().toString());
 
 //        dialogprogressBar = ((ProgressBar) mDialogView.findViewById(R.id.progress_bar));
 
@@ -499,6 +518,8 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
 
                     isDefaultAddress = false;
                     textView_mark.setText(input_dialog_mark.getText().toString());
+                    textView_GST.setText(input_dialog_gst.getText().toString());
+
 //                    textViewEmail.setText(input_dialog_mark.getText().toString());
                     textView_destination.setText(input_dialog_destination.getText().toString());
                     textView_transporter_name.setText(input_dialog_transName.getText().toString());
@@ -525,7 +546,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
     private void callForPlaceOrder() {
         if (SingletonUtil.getSingletonConfigInstance().isConnectingToInternet(ReviewProductActivity.this)) {
 
-            final String pincode, city, state, address, mark, destination, transporterName, vatTinNo;
+            final String pincode, city, state, address, mark, destination, transporterName, vatTinNo, GST;
             //            if (shippingAddressFromDb == null || (shippingAddressFromDb.getCity().equals("null") || shippingAddressFromDb.getAddress().equals("null") || shippingAddressFromDb.getPincode().equals("null") || shippingAddressFromDb.getState().equals("null"))) {
             if (isEmptyShippingAddress) {
                 /*fetch from edittext in case of shipping adress empty*/
@@ -534,11 +555,14 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                 city = spinnerCity.getSelectedItem().toString() == null ? "" : spinnerCity.getSelectedItem().toString();
                 state = spinnerState.getSelectedItem().toString() == null ? "" : spinnerCity.getSelectedItem().toString();
                 mark = input_mark.getText().toString();
+                GST = updatedGSt;
+//                GST = input_gst_no.getText().toString();
                 destination = input_destination.getText().toString();
                 transporterName = input_transName.getText().toString();
                 vatTinNo = input_vat_tin_no.getText().toString();
 
             } else {
+
                 /*shipping adress is not empty*/
 //                isShippingInfoFromText = false;
                /* pincode = shippingAddressFromDb.getPincode();
@@ -549,12 +573,12 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                 destination = shippingAddressFromDb.getDestination();
                 transporterName = shippingAddressFromDb.getTransporterName();
                 vatTinNo = shippingAddressFromDb.getVatTinNo();*/
-
+                GST = updatedGSt;
                 pincode = shippingAddressFromDb.getPincode();
                 address = textViewAddress.getText().toString();
                 city = textViewCity.getText().toString();
                 state = textViewState.getText().toString();
-
+//                GST = textView_GST.getText().toString();
                 mark = textView_mark.getText().toString();
                 destination = textView_destination.getText().toString();
                 transporterName = textView_transporter_name.getText().toString();
@@ -572,12 +596,19 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
             removeItemDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+
+
+//                    if(textView_GST.getText().toString().equals("") || textView_GST.getText()== null)
+//                    {
+//                    }
+//                    else {
                     buttonProceed.setClickable(false);
                     callToOrder(pincode,
                             address,
                             city,
-                            state, mark, destination, transporterName, vatTinNo, userContactNo,
+                            state, mark, GST, destination, transporterName, vatTinNo, userContactNo,
                             editTextCartNote.getText().toString().isEmpty() ? "" : editTextCartNote.getText().toString());
+//                    }
 
                 }
             });
@@ -619,6 +650,56 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
     }
 
 
+    public void callTOGSTDialog() {
+        final AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(ReviewProductActivity.this);
+        LayoutInflater inflater = ReviewProductActivity.this.getLayoutInflater();
+        // inflate the custom dialog view
+        final View mDialogView = inflater.inflate(R.layout.dialog_new_gst, null);
+        // set the View for the AlertDialog
+        mAlertDialogBuilder.setView(mDialogView);
+
+        TextView textViewTitle = (TextView) mDialogView.findViewById(R.id.textViewTitle);
+        textViewTitle.setText("Enter GST No");
+        input_dialog_gst2 = (EditText) mDialogView.findViewById(R.id.input_gst_no2);
+
+//        dialogprogressBar = ((ProgressBar) mDialogView.findViewById(R.id.progress_bar));
+
+        Button dialogBtnOk = (Button) mDialogView.findViewById(R.id.btnOK);
+        Button btnCancel = (Button) mDialogView.findViewById(R.id.btnCancel);
+        final AlertDialog alertDialog = mAlertDialogBuilder.create();
+
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+
+        dialogBtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!validateDialogGST())
+                    Toast.makeText(ReviewProductActivity.this, "Please enter GST No", Toast.LENGTH_SHORT).show();
+                else {
+                    updateGST(input_dialog_gst2.getText().toString());
+                    isDefaultAddress = false;
+//                    textView_GST.setText(input_dialog_gst2.getText().toString());
+
+                    alertDialog.dismiss();
+                }
+
+            }
+
+        });
+
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                alertDialog.dismiss();
+            }
+
+        });
+
+    }
   /*  private void getTaxValuesFromServer() {
         final ProgressBar progressBar = ((ProgressBar) findViewById(R.id.progress_bar));
         progressBar.setVisibility(View.VISIBLE);
@@ -691,7 +772,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
 
 */
 
-    private void callToOrder(String pincode, String address, String city, String state, String mark, String destination, String transporterName,
+    private void callToOrder(String pincode, String address, String city, String state, String mark, String GST, String destination, String transporterName,
                              String vatTinNo, String contactNo,
                              String cartNote) {
 
@@ -745,6 +826,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
 
                     requestJson.put("isDefaultAddress", false);
                     requestJson.put("mark", mark);
+                    requestJson.put("gstNo", GST);
                     requestJson.put("destination", destination);
                     requestJson.put("tranNm", transporterName);
                     requestJson.put("tinNo", vatTinNo);
@@ -755,6 +837,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
             } else {
                 requestJson.put("isDefaultAddress", isDefaultAddress);
                 requestJson.put("mark", mark);
+                requestJson.put("gstNo", GST);
                 requestJson.put("destination", destination);
                 requestJson.put("tranNm", transporterName);
                 requestJson.put("tinNo", vatTinNo);
@@ -764,7 +847,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
             finalArray.put(requestJson);
 
             finalObject.put("request", finalArray);
-            Log.d(TAG, "finalObject" + finalObject.toString());
+            Log.d(TAG, "finalObject place order" + finalObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -773,8 +856,8 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        Log.d(TAG, ConfigUrls.URL_PLACE_ORDER + userDetails.get("userTrackId"));
+                        Log.d(TAG, "place order response" + response.toString());
+                        Log.d(TAG, "URL place order=> " +ConfigUrls.URL_PLACE_ORDER + userDetails.get("userTrackId"));
                         progressBar.setVisibility(View.GONE);
                         try {
                             JSONObject responseObj = response.getJSONObject("responseMessage");
@@ -908,7 +991,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
         String mark = input_mark.getText().toString();
         String dest = input_destination.getText().toString();
         String transName = input_transName.getText().toString();
-
+        String GST = input_gst_no.getText().toString();
 
         if (pincode.isEmpty() || pincode.length() < 6) {
             editTextPinCode.setError(Html.fromHtml("<font color='red'>Enter at least 6 numbers</font>"));
@@ -946,6 +1029,13 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
         } else
             input_transName.setError(null);
 
+//        if (GST.isEmpty()) {
+//            input_gst_no.setError(Html.fromHtml("<font color='red'>Enter GST No</font>"));
+//            requestFocus(input_gst_no);
+//            valid = false;
+//        } else
+//            input_gst_no.setError(null);
+
 
         return valid;
     }
@@ -956,7 +1046,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
         String dilog_mark = input_dialog_mark.getText().toString();
         String dialog_destination = input_dialog_destination.getText().toString();
         String dialog_transName = input_dialog_transName.getText().toString();
-        String dialog_vat_tin_no = input_dialog_vat_tin_no.getText().toString();
+        String dialog_gst_no = input_dialog_gst.getText().toString();
 
 
         if (dilog_mark.isEmpty()) {
@@ -979,6 +1069,30 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
             valid = false;
         } else
             input_dialog_transName.setError(null);
+
+
+//        if (dialog_gst_no.isEmpty()) {
+//            input_dialog_gst.setError(Html.fromHtml("<font color='red'>Enter GST no</font>"));
+//            requestFocus(input_dialog_gst);
+//            valid = false;
+//        } else
+//            input_dialog_gst.setError(null);
+
+        return valid;
+    }
+
+
+    private boolean validateDialogGST() {
+        boolean valid = true;
+        String dialog_gst_no = input_dialog_gst2.getText().toString();
+
+
+        if (dialog_gst_no.isEmpty()) {
+            input_dialog_gst2.setError(Html.fromHtml("<font color='red'>Enter GST no</font>"));
+            requestFocus(input_dialog_gst2);
+            valid = false;
+        } else
+            input_dialog_gst2.setError(null);
 
         return valid;
     }
@@ -1030,7 +1144,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                                 String destination = userDetailsObj.getString("destination").equals(null) ? "" : userDetailsObj.getString("destination");
                                 String transporterName = userDetailsObj.getString("tranNm").equals(null) ? "" : userDetailsObj.getString("tranNm");
                                 String tinNo = userDetailsObj.getString("tinNo").equals(null) ? "" : userDetailsObj.getString("tinNo");
-
+                                String GST = userDetailsObj.getString("gstNo").equals(null) ? "" : userDetailsObj.getString("gstNo");
                                 ShippingAddress shippingAddress = new ShippingAddress(shippingAddressId,
                                         postalCode,
                                         address,
@@ -1039,7 +1153,7 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                                         mark,
                                         destination,
                                         transporterName,
-                                        tinNo);
+                                        tinNo, GST);
 
                                 databaseHandler.addShippingAddress(shippingAddress);
 
@@ -1050,13 +1164,14 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                                 shippingAddressFromDb = databaseHandler.getShippingAddress();
 
                                 if (shippingAddressFromDb == null) {
+                                    System.out.println("IN NULL DATA");
 //            if (shippingAddressFromDb.getCity().equals("null") || shippingAddressFromDb.getAddress().equals("null") || shippingAddressFromDb.getPincode().equals("null") || shippingAddressFromDb.getState().equals("null")) {
                                     relativeLayoutForNotShippingAddress.setVisibility(View.VISIBLE);
                                     relativeLayoutForShippingAddress.setVisibility(View.GONE);
                                     //shown editable fiels for address
                                     isEmptyShippingAddress = true;
 
-                                    showDialogMessage();
+                                    showDialogMessage("Update your shipping address and GST detail from profile");
 
                                     ArrayList<String> cityStringList = new ArrayList<>();
 
@@ -1068,18 +1183,22 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                                     callTogetState();
 //            }
                                 } else {
+                                    System.out.println("IN  DATA");
                                     if (shippingAddressFromDb.getCity().equals("null") || shippingAddressFromDb.getCity().isEmpty()
                                             || shippingAddressFromDb.getAddress().equals("null") || shippingAddressFromDb.getAddress().isEmpty()
                                             || shippingAddressFromDb.getPincode().equals("null") || shippingAddressFromDb.getPincode().isEmpty()
                                             || shippingAddressFromDb.getState().equals("null") || shippingAddressFromDb.getState().isEmpty()
                                             || shippingAddressFromDb.getMark().equals("null") || shippingAddressFromDb.getMark().isEmpty()
                                             || shippingAddressFromDb.getDestination().equals("null") || shippingAddressFromDb.getDestination().isEmpty()
-                                            || shippingAddressFromDb.getTransporterName().equals("null") || shippingAddressFromDb.getTransporterName().isEmpty()) {
+                                            || shippingAddressFromDb.getTransporterName().equals("null") || shippingAddressFromDb.getTransporterName().isEmpty())
+//                                            || shippingAddressFromDb.getGSTNo().equals("null") || shippingAddressFromDb.getGSTNo().isEmpty())
+                                    {
                                         relativeLayoutForNotShippingAddress.setVisibility(View.VISIBLE);
                                         relativeLayoutForShippingAddress.setVisibility(View.GONE);
 
                                         isEmptyShippingAddress = true;
-                                        showDialogMessage();
+                                        showDialogMessage("Update your shipping address detail from profile");
+                                        callTogetState();
                                         callTogetState();
 
                                     } else {
@@ -1089,6 +1208,9 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                                         isEmptyShippingAddress = false;
 
                                         textViewAddress.setText(shippingAddressFromDb.getAddress());
+                                        //BATMAN
+                                        System.out.println("BATMAN==> " + shippingAddressFromDb.getGSTNo());
+                                        textView_GST.setText(shippingAddressFromDb.getGSTNo());
                                         textViewCity.setText(shippingAddressFromDb.getCity());
                                         textViewPinCode.setText(" - " + shippingAddressFromDb.getPincode());
                                         textViewContactNo.setText(userContactNo);
@@ -1128,11 +1250,11 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_string_req);
     }
 
-    private void showDialogMessage() {
+    private void showDialogMessage(String title) {
 
         final AlertDialog.Builder dialog = new AlertDialog.Builder(ReviewProductActivity.this);
 
-        dialog.setMessage("Update your shipping address detail from profile");
+        dialog.setMessage(title);
         dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -1298,6 +1420,69 @@ public class ReviewProductActivity extends AppCompatActivity implements View.OnC
                                 ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(ReviewProductActivity.this,
                                         R.layout.simple_spinner_dropdown_item, cityList);
                                 spinnerCity.setAdapter(stateAdapter);
+
+                            } else
+                                singletonUtil.showSnackBar(responseObj.getString("message"), (RelativeLayout) findViewById(R.id.relativeLayoutParent));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            singletonUtil.showSnackBar("Try Again!!", (RelativeLayout) findViewById(R.id.relativeLayoutParent));
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.GONE);
+
+                error.printStackTrace();
+                singletonUtil.showSnackBar("Unable to connect server!! Try again..", (RelativeLayout) findViewById(R.id.relativeLayoutParent));
+            }
+        }) {
+        };
+        String tag_string_req = "json_request";
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_string_req);
+    }
+
+
+    private void updateGST(String GSTNo) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        String urlStr = ConfigUrls.URL_GST + "/" + userDetails.get("userTrackId") + "/" + GSTNo;
+        URL url = null;
+        try {
+            url = new URL(urlStr);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        URI uri = null;
+        try {
+            uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        try {
+            url = uri.toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "GST URL" + url.toString());
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.GET, url.toString(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "GST " + response.toString());
+
+                        try {
+                            JSONObject responseObj = response.getJSONObject("responseMessage");
+
+                            if (responseObj.getString("status").equals("200")) {
+                                textView_GST.setText(input_dialog_gst2.getText().toString());
+                                updatedGSt = response.get("gstNo").toString();
+                                System.out.println("updatedGSt  " + updatedGSt);
+//                        newDialog();
+                                callForPlaceOrder();
+                                progressBar.setVisibility(View.GONE);
 
                             } else
                                 singletonUtil.showSnackBar(responseObj.getString("message"), (RelativeLayout) findViewById(R.id.relativeLayoutParent));
