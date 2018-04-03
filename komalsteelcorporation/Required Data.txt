@@ -1,0 +1,11 @@
+VPS Details:
+-------------------------------
+Host IP - 132.148.151.28
+SSH username - komalsteel
+SSH password - Replete@123
+
+CPanel Details:
+-------------------------------
+URL:	https://www.komalsteel.com:2083/
+Username:	komalsteel2018
+Password:	Komal@123
