@@ -41,7 +41,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableCaching
-@ComponentScan(basePackages = "co.in.replete.*")
+@ComponentScan(basePackages = "co.in.replete")
 @PropertySources({
 	@PropertySource("classpath:config.properties"),
 	@PropertySource("classpath:db.properties") 
@@ -152,9 +152,11 @@ public class BaseModuleConfiguration extends WebMvcConfigurerAdapter{
         return properties;        
     }
      
-    @Bean
     @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory s) {
+    SessionFactory s;
+    
+    @Bean
+    public HibernateTransactionManager transactionManager() {
        HibernateTransactionManager txManager = new HibernateTransactionManager();
        txManager.setSessionFactory(s);
        return txManager;

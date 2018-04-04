@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +90,8 @@ public class GeneratePdf {
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Dated",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getInvoiceDate(),infoFont));
+//		invoiceDetailsCell.addElement(new Phrase(invoice.getInvoiceDate(),infoFont));
+		invoiceDetailsCell.addElement(new Phrase(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Delivery Note
@@ -170,7 +173,8 @@ public class GeneratePdf {
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNoteDate(),infoFont));
+//		invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNoteDate(),infoFont));
+		invoiceDetailsCell.addElement(new Phrase(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		
@@ -280,7 +284,7 @@ public class GeneratePdf {
 		cell=insertCell("Taxable Value",defFont,Element.ALIGN_CENTER);
 		cell.setRowspan(2);
 		taxTable.addCell(cell);
-		cell=insertCell("Integrated Tax",defFont,Element.ALIGN_CENTER);
+		cell=insertCell("IGST",defFont,Element.ALIGN_CENTER);
 		cell.setColspan(2);
 		taxTable.addCell(cell);
 		taxTable.addCell(insertCell("Rate",defFont,Element.ALIGN_CENTER));
@@ -466,7 +470,8 @@ public class GeneratePdf {
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Dated",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getInvoiceDate(),infoFont));
+//		invoiceDetailsCell.addElement(new Phrase(invoice.getInvoiceDate(),infoFont));
+		invoiceDetailsCell.addElement(new Phrase(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Delivery Note
@@ -556,7 +561,7 @@ public class GeneratePdf {
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
-		invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNoteDate(),infoFont));
+		invoiceDetailsCell.addElement(new Phrase(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		
@@ -676,10 +681,10 @@ public class GeneratePdf {
 		cell=insertCell("Taxable Value",defFont,Element.ALIGN_CENTER);
 		cell.setRowspan(2);
 		taxTable.addCell(cell);
-		cell=insertCell("Central Tax",defFont,Element.ALIGN_CENTER);
+		cell=insertCell("CGST",defFont,Element.ALIGN_CENTER);
 		cell.setColspan(2);
 		taxTable.addCell(cell);
-		cell=insertCell("State Tax",defFont,Element.ALIGN_CENTER);
+		cell=insertCell("SGST",defFont,Element.ALIGN_CENTER);
 		cell.setColspan(2);
 		taxTable.addCell(cell);
 		taxTable.addCell(insertCell("Rate",defFont,Element.ALIGN_CENTER));
