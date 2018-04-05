@@ -114,7 +114,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		orderDetailsDAO.updateLrNo(cartDtldId, lrNo, lrDate, noofcarton);
 		CartDtl cartDetails = orderDetailsDAO.selectOrderDetailsById(Integer.parseInt(cartDtldId));
 		String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
-//		messageUtility.sendMessage(contactNo, "Thank You for choosing us. Your order's LR NO for tracing the order is : " + lrNo);
+		messageUtility.sendMessage(contactNo, "Thank You for choosing us. Your order's LR NO for tracing the order is : " + lrNo);
 	}
 	
 	@Override
