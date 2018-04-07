@@ -8,10 +8,10 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.springframework.dao.DataAccessException;
 
 import co.in.replete.komalindustries.beans.CartItemDtlsTO;
-import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.dao.CartDAO;
 import co.in.replete.komalindustries.webcontroller.beans.WOrderDetailsTO;
 
@@ -53,14 +53,18 @@ public class OrderDetails extends SimpleTagSupport {
 				
 				for(WOrderDetailsTO orderDetails : orderDetailsList) {
 					int i=1;
+					String mark = orderDetails.getMark();
+					String destination = orderDetails.getDestination();
+					String transporterName = orderDetails.getTransNm();
+					
 					out.println("<tr>");
 					int orderDetailsId = orderDetails.getCartDtlId();
 					out.println("<td>"+"<a href='orderdetails?orderId="+orderDetailsId+"'>"+ orderDetailsId +"</a>"+ "</td>");
 					out.println("<td>" + df.format(orderDetails.getOrderDate()) + "</td>");
 					List<CartItemDtlsTO> orderItemdetails = cartDAO.selectOrderItemDetailsByCartId(orderDetailsId);
 					out.println("<td>" + orderDetails.getStreet1()+ orderDetails.getCity()+" "+ orderDetails.getState()+
-							" "+orderDetails.getCountry()+" "+orderDetails.getPostalCode()+ "</br> Mark : " + orderDetails.getMark() + 
-							"</br> Destination : " + orderDetails.getDestination() + "</br> Transporter Name : "  + orderDetails.getTransNm()
+							" "+orderDetails.getCountry()+" "+orderDetails.getPostalCode()+ "</br> Mark : " + mark + 
+							"</br> Destination : " + destination + "</br> Transporter Name : "  + transporterName
 							+ "</br>VAT No : " + orderDetails.getVatTinNo() + "</td>");
 					/*out.println("<td>" + orderDetails.getOrderPrice() + "</td>");*/
 					out.println("<td>" + orderDetails.getNotes() + "</td>");
@@ -108,7 +112,13 @@ public class OrderDetails extends SimpleTagSupport {
 							+ orderDetails.getLrNo() + "','"
 							+ orderDetails.getCartDtlId() + "','"
 							+ orderDetails.getLrNoDate() + "','"
-							+ orderDetails.getNoOfCartonLoaded() + "'"
+							+ orderDetails.getNoOfCartonLoaded() + "','"
+							+ mark + "','"
+							+ transporterName + "','"
+							+ destination + "','"
+							+ orderDetails.getCourierNm() + "','"
+							+ orderDetails.getDocateNo() + "','"
+							+ orderDetails.getDeliveryDate() + "'"
 							+ ")\")><i class=\"fa fa-truck\"></i></a>");
 					out.print("</td>");
 					out.println("</tr>");

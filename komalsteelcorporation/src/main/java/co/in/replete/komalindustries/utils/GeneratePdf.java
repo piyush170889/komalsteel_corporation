@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -41,6 +42,8 @@ public class GeneratePdf {
 	
 	public int genearatePDFOutsideMaharashtra(Invoice invoice, String pdfFilePath) throws FileNotFoundException, DocumentException
 	{
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+		
 		File file=new File(pdfFilePath);
 		OutputStream file1 = new FileOutputStream(file);
 		Document document = new Document(PageSize.A4);
@@ -91,7 +94,7 @@ public class GeneratePdf {
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Dated",defFont));
 //		invoiceDetailsCell.addElement(new Phrase(invoice.getInvoiceDate(),infoFont));
-		invoiceDetailsCell.addElement(new Phrase(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()),infoFont));
+		invoiceDetailsCell.addElement(new Phrase(dfddMMMMYYYY.format(Calendar.getInstance().getTime()),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Delivery Note
@@ -100,6 +103,7 @@ public class GeneratePdf {
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Mark :" ,defFont));
 		//invoiceDetailsCell.addElement(new Phrase(invoice.getMode_TermsPayment(),infoFont));
+		invoiceDetailsCell.addElement(new Phrase(invoice.getMark(),infoFont));
 		invoiceDetailsCell.setColspan(2);
 		//invoiceDetailsCell.setRowspan(2);
 		invoiceDetails.addCell(invoiceDetailsCell);
@@ -163,9 +167,9 @@ public class GeneratePdf {
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Despatch Document No.
-		invoiceDetailsCell = new PdfPCell();
+		/*invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Despatch Document No.: ",defFont));
+		invoiceDetailsCell.addElement(new Phrase("Dispatch Document No.: ",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
@@ -174,8 +178,8 @@ public class GeneratePdf {
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
 //		invoiceDetailsCell.addElement(new Phrase(invoice.getDeliveryNoteDate(),infoFont));
-		invoiceDetailsCell.addElement(new Phrase(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);
+		invoiceDetailsCell.addElement(new Phrase(dfddMMMMYYYY.format(Calendar.getInstance().getTime()),infoFont));
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 		
 		
 		//Despatched through
@@ -421,6 +425,8 @@ public class GeneratePdf {
 	
 	public int genearatePDFForMaharashtra(Invoice invoice, String pdfFilePath) throws FileNotFoundException, DocumentException
 	{
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+		
 		File file=new File(pdfFilePath);
 		OutputStream file1 = new FileOutputStream(file);
 		Document document = new Document(PageSize.A4);
@@ -471,7 +477,7 @@ public class GeneratePdf {
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Dated",defFont));
 //		invoiceDetailsCell.addElement(new Phrase(invoice.getInvoiceDate(),infoFont));
-		invoiceDetailsCell.addElement(new Phrase(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()),infoFont));
+		invoiceDetailsCell.addElement(new Phrase(dfddMMMMYYYY.format(Calendar.getInstance().getTime()),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Delivery Note
@@ -480,6 +486,7 @@ public class GeneratePdf {
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Mark. :",defFont));
 		//invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
+		invoiceDetailsCell.addElement(new Phrase(invoice.getMark(),infoFont));
 		invoiceDetailsCell.setColspan(2);
 		invoiceDetailsCell.setRowspan(4);
 		invoiceDetails.addCell(invoiceDetailsCell);
@@ -550,25 +557,24 @@ public class GeneratePdf {
 		
 		
 		//Despatch Document No.
-		invoiceDetailsCell = new PdfPCell();
+/*		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Despatch Document No.:",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispDocumentNo(),infoFont));
-		//invoiceDetailsCell.setColspan(2);
 		invoiceDetails.addCell(invoiceDetailsCell);
 		
 		//Delivery Note Date
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
 		invoiceDetailsCell.addElement(new Phrase("Delivery Note Date",defFont));
-		invoiceDetailsCell.addElement(new Phrase(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()),infoFont));
-		invoiceDetails.addCell(invoiceDetailsCell);
+		invoiceDetailsCell.addElement(new Phrase(dfddMMMMYYYY.format(Calendar.getInstance().getTime()),infoFont));
+		invoiceDetails.addCell(invoiceDetailsCell);*/
 		
 		
 		//Despatched through
 		invoiceDetailsCell = new PdfPCell();
 		invoiceDetailsCell.setPaddingBottom(5f);
-		invoiceDetailsCell.addElement(new Phrase("Despatched through",defFont));
+		invoiceDetailsCell.addElement(new Phrase("Dispatched through",defFont));
 		invoiceDetailsCell.addElement(new Phrase(invoice.getDispatchedThrough(),infoFont));
 		invoiceDetails.addCell(invoiceDetailsCell);
 		

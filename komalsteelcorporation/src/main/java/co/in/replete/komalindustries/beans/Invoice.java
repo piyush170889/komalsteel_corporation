@@ -13,6 +13,7 @@ public class Invoice {
 	private String dispDocumentNo;
 	private String deliveryNoteDate;
 	private String dispatchedThrough;
+	private String mark;
 	private String destination;
 	private String companyName;
 	private String companyEmail;
@@ -51,7 +52,7 @@ public class Invoice {
 			String companyAcno, String companyBranchIfscCode, String buyerName, String buyerStreetAddress, String buyerCity,
 			String buyerDistrict, String buyerState, String buyerGstinUin, float iGstAmount, int totalQuantity,
 			float totalChargableAmount, float totalTaxableValue, float iGsttotalTaxAmount, float totalTaxAmount,
-			List<Transaction> transactionList, List<TaxDescription> taxDescription) {
+			List<Transaction> transactionList, List<TaxDescription> taxDescription, String mark) {
 		this.invoiceNo = invoiceNo;
 		this.invoiceDate = invoiceDate;
 		this.deliveryNote = deliveryNote;
@@ -83,6 +84,7 @@ public class Invoice {
 		this.totalTaxAmount = totalTaxAmount;
 		this.transactionList = transactionList;
 		this.taxDescription = taxDescription;
+		this.mark=mark;
 	}
 
 
@@ -94,7 +96,7 @@ public class Invoice {
 			String buyerDistrict, String buyerState, String buyerGstinUin, float cGstAmount, float sGstAmount,
 			int totalQuantity, float totalChargableAmount, float totalTaxableValue, float cGsttotalTaxAmount,
 			float sGsttotalTaxAmount, float totalTaxAmount, List<Transaction> transactionList,
-			List<TaxDescription> taxDescription) {
+			List<TaxDescription> taxDescription, String mark) {
 		this.invoiceNo = invoiceNo;
 		this.invoiceDate = invoiceDate;
 		this.deliveryNote = deliveryNote;
@@ -128,7 +130,19 @@ public class Invoice {
 		this.totalTaxAmount = totalTaxAmount;
 		this.transactionList = transactionList;
 		this.taxDescription = taxDescription;
+		this.mark=mark;
 	}
+
+	
+	public String getMark() {
+		return mark;
+	}
+
+
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
+
 
 	public String getInvoiceNo() {
 		return invoiceNo;

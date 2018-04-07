@@ -424,12 +424,14 @@ public class CartServiceImpl implements CartService {
 						
 						sbCust.append(emailContentSuffix);
 						
+						String mark = (null == shippingAddressDetail.getMark() || shippingAddressDetail.getMark().isEmpty()) ? "Not Specified" : shippingAddressDetail.getMark();
+						
 						String finalEmailStringCustomer = String .format(sbCust.toString(), 
 								(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
 								null == userDetails.getFirstName() ? "" : userDetails.getFirstName()
 								, null == userDetails.getLastName() ? "" : userDetails.getLastName(),  
 								(null == userDetails.getCntc_num() || userDetails.getCntc_num().isEmpty()) ? "Not Specified": userDetails.getCntc_num(), cartDtlsId,
-								(null == shippingAddressDetail.getMark() || shippingAddressDetail.getMark().isEmpty()) ? "Not Specified" : shippingAddressDetail.getMark(), 
+								mark, 
 								(null == shippingAddressDetail.getDestination() || shippingAddressDetail.getDestination().isEmpty()) ? "Not Specified" : shippingAddressDetail.getDestination(), 
 								(null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm(),
 										cartDetail.getCartNotes());
@@ -452,7 +454,7 @@ public class CartServiceImpl implements CartService {
 									buyersShippingAddress.getStAddress1(), buyersShippingAddress.getCity(), buyersShippingAddress.getState(), 
 									buyersShippingAddress.getState(), gstNo, (float)totalCGstAmount, (float)totalSGstAmount, 
 									totalItemInCart, (float)totalChargableAmount, (float)totalTaxableValue, 
-									(float)totalCGstAmount, (float)totalSGstAmount, (float)iGstAmount, transactionList, taxDescriptionList); //Create the PDF to send
+									(float)totalCGstAmount, (float)totalSGstAmount, (float)iGstAmount, transactionList, taxDescriptionList, mark); //Create the PDF to send
 						} else {
 							//Outside Maharashtra GST
 							invoiceDetails = new Invoice(Integer.toString(cartDtlsId), todaysDate, Integer.toString(totalItemInCart), 
@@ -461,7 +463,7 @@ public class CartServiceImpl implements CartService {
 									(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
 									buyersShippingAddress.getStAddress1(), buyersShippingAddress.getCity(), buyersShippingAddress.getState(), buyersShippingAddress.getState(), 
 									gstNo, (float)iGstAmount, totalItemInCart, (float)totalChargableAmount, (float)totalTaxableValue, 
-									(float)iGstAmount, (float)iGstAmount, transactionList, taxDescriptionList); //Create the PDF to send
+									(float)iGstAmount, (float)iGstAmount, transactionList, taxDescriptionList, mark); //Create the PDF to send
 						}
 						
 						String pdfFilePath = configProperties.getProperty("pdf.savepath")+cartDtlsId + ".pdf";

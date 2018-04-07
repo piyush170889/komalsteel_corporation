@@ -16,7 +16,8 @@ public interface OrderDetailsService {
 
 	List<WOrderDetailsTO> searchOrders(String searchBy, String searchDateRange) throws DataAccessException, Exception;
 
-	void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton) throws Exception;
+	void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, 
+			String transporterNm, String destination, String mark, String courierNm, String docateNo, String delvryDate) throws Exception;
 
 	void addCartItemToOrder(AddItemsToCartTO request) throws ServicesException;
 

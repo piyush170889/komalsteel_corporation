@@ -131,14 +131,31 @@ public class OrderManagement extends KomalIndustriesConstants {
 		
 		try {
 			String cartDtldId = servletRequest.getParameter("cartDtlsId");
+			
+			//LR Details
 			String lrNo = servletRequest.getParameter("lrNo");
 			String lrDate = servletRequest.getParameter("lrdate");
 			String noofcarton = servletRequest.getParameter("noofcarton");
+			
+			//transportation details
+			String transporterNm = servletRequest.getParameter("transporterNm");
+			String destination = servletRequest.getParameter("destination");
+			String mark = servletRequest.getParameter("mark");
+			
+			//Courier Details
+			String courierNm = servletRequest.getParameter("courierNm");
+			String docateNo = servletRequest.getParameter("docateNo");
+			String delvryDate = servletRequest.getParameter("delvryDate");
+			
 			if(null == cartDtldId || cartDtldId.isEmpty() || null == lrNo || lrNo.isEmpty()) {
 				throw new Exception("Required Fields Are Empty");
 			}
-			orderDetailsService.editLRNo(cartDtldId, lrNo, lrDate, noofcarton);
-			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, SUCCESS_MSSG_LABEL, "LR NO Edited Successfully");
+			
+			orderDetailsService.editLRNo(cartDtldId, lrNo, lrDate, noofcarton, 
+					transporterNm, destination, mark, courierNm, docateNo, delvryDate);
+			
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, 
+					SUCCESS_MSSG_LABEL, "Dispatch Details Edited Successfully");
 		} catch (PrepareViewModelException pvmme) {
 			pvmme.printStackTrace();
 			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, ERROR_MSSG_LABEL, pvmme.getMessage());

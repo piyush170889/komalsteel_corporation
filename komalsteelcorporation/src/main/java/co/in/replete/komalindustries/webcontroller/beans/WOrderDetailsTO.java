@@ -62,9 +62,45 @@ public class WOrderDetailsTO {
 	
 	private String vatTinNo;
 	
+	private String courierNm;
+	
+	private String docateNo;
+	
+	private String delvryDate;
+	
 	private List<ItemMasterDtl> orderedItems;
 	
 	public WOrderDetailsTO(){}
+	
+	public String getCourierNm() {
+		return courierNm;
+	}
+
+
+	public void setCourierNm(String courierNm) {
+		this.courierNm = courierNm;
+	}
+
+
+	public String getDocateNo() {
+		return docateNo;
+	}
+
+
+	public void setDocateNo(String docateNo) {
+		this.docateNo = docateNo;
+	}
+
+
+	public String getDelvryDate() {
+		return delvryDate;
+	}
+
+
+	public void setDelvryDate(String delvryDate) {
+		this.delvryDate = delvryDate;
+	}
+
 
 	public String getMark() {
 		return mark;

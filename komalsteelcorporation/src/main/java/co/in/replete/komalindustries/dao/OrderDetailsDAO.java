@@ -53,4 +53,12 @@ public interface OrderDetailsDAO {
 
 	String selectOrderedItemQtyByOrderId(int cartDtlsId);
 
+	void updateTransportDetails(String transporterNm, String destination, String mark, int otherAddressDtlsId);
+
+	CartDtl selectCartDetailsByCartDtlsId(String cartDtldId);
+
+	int selectOtherAddressIdByCartDlvryDtlsId(int cartDlvryDtlsId);
+
+	void updateCourierDetails(String courierNm, String docateNo, String delvryDate, int cartDlvryDtlsId);
+
 }

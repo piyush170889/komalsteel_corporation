@@ -1,7 +1,7 @@
 package co.in.replete.komalindustries.service;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
-import co.in.replete.komalindustries.beans.entity.AddressDetail;
-import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
 import co.in.replete.komalindustries.beans.entity.ItemsInventoryDtl;
@@ -59,7 +57,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		if(!cartStatus.equalsIgnoreCase(orderStatus)) {
 			//If Order Status is Dispatched than send proper message to the Customer and deduct the qty from available stock in inventory and booked Qty
 			if(orderStatus.equals(UDValues.CART_STATUS_DISPATCHED.toString())) {
-				if(0 != cartDetails.getCartDlvryDtlsId()) {
+				/*if(0 != cartDetails.getCartDlvryDtlsId()) {
 					int cartDlvrDtlsId = cartDetails.getCartDlvryDtlsId();
 					CartDlvryDtl cartDlvryDtl = orderDetailsDAO.selectCartDeliveryDetailsById(cartDlvrDtlsId);
 					if(null != request.getDlvryDate() || !request.getDlvryDate().isEmpty() || !request.getDlvryDate().equalsIgnoreCase("null")) {
@@ -68,7 +66,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 						messageUtility.sendMessage(contactNo, String.format(configProperties.getProperty("order.dispatch"), addressDetail.getTranNm(), 
 								cartDetails.getLrNo(), new SimpleDateFormat("dd/MM/yyyy").format(new Date()), cartDetails.getNoOfCartonLoaded()));
 					}
-				}
+				}*/
 				
 				doUpdateInventoryDetailsAfterProductDispatch(orderId);
 			}
@@ -107,14 +105,40 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	}
 	
 	@Override
-	public void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton) throws Exception {
+	public void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, 
+			String transporterNm, String destination, String mark, String courierNm, 
+			String docateNo, String delvryDate) throws Exception {
 		if(lrDate.isEmpty()) {
 			lrDate = null;
 		}
+		
 		orderDetailsDAO.updateLrNo(cartDtldId, lrNo, lrDate, noofcarton);
+		
+		CartDtl cartDtl = orderDetailsDAO.selectCartDetailsByCartDtlsId(cartDtldId);
+		
+		int cartDlvryDtlsId = cartDtl.getCartDlvryDtlsId();
+		int otherAddressDtlsId = orderDetailsDAO.selectOtherAddressIdByCartDlvryDtlsId(cartDlvryDtlsId);
+		
+		orderDetailsDAO.updateTransportDetails(transporterNm, destination, mark, otherAddressDtlsId);
+		
+		orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
+		
 		CartDtl cartDetails = orderDetailsDAO.selectOrderDetailsById(Integer.parseInt(cartDtldId));
 		String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
-		messageUtility.sendMessage(contactNo, "Thank You for choosing us. Your order's LR NO for tracing the order is : " + lrNo);
+		
+		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+		
+		String dispatchDetailsMssg = "From Komal Trading Corporation:\nTransporter Name: " + transporterNm + "\n" + 
+				"Destination: " + destination + "\n" + 
+				"LR NO: " + lrNo + "\n" + 
+				"LR Date: " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+				"No. Of Carton: " + noofcarton + "\n" + 
+				"Courier Name: " + courierNm + "\n" + 
+				"Docate No: " + docateNo + "\n" + 
+				"Delivery Date: " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate));
+		System.out.println("contactNo-" + contactNo + ",\n dispatchDetailsMssg - " + dispatchDetailsMssg);
+		messageUtility.sendMessage(contactNo, dispatchDetailsMssg);
 	}
 	
 	@Override

@@ -49,7 +49,7 @@
 		}
 	}
  	
- 	function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton) {
+ 	function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination, courierName, docateNo, dlvryDate) {
  		if(lrNo == "null") {
  			lrNo = "";
  		}
@@ -59,10 +59,34 @@
  		if(noOfCarton == "null") {
  			noOfCarton = "";
  		}
+ 		if(mark == "null") {
+ 			mark = "";
+ 		}
+ 		if(transporterName == "null") {
+ 			transporterName = "";
+ 		}
+ 		if(destination == "null") {
+ 			destination = "";
+ 		}
+ 		if(courierName == "null") {
+ 			courierName = "";
+ 		}
+ 		if(docateNo == "null") {
+ 			docateNo = "";
+ 		}
+ 		if(dlvryDate == "null") {
+ 			dlvryDate = "";
+ 		}
  		document.getElementById("lrNo1").value=lrNo;
  		document.getElementById("cartDtlsId2").value=cartDtlsId;
  		document.getElementById("lrdate1").value=lrNoDate;
  		document.getElementById("noofcarton1").value=noOfCarton;
+ 		document.getElementById("transporterNm1").value=transporterName;
+ 		document.getElementById("destination1").value=destination;
+ 		document.getElementById("mark1").value=mark;
+ 		document.getElementById("courierNm1").value=courierName;
+ 		document.getElementById("docateNo1").value=docateNo;
+ 		document.getElementById("delvryDate1").value=dlvryDate;
  	}
   </script>
   
@@ -571,21 +595,60 @@
               <!-- general form elements -->
 			 <form role="form" action="editLrNo" method="post">
               <div class="box box-primary">
+
+					<!-- Transportation Details -->
+              		<div class="box-header with-border">
+	                  <h3 class="box-title">Transportation Details</h3>
+	                </div><!-- /.box-header -->
+	                
+	                <div class="box-body" style="color:#333;">
+		                <div class="row">	
+		                	<div class="col-md-12">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Transporter Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<input class="form-control" placeholder="Transporter Name" 
+		                      		id="transporterNm1" name="transporterNm" required="required" />
+		                    	</div>
+	        				</div>
+	        			</div>
+	        			<div class="row">
+	        				<div class="col-md-6">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Destination</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<input class="form-control" placeholder="Destination" 
+		                      		id="destination1" name="destination" required="required" />
+		                    	</div>
+	        				</div>
+	        				<div class="col-md-6">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Mark</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<input class="form-control" placeholder="Mark" 
+		                      		id="mark1" name="mark" required="required" />
+		                    	</div>
+	        				</div>
+        				</div>
+	                <!-- </div> -->
+	                <!-- Transportation Details -->
+	                
+	                <!-- LR Details -->
 	                <div class="box-header with-border">
 	                  <h3 class="box-title">LR NO Details</h3>
 	                </div><!-- /.box-header -->
 	                <!-- form start -->
-                  	<div class="box-body" style="color:#333;">
+                  	<!-- <div class="box-body" style="color:#333;"> -->
+                  		<div class="row">
         				<div class="col-md-12">
 	        				<div class="form-group">
 	                      		<label for="exampleInputPassword1">LR No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
 	                      		<input class="form-control" placeholder="LR NO" id="lrNo1" name="lrNo" />
 	                    	</div>
         				</div>
+        				</div>
+        				<div class="row">
         				<div class="col-md-6">
 	        				<div class="form-group">
 	                      		<label for="exampleInputPassword1">LR Date</label>
-	                      		<input class="form-control" placeholder="LR Date" id="lrdate1" name="lrdate" readonly="readonly"/>
+	                      		<input class="form-control" placeholder="LR Date" id="lrdate1" name="lrdate" readonly="readonly" />
 	                    	</div>
         				</div>
         				<div class="col-md-6">
@@ -594,12 +657,51 @@
 	                      		<input class="form-control" placeholder="No. Of Carton Loaded" id="noofcarton1" name="noofcarton" />
 	                    	</div>
         				</div>
+        				</div>
+        			<!-- LR NO Details -->
+        				
+        				<!-- Courier Details -->
+              		<div class="box-header with-border">
+	                  <h3 class="box-title">Courier Details</h3>
+	                </div><!-- /.box-header -->
+	                
+	                <!-- <div class="box-body" style="color:#333;"> -->
+		                <div class="row">	
+		                	<div class="col-md-12">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Courier Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<input class="form-control" placeholder="Courier Name" 
+		                      		id="courierNm1" name="courierNm" required="required" />
+		                    	</div>
+	        				</div>
+        				</div>
+        				<div class="row">	
+	        				<div class="col-md-6">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Docate No.</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<input class="form-control" placeholder="Docate No." 
+		                      		id="docateNo1" name="docateNo" required="required" />
+		                    	</div>
+	        				</div>
+	        				<div class="col-md-6">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Delivery Date</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<input class="form-control" placeholder="Delivery Date" 
+		                      		id="delvryDate1" name="delvryDate" required="required" readonly="readonly" />
+		                    	</div>
+	        				</div>
+        				</div>
+	                <!-- </div> -->
+	                <!-- Courier Details -->
+	                
 						<div class="box-footer">
 							<input type="hidden" name="cartDtlsId" id="cartDtlsId2" />
 	                    	<input type="submit" class="btn btn-primary" value="Submit" />
 	                  	</div>
 	                  	
                   	</div>
+                  	
+                  	
                </div>
               </form>
         </div><!-- /.box -->
@@ -623,6 +725,7 @@
  //Date range picker 
         $('#dlvryDate1').datepicker();
         $('#lrdate1').datepicker();
+        $('#delvryDate1').datepicker();
         $('#reservation').daterangepicker();
 </script>
   </body>

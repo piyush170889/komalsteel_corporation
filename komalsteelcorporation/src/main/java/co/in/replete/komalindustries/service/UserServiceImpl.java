@@ -1,5 +1,6 @@
 package co.in.replete.komalindustries.service;
 
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -225,6 +226,12 @@ public class UserServiceImpl implements UserService {
 		   System.out.println("Cntc num: " + contactNum + " First nam:" + firstName + " Last name: " + lastName);
 		   commonUtility.sendEmailToAdmin(String.format(configProperties.getProperty("user.registration.new"), contactNum, firstName, lastName, 
 				   new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())), configProperties.getProperty("user.registration.subject"));
+		   
+		   //Send Registration Success Message
+		   String fullCustomerName = firstName + " " + (lastName==null ? "" : lastName);
+		   String registrationSuccessMssg = MessageFormat.format(configProperties.getProperty("sms.registration.success"), fullCustomerName) ;
+		   messageUtility.sendMessage(contactNum, registrationSuccessMssg);
+		   
 		   return new BaseWrapper();
 	   }
 	   catch (DataAccessException e) 

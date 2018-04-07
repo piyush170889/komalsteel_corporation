@@ -308,4 +308,32 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 		
 		return jdbcTemplate.queryForObject("select SUM(ITEM_QTY) from cart_item_dtls where CART_DTLS_ID=?", String.class, new Object[] {cartDtlsId});
 	}
+	
+	@Override
+	public void updateTransportDetails(String transporterNm, String destination, String mark, int otherAddressDtlsId) {
+		
+		jdbcTemplate.update("update other_address_details set MARK=?, DESTINATION=?, TRAN_NM=? where OTHER_ADDRESS_ID=?", new Object[] {mark
+				, destination, transporterNm, otherAddressDtlsId});
+	}
+	
+	@Override
+	public CartDtl selectCartDetailsByCartDtlsId(String cartDtldId) {
+		
+		return jdbcTemplate.query("select * from cart_dtls where CART_DTLS_ID=?", new Object[] {cartDtldId}, 
+				new BeanPropertyRowMapper<CartDtl>(CartDtl.class)).get(0);
+	}
+	
+	@Override
+	public int selectOtherAddressIdByCartDlvryDtlsId(int cartDlvryDtlsId) {
+		
+		return jdbcTemplate.query("select * from cart_dlvry_dtls where CART_DLVRY_DTLS_ID=?", new Object[] {cartDlvryDtlsId}, 
+				new BeanPropertyRowMapper<CartDlvryDtl>(CartDlvryDtl.class)).get(0).getShippingAddressId();
+	}
+	
+	@Override
+	public void updateCourierDetails(String courierNm, String docateNo, String delvryDate, int cartDlvryDtlsId) {
+		
+		jdbcTemplate.update("update cart_dlvry_dtls set COURIER_NM=?, DOCATE_NO=?, EXP_DLVRY_DT=? where CART_DLVRY_DTLS_ID=?", new Object[] {courierNm
+				, docateNo, delvryDate, cartDlvryDtlsId});
+	}
 }
