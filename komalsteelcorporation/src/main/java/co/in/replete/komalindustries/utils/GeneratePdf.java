@@ -235,7 +235,7 @@ public class GeneratePdf {
 		{
 		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getDescriptioOFGoods(),infoFont,Element.ALIGN_LEFT));
-		transTable.addCell(insertCell(transaction.getHsnSac(),defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell(transaction.getHsnSac(),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(Integer.toString(Math.round(transaction.getGstRate()))+"%",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(transaction.getQuantity()+"Pc.",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(null==transaction.getRate() ? "" :commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
@@ -329,7 +329,7 @@ public class GeneratePdf {
 		// Transaction entries for tax valuation table(Static entries)
 		for(TaxDescription taxDescription:invoice.getTaxDescription())
 		{
-		taxTable.addCell(insertCell(taxDescription.getHsnSac(),defFont,Element.ALIGN_LEFT));
+		taxTable.addCell(insertCell(taxDescription.getHsnSac(),defFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(taxDescription.getTaxableValue(), 2)),defFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell(Math.round(taxDescription.getiGstRate())+"%",defFont,Element.ALIGN_RIGHT));
 		taxTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(taxDescription.getiGsttaxAmount(), 2)),defFont,Element.ALIGN_RIGHT));
