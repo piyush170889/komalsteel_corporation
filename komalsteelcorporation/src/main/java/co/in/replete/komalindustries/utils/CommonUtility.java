@@ -417,10 +417,16 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 		return gstNo.substring(0, 2);
 	}
 
-	public BigDecimal roundUpToTwoDecimal(Float value, int decimalPlace) {
-		BigDecimal bd = new BigDecimal(Float.toString(value));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);       
-        return bd;
+	public String roundUpToTwoDecimal(Float value, int decimalPlace) {
+		BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        String setValue = Double.toString(bd.doubleValue());
+        String[] setValueArr = setValue.toString().split("\\.");
+        if (setValueArr[1].length()==1) {
+        	setValue += "0";
+        }
+        
+        return setValue;
 	}
 	
 	public String doGetWords(int numToConvert) {

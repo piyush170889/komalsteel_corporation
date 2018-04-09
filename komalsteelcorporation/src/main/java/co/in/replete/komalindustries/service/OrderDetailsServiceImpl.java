@@ -129,14 +129,16 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
 		
-		String dispatchDetailsMssg = "From Komal Trading Corporation:\nTransporter Name: " + transporterNm + "\n" + 
-				"Destination: " + destination + "\n" + 
-				"LR NO: " + lrNo + "\n" + 
-				"LR Date: " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
-				"No. Of Carton: " + noofcarton + "\n" + 
-				"Courier Name: " + courierNm + "\n" + 
-				"Docate No: " + docateNo + "\n" + 
-				"Delivery Date: " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate));
+		String dispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+				"Order No. - " + cartDtldId + "\n" + 
+				"Transporter Name - " + transporterNm + "\n" + 
+				"Destination - " + destination + "\n" + 
+				"LR NO - " + lrNo + "\n" + 
+				"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+				"No. Of Carton - " + noofcarton + "\n" + 
+				"Courier Name - " + courierNm + "\n" + 
+				"Docate No - " + docateNo + "\n" + 
+				"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate));
 		System.out.println("contactNo-" + contactNo + ",\n dispatchDetailsMssg - " + dispatchDetailsMssg);
 		messageUtility.sendMessage(contactNo, dispatchDetailsMssg);
 	}

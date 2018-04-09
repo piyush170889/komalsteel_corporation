@@ -42,7 +42,7 @@ public class GeneratePdf {
 	
 	public int genearatePDFOutsideMaharashtra(Invoice invoice, String pdfFilePath) throws FileNotFoundException, DocumentException
 	{
-		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy HH:mm");
 		
 		File file=new File(pdfFilePath);
 		OutputStream file1 = new FileOutputStream(file);
@@ -230,6 +230,7 @@ public class GeneratePdf {
 		//Row For Transactions
 		//TODO: Add dynamic transaction load from database(For each loop)
 		int count=1;
+		double subTotal=0;
 		for(Transaction transaction:invoice.getTransactionList())
 		{
 		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_RIGHT));
@@ -239,9 +240,24 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(transaction.getQuantity()+"Pc.",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(null==transaction.getRate() ? "" :commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getPer(),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(null==transaction.getAmount() ? "" : commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2).toString(),infoFont,Element.ALIGN_RIGHT));
+		String totalAmount = (null==transaction.getAmount()) ? "0" : commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2);
+		transTable.addCell(insertCell(totalAmount, infoFont, Element.ALIGN_RIGHT));
 		count++;
+		subTotal+=Double.parseDouble(totalAmount);
 		}
+		
+		//Row For Sub Total Print
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("Sub Total",infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		/*PdfPCell subTotalCell = insertCell("Sub Total",infoFont,Element.ALIGN_CENTER);
+		subTotalCell.setColspan(2);
+		transTable.addCell(subTotalCell);*/
+		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal((float)subTotal, 2),infoFont,Element.ALIGN_RIGHT));
 		
 		//Row Fro IGST Print
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
@@ -254,10 +270,25 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getiGstAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
 		
 		
+		//Rounded Value
+		double totalChargableAmount = invoice.getTotalChargableAmount();
+		String rfValue = commonUtility.roundUpToTwoDecimal((float) (Math.ceil(totalChargableAmount) - totalChargableAmount), 2);
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("RF", infoFont, Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		/*PdfPCell subTotalCell = insertCell("Sub Total",infoFont,Element.ALIGN_CENTER);
+		subTotalCell.setColspan(2);
+		transTable.addCell(subTotalCell);*/
+		transTable.addCell(insertCell(String.valueOf(rfValue),infoFont,Element.ALIGN_RIGHT));
+		
 		// Transaction total Amount printing
 		//TODO: Add your Total amount of All transaction
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell("Total (Round Off)",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("Total (Round Off)",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(String.valueOf(invoice.getTotalQuantity())+"Pc.",infoFont,Element.ALIGN_CENTER));
@@ -425,7 +456,7 @@ public class GeneratePdf {
 	
 	public int genearatePDFForMaharashtra(Invoice invoice, String pdfFilePath) throws FileNotFoundException, DocumentException
 	{
-		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy HH:mm");
 		
 		File file=new File(pdfFilePath);
 		OutputStream file1 = new FileOutputStream(file);
@@ -618,6 +649,7 @@ public class GeneratePdf {
 		//Row For Transactions
 		//TODO: Add dynamic transaction load from database(For each loop)
 		int count=1;
+		double subTotal=0;
 		for(Transaction transaction:invoice.getTransactionList())
 		{
 		transTable.addCell(insertCell(String.valueOf(count),defFont,Element.ALIGN_RIGHT));
@@ -627,11 +659,28 @@ public class GeneratePdf {
 		transTable.addCell(insertCell(transaction.getQuantity()+"Pc.",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(null==transaction.getRate() ? "" : commonUtility.roundUpToTwoDecimal(transaction.getRate(), 2).toString(),defFont,Element.ALIGN_RIGHT));
 		transTable.addCell(insertCell(transaction.getPer(),defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(null==transaction.getAmount() ? "" : commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2).toString(),infoFont,Element.ALIGN_RIGHT));
+		String totalAmount = null==transaction.getAmount() ? "0" : commonUtility.roundUpToTwoDecimal(transaction.getAmount(), 2);
+		transTable.addCell(insertCell(totalAmount,infoFont,Element.ALIGN_RIGHT));
 		count++;
+		subTotal+=Double.parseDouble(totalAmount);
 		}
 		
+		//Row For Sub Total Print
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("Sub Total",infoFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		/*PdfPCell subTotalCell = insertCell("Sub Total",infoFont,Element.ALIGN_CENTER);
+		subTotalCell.setColspan(2);
+		transTable.addCell(subTotalCell);*/
+		transTable.addCell(insertCell(commonUtility.roundUpToTwoDecimal((float)subTotal, 2),infoFont,Element.ALIGN_RIGHT));
+		
+		
 		//Row For CGST Print
+		String outputCgst = commonUtility.roundUpToTwoDecimal(invoice.getcGstAmount(), 2);
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("Output CGST",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
@@ -639,10 +688,11 @@ public class GeneratePdf {
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getcGstAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell(String.valueOf(outputCgst),infoFont,Element.ALIGN_RIGHT));
 		
 		
 		//Row For SGST Print
+		String outputSgst = commonUtility.roundUpToTwoDecimal(invoice.getsGstAmount(), 2);
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("Output SGST",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
@@ -650,13 +700,27 @@ public class GeneratePdf {
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell(String.valueOf(commonUtility.roundUpToTwoDecimal(invoice.getsGstAmount(), 2)),infoFont,Element.ALIGN_RIGHT));
+		transTable.addCell(insertCell(String.valueOf(outputSgst),infoFont,Element.ALIGN_RIGHT));
 				
+		//Rounded Value
+		double totalChargableAmount = invoice.getTotalChargableAmount();
+		String rfValue = commonUtility.roundUpToTwoDecimal((float) (Math.ceil(totalChargableAmount) - totalChargableAmount), 2);
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("RF", infoFont, Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
+		/*PdfPCell subTotalCell = insertCell("Sub Total",infoFont,Element.ALIGN_CENTER);
+		subTotalCell.setColspan(2);
+		transTable.addCell(subTotalCell);*/
+		transTable.addCell(insertCell(String.valueOf(rfValue),infoFont,Element.ALIGN_RIGHT));
 		
 		// Transaction total Amount printing
 		//TODO: Add your Total amount of All transaction
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
-		transTable.addCell(insertCell("Total (Round Off)",defFont,Element.ALIGN_CENTER));
+		transTable.addCell(insertCell("Total (Round Off)",infoFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell("",defFont,Element.ALIGN_CENTER));
 		transTable.addCell(insertCell(String.valueOf(invoice.getTotalQuantity())+"Pc.",infoFont,Element.ALIGN_CENTER));
