@@ -117,6 +117,8 @@ public interface UserManagementDAO {
 
 	int updateGstNo(String trackId, String gstNo);
 
+	void updateUserDtls(String trackId, String status);
+
 //	Integer selectOTPRecord(String deviceInfo, String cellNum, int otp);
 
 //	void updateOTPRecord(String otp, Integer otpId);

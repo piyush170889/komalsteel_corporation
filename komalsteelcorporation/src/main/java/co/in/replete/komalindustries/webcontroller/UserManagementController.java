@@ -226,6 +226,26 @@ public class UserManagementController extends KomalIndustriesConstants {
 		return returnViewURL; 
 	}
 	
+	
+	@RequestMapping(value="/activate-deactivate-user", method=RequestMethod.GET)
+	public String userDetailsUpdate(@RequestParam("trackId") String trackId,@RequestParam("status") String status, Model model, RedirectAttributes redirectAttributes) throws PrepareViewModelException {
+		String returnViewURL = "customer management/user";
+		try {
+//				int isRowUpadated = 
+						userDAO.updateUserDtls(trackId,status);
+				System.out.println("Updated SuccessFully ");
+			//	model = prepareViewModelUtilty.prepareViewModelMap("userDetails", model, SUCCESS_MSSG_LABEL, "User Status changed successfully to " +status);
+		} catch(Exception e) {
+			e.printStackTrace();
+		//	model = prepareViewModelUtilty.prepareViewModelMap("userDetails", model, ERROR_MSSG_LABEL, "Somethign went wrong. Please try again updating the user");
+		}
+		
+		return "redirect:user"; 
+	}
+	
+	
+	
+	
 	/*@ModelAttribute("stateList")
 	public List<LocationDtls> getStateList() throws Exception {
 		return userDAO.getStateList();

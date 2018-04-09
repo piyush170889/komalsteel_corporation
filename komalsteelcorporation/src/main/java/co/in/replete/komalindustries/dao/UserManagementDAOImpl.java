@@ -873,4 +873,10 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 		return jdbcTemplate.update("update user_dtls set GSTNO=? where TRACK_ID=?", gstNo, trackId); 
 	}
 
+	@Override
+	public void updateUserDtls(String trackId, String status) {
+		System.out.println("trackId "+trackId +" status "+status);
+		jdbcTemplate.update("update user_login_dtls set STATUS=? where TRACK_ID=?",new Object[]{status,trackId});
+	}
+
 }

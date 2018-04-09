@@ -74,6 +74,8 @@ public class UserDetails extends SimpleTagSupport {
 //    		System.out.println(userDetailsList.size());
 			if(userDetailsList.size() > 0) {
 				int i=1;
+				String inActive = "Inactive";
+				String active = "Active";
 				for(WUserDetailsTO userDetails : userDetailsList) {
 					out.println("<tr>");
 					out.println("<td>"+ i++ +"</td>");
@@ -114,7 +116,11 @@ public class UserDetails extends SimpleTagSupport {
 							+ userDetails.getTransportName() + "','"
 							+ userDetails.getGstNo() + "','"
 							+ userDetails.getDiscount() + "'"
-							+ ")\"><i class=\"fa fa-pencil\"></i></a>");
+							+ ")\"><i class=\"fa fa-pencil\"></i></a>"
+						//	+ if(userDetails.getStatus().equals("Active")){}else{}+
+							//+ "<a href=\"activate-deactivate-user?trackId="+userDetails.getUserTrackid()+"&status=Active\" onclick=\"return confirm('Are you sure you want to activate this user?')\"><i class=\"fa fa-check\"></i></a>"
+									+ "<a href=\"activate-deactivate-user?trackId="+userDetails.getUserTrackid()+"&status=Inactive\" onclick=\"return confirm('Are you sure you want to dectivate this user?')\"><i class=\"fa fa-ban\"></i></a>"
+											+ "");
 //					out.print("&nbsp&nbsp&nbsp&nbsp<a href=\"deleteUser?trackId=" +userDetails.getUserTrackid() + "\" onclick=\"return confirm('Are you sure?')\"><i class=\"fa fa-trash\"></i></a>");
 					out.print("</td>");
 					out.println("</tr>");

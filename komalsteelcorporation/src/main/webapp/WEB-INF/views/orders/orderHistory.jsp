@@ -466,7 +466,51 @@
   </div>
 </div>
 <!-- ./Add Product Modal -->
+<!-- Add Order Modal -->
+<div id="orderItem" class="modal modal-primary fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add a new Order</h4>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">order Details</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                  <div class="box-body" style="color:#333;">
+        			<div class="col-md-12">
+        				<div class="form-group">
+                      <label for="exampleInputPassword1">Order Items</label>
+                      <label></label>
+                    </div>
+        			</div>
+        			<div class="col-md-6">
+                    
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+
+                  <!-- <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div> -->
+              </div><!-- /.box -->
+          </div>
+       </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ./View Details-->
 
 <!-- Edit Order Modal -->
 <div id="editOrder" class="modal modal-primary fade" role="dialog">
