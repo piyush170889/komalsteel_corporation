@@ -301,12 +301,21 @@
             ],
             columnDefs: [ {
                 targets: 2,
-                render: $.fn.dataTable.render.ellipsis( 50, true ),
-                
+                /* render: $.fn.dataTable.render.ellipsis( 50, true ), */
+			       render: function ( data, type, row ) {
+			    	return data.length > 50 ?
+			        data.substr( 0, 50 ) + '<a href="javascript:void(0)" onclick="showData(\'' + data + '\')"> (Read More)</a>' :
+			        data;
+				}
               },
               {
                   targets: 6,
-                  render: $.fn.dataTable.render.ellipsis( 90, true ),
+                  /* render: $.fn.dataTable.render.ellipsis( 90, true ), */
+                     render: function ( data, type, row ) {
+				    	return data.length > 50 ?
+				        data.substr( 0, 50 ) + '<a href="javascript:void(0)" onclick="showData(\'' + data + '\')"> (Read More)</a>' :
+				        data;
+					}
                   
                 },
                 {
@@ -782,6 +791,42 @@
   </div>
 <!-- ./Edit LR No Modal -->
 
+<!-- View Modal -->
+<div id="dataDisplayModel" class="modal modal-primary fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Details</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                  <div class="box-body" style="color:#333;">
+        			<div class="col-md-12">
+        				<div id="dataDisplayLabel"></div>
+        			</div>
+                  </div>
+                  <!-- /.box-body -->
+              </div><!-- /.box -->
+          </div>
+       </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ./View Modal -->
+
  <!-- date-range-picker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.16/dataRender/ellipsis.js"></script>
@@ -797,6 +842,12 @@
         $('#lrdate1').datepicker();
         $('#delvryDate1').datepicker();
         $('#reservation').daterangepicker();
+        
+        function showData(data) {
+        	/* alert(data); */
+        	$('#dataDisplayLabel').html(data);
+        	$('#dataDisplayModel').modal("toggle");
+        }
 </script>
   </body>
 </html>

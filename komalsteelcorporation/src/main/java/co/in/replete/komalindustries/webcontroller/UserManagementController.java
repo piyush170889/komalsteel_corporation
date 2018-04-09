@@ -228,16 +228,15 @@ public class UserManagementController extends KomalIndustriesConstants {
 	
 	
 	@RequestMapping(value="/activate-deactivate-user", method=RequestMethod.GET)
-	public String userDetailsUpdate(@RequestParam("trackId") String trackId,@RequestParam("status") String status, Model model, RedirectAttributes redirectAttributes) throws PrepareViewModelException {
-		String returnViewURL = "customer management/user";
+	public String userDetailsUpdate(@RequestParam("trackId") String trackId,
+			@RequestParam("status") String status, RedirectAttributes redirectAttributes) throws PrepareViewModelException {
 		try {
-//				int isRowUpadated = 
-						userDAO.updateUserDtls(trackId,status);
-				System.out.println("Updated SuccessFully ");
-			//	model = prepareViewModelUtilty.prepareViewModelMap("userDetails", model, SUCCESS_MSSG_LABEL, "User Status changed successfully to " +status);
+				userDAO.updateUserDtls(trackId,status);
+				System.out.println("Updated SuccessFully");
+				redirectAttributes.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Updated SuccessFully");
 		} catch(Exception e) {
 			e.printStackTrace();
-		//	model = prepareViewModelUtilty.prepareViewModelMap("userDetails", model, ERROR_MSSG_LABEL, "Somethign went wrong. Please try again updating the user");
+			redirectAttributes.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
 		}
 		
 		return "redirect:user"; 
