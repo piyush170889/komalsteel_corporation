@@ -297,15 +297,37 @@
               null,
               null,
               null */
-            ]
+            ],
+            columnDefs: [ {
+                targets: 2,
+                render: $.fn.dataTable.render.ellipsis( 50, true ),
+                
+              },
+              {
+                  targets: 6,
+                  render: $.fn.dataTable.render.ellipsis( 90, true ),
+                  
+                },
+                {
+                    targets: 8,
+                    render: $.fn.dataTable.render.ellipsis( 50, true ),
+                    
+                  }]
           });  
+    	
         $('#example2').DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": false,
           "ordering": true,
           "info": true,
-          "autoWidth": false
+          "autoWidth": false,
+          columnDefs: [ {
+              targets: 0,
+              render: function ( data, type, row ) {
+                  return data.substr( 0, 10 );
+              }
+          } ]
         });
       });
     </script>
@@ -715,6 +737,7 @@
 
  <!-- date-range-picker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.16/dataRender/ellipsis.js"></script>
     <script src="plugins/daterangepicker/daterangepicker.js"></script>
     <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
 <!-- InputMask -->
