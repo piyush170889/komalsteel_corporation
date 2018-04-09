@@ -690,7 +690,8 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 					+ "oad.MARK,oad.DESTINATION,oad.TRAN_NM,oad.TINNO,"
 					+ "ud.CNTC_NUM,cd.LR_NO,cd.LR_NO_DATE,cd.NO_OF_CARTON_LOADED from cart_dtls as cd inner join cart_dlvry_dtls as cdd on cd.CART_DLVRY_DTLS_ID=cdd.CART_DLVRY_DTLS_ID inner join other_address_details as oad "
 					+ "on cdd.SHIPPING_ADDRESS_ID=oad.OTHER_ADDRESS_ID inner join user_dtls as ud "
-					+ "on cd.TRACK_ID=ud.TRACK_ID and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')>=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')<=? limit ?";
+					+ "on cd.TRACK_ID=ud.TRACK_ID inner join user_login_dtls as uld on ud.TRACK_ID=uld.TRACK_ID and uld.STATUS='Active' and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')>=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')<=? "
+					+ " order by cd.CART_DTLS_ID limit ?";
 			//TODO Get max records to be shown from db
 			params = new Object[] {startDate, endDate, 200};
 		} else {
@@ -704,7 +705,10 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 					+ "oad.MARK,oad.DESTINATION,oad.TRAN_NM,oad.TINNO,"
 					+ "ud.CNTC_NUM,cd.LR_NO,cd.LR_NO_DATE,cd.NO_OF_CARTON_LOADED from cart_dtls as cd inner join cart_dlvry_dtls as cdd on cd.CART_DLVRY_DTLS_ID=cdd.CART_DLVRY_DTLS_ID inner join other_address_details as oad "
 					+ "on cdd.SHIPPING_ADDRESS_ID=oad.OTHER_ADDRESS_ID inner join user_dtls as ud "
-					+ "on cd.TRACK_ID=ud.TRACK_ID and cd.CART_STATUS=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')>=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')<=? limit ?";
+					+ "on cd.TRACK_ID=ud.TRACK_ID "
+					+ " inner join user_login_dtls as uld on ud.TRACK_ID=uld.TRACK_ID and uld.STATUS='Active' "
+					+ "and cd.CART_STATUS=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')>=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')<=? "
+					+ " order by cd.CART_DTLS_ID limit ?";
 			//TODO Get max records to be shown from db
 			params = new Object[] {searchBy, startDate, endDate, 200};
 		}

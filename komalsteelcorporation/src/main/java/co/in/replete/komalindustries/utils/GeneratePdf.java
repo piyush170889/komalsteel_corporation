@@ -298,11 +298,12 @@ public class GeneratePdf {
 		
 		
 		//Print amount in words
+		int amountInWords = (int)(Math.round(invoice.getTotalChargableAmount()));
 		PdfPCell amountWordCell=new PdfPCell();
 		amountWordCell.setPaddingBottom(5);
 		amountWordCell.setColspan(8);
 		amountWordCell.addElement(new Phrase("Amount Chargeable (in words)",defFont));
-		amountWordCell.addElement(new Phrase(WordUtils.capitalize(commonUtility.doGetWords((int)invoice.getTotalChargableAmount())),infoFont));
+		amountWordCell.addElement(new Phrase(WordUtils.capitalize(commonUtility.doGetWords(amountInWords)),infoFont));
 		transTable.addCell(amountWordCell);
 		document.add(transTable);
 		
@@ -730,11 +731,12 @@ public class GeneratePdf {
 		
 		
 		//Print amount in words
+		int amountInWords = (int)Math.round(invoice.getTotalChargableAmount());
 		PdfPCell amountWordCell=new PdfPCell();
 		amountWordCell.setPaddingBottom(5);
 		amountWordCell.setColspan(8);
 		amountWordCell.addElement(new Phrase("Amount Chargeable (in words)",defFont));
-		amountWordCell.addElement(new Phrase(WordUtils.capitalize(commonUtility.doGetWords((int)invoice.getTotalChargableAmount())),infoFont));
+		amountWordCell.addElement(new Phrase(WordUtils.capitalize(commonUtility.doGetWords(amountInWords)),infoFont));
 		transTable.addCell(amountWordCell);
 		document.add(transTable);
 		

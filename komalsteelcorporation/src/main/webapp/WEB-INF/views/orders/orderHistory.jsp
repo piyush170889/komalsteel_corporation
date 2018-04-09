@@ -283,6 +283,7 @@
     <script>
       $(function () {
     	$('#example1').DataTable({
+    	"order": [[ 0, "desc" ]],
    		  "columns": [
               null,
               null,
@@ -313,9 +314,11 @@
                     render: $.fn.dataTable.render.ellipsis( 50, true ),
                     
                   }]
-          });  
+          }
+          );  
     	
         $('#example2').DataTable({
+        	
           "paging": true,
           "lengthChange": false,
           "searching": false,
