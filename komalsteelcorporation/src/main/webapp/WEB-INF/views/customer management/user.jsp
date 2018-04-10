@@ -494,10 +494,10 @@
                       <label for="exampleInputPassword1">GST No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="GST No" path="gstNo" id="gstNo1" required="required" />
                     </div>
-                    <div class="form-group">
+                    <%-- <div class="form-group">
                       <label for="exampleInputPassword1">Email</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Email Id" path="emailId" id="emailId1" required="required" />
-                    </div>
+                    </div> --%>
                     </div>
                     
                     <div class="col-md-6">
@@ -533,6 +533,11 @@
 	                   <div class="form-group">
 	                      <label for="exampleInputPassword1">Discount</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
 	                      <form:input class="form-control" placeholder="Discount" path="discount" id="discount1" required="required" />
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label for="exampleInputPassword1">Email</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+	                      <form:input class="form-control" placeholder="Email Id" path="emailId" id="emailId1" required="required" />
 	                    </div>
 	                    
                     </div>

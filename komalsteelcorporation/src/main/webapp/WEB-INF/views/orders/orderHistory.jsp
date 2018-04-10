@@ -302,21 +302,33 @@
             columnDefs: [ {
                 targets: 2,
                 /* render: $.fn.dataTable.render.ellipsis( 50, true ), */
-			       render: function ( data, type, row ) {
-			    	return data.length > 50 ?
-			        data.substr( 0, 50 ) + '<a href="javascript:void(0)" onclick="showData(\'' + data + '\')"> (Read More)</a>' :
-			        data;
-				}
+			       /* render: function ( data, type, row ) {
+				    	return data.length > 50 ?
+				        data.substr( 0, 50 ) + '<a href="javascript:void(0)" onclick="showData(\'' + data + '\')"> (Read More)</a>' :
+				        data;
+					} */
+					render: function ( data, type, row ) {
+	                   	 if (data.length > 50) {
+	                   	 	var randomNum = randomString();
+	                   	 	$('#ellipsis').append("<div id=\"ellipsis_" + randomNum + "\">" + data + "</div>");
+	                   	 	return data.substr( 0, 50 ) + '<a href="javascript:void(0)" onclick="showData(\'' + randomNum + '\')"> (Read More)</a>'
+	                   	 } else {
+	                       	 return data; 
+	                   	 }
+					 }
               },
               {
                   targets: 6,
                   /* render: $.fn.dataTable.render.ellipsis( 90, true ), */
                      render: function ( data, type, row ) {
-				    	return data.length > 50 ?
-				        data.substr( 0, 50 ) + '<a href="javascript:void(0)" onclick="showData(\'' + data + '\')"> (Read More)</a>' :
-				        data;
-					}
-                  
+	                   	 if (data.length > 50) {
+	                   	 	var randomNum = randomString();
+	                   	 	$('#ellipsis').append("<div id=\"ellipsis_" + randomNum + "\">" + data + "</div>");
+	                   	 	return data.substr( 0, 50 ) + '<a href="javascript:void(0)" onclick="showData(\'' + randomNum + '\')"> (Read More)</a>'
+	                   	 } else {
+	                       	 return data; 
+	                   	 }
+					 }
                 },
                 {
                     targets: 8,
@@ -343,7 +355,11 @@
         });
       });
     </script>
-    
+
+<!-- Ellipsis Data -->
+<div id="ellipsis" style="display:none;"></div>
+<!-- ./Ellipsis Data -->
+
 <!-- Add Order Modal -->
 <div id="addProduct" class="modal modal-primary fade" role="dialog">
   <div class="modal-dialog">
@@ -813,7 +829,7 @@
                 <!-- form start -->
                   <div class="box-body" style="color:#333;">
         			<div class="col-md-12">
-        				<div id="dataDisplayLabel"></div>
+        				<div id="dataDisplayDiv"></div>
         			</div>
                   </div>
                   <!-- /.box-body -->
@@ -826,6 +842,7 @@
   </div>
 </div>
 <!-- ./View Modal -->
+
 
  <!-- date-range-picker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
@@ -843,11 +860,19 @@
         $('#delvryDate1').datepicker();
         $('#reservation').daterangepicker();
         
-        function showData(data) {
-        	/* alert(data); */
-        	$('#dataDisplayLabel').html(data);
+        function showData(dataId) {
+        	$('#dataDisplayDiv').html('');
+        	var data = $('#ellipsis_'+dataId).html();
+        	$('#dataDisplayDiv').html(data);
         	$('#dataDisplayModel').modal("toggle");
         }
+        
+        function randomString() {
+        	return Math.floor((1 + Math.random()) * 0x10000)
+        	    .toString(16)
+        	    .substring(1);
+        }
+        
 </script>
   </body>
 </html>
