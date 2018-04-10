@@ -58,10 +58,11 @@ public class UserDetails extends SimpleTagSupport {
     			} else if(searchBy.equals("emailId")) {
     				sql = sql_1 + "uld.LOGIN_ID LIKE '%" + searchValue + "%'" + sql_2;
     			} else if(searchBy.equalsIgnoreCase("InactiveUsers")) {
-    				String dateRange[] = searchValue.split("-");
+    				/*String dateRange[] = searchValue.split("-");
     				String startDate = dateRange[0].trim();
     				String endDate = dateRange[1].trim();
-    				sql = sql_1 + "uld.STATUS='Inactive' and DATE_FORMAT(uld.CREATED_TS,'%m/%d/%Y') >='" + startDate + "' and DATE_FORMAT(uld.CREATED_TS,'%m/%d/%Y')<='" + endDate + "'" + sql_2;
+    				sql = sql_1 + "uld.STATUS='Inactive' and DATE_FORMAT(uld.CREATED_TS,'%m/%d/%Y') >='" + startDate + "' and DATE_FORMAT(uld.CREATED_TS,'%m/%d/%Y')<='" + endDate + "'" + sql_2;*/
+    				sql = sql_1 + "uld.STATUS='Inactive' " + sql_2;
     			} else if (searchBy.equals("gstNo")) {
     				sql = sql_1 + "ud.GSTNO LIKE '%" + searchValue + "%'" + sql_2;
     			}

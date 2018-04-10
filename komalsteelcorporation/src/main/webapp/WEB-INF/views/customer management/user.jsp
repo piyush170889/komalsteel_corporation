@@ -165,7 +165,8 @@
                 	<div class="col-xs-12">
                 		<!-- Trigger the modal with a button -->
 						<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addUser">Add New User</button>
-						<button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#showInactiveUser">Show Inactive Users</button>
+						<!-- <button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#showInactiveUser">Show Inactive Users</button> -->
+						<a class="btn btn-danger btn-md" href="user?searchBy=InactiveUsers">Show Inactive Users</a>
                 	  	<!-- <button type="button" class="btn btn-danger btn-md">Show InActive User</button> --> 
                 	</div>
                 </div>
@@ -299,10 +300,6 @@
                       <label for="exampleInputPassword1">GST No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="GST No" path="gstNo" required="required" />
                     </div>
-                    <div class="form-group">
-                      <label for="exampleInputPassword1">Discount</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
-                      <form:input class="form-control" placeholder="Discount" path="discount" required="required" />
-                    </div>
                     </div>
                     
                     <div class="col-md-6">
@@ -335,10 +332,11 @@
                       <label for="exampleInputPassword1">Postal Code</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Postal Code" path="zipcode" required="required" />
                     </div>
-                     --%><div class="form-group">
+                     --%>
+                     <%-- <div class="form-group">
                       <label for="exampleInputPassword1">VAT.No</label><!-- <i class="fa fa-asterisk" style="color:red;font-size:9px;"></i> -->
                       <form:input class="form-control" placeholder="VAT.No" path="vatNo" />
-                    </div>
+                    </div> --%>
                      <div class="form-group">
                       <label for="exampleInputPassword1">User Type</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                          <!-- select -->
@@ -348,6 +346,12 @@
 	                        <option value="Dealer">Dealer</option>
 	                      </form:select>                  
 	                        </div>
+	                        
+	                   <div class="form-group">
+	                      <label for="exampleInputPassword1">Discount</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+	                      <form:input class="form-control" placeholder="Discount" path="discount" required="required" />
+	                    </div>
+	                    
                     </div>
                   </div>
                   
@@ -494,10 +498,10 @@
                       <label for="exampleInputPassword1">GST No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="GST No" path="gstNo" id="gstNo1" required="required" />
                     </div>
-                    <%-- <div class="form-group">
+                    <div class="form-group">
                       <label for="exampleInputPassword1">Email</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Email Id" path="emailId" id="emailId1" required="required" />
-                    </div> --%>
+                    </div>
                     </div>
                     
                     <div class="col-md-6">
@@ -535,10 +539,10 @@
 	                      <form:input class="form-control" placeholder="Discount" path="discount" id="discount1" required="required" />
 	                    </div>
 	                    
-	                    <div class="form-group">
+	                    <%-- <div class="form-group">
 	                      <label for="exampleInputPassword1">Email</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
 	                      <form:input class="form-control" placeholder="Email Id" path="emailId" id="emailId1" required="required" />
-	                    </div>
+	                    </div> --%>
 	                    
                     </div>
                   </div>
