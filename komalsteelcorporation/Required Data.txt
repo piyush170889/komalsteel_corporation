@@ -1,4 +1,4 @@
-VPS Details:
+VPS/SSH Details:
 -------------------------------
 Host IP - 132.148.151.28
 SSH username - komalsteel
