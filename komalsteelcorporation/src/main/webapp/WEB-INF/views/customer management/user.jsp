@@ -33,7 +33,7 @@
   <script>
 	function sendEditUserValues(userId1, firstName1, panNo1, lastName1, displayName1, status1, 
 			vatNo1, contactNo1, userType1, stAddress1, state, city, pincode, associatedDistributor,
-			otherAddressDtlsId, userDistributorListId,mark,dest,tranNm, gstNo, discount) {
+			otherAddressDtlsId, userDistributorListId,mark,dest,tranNm, gstNo, discount,emailId) {
 		try{
 			document.getElementById("userId1").value=userId1;
   			document.getElementById("firstName1").value = firstName1;
@@ -46,6 +46,7 @@
   			document.getElementById("userType1").value = userType1;
   			document.getElementById("stAddress1_1").value = stAddress1;
   			document.getElementById("state1").value = state;
+  			document.getElementById("emailId1").value = emailId;
   			getCityList1(state,city);
   			document.getElementById("pincode1").value = pincode;
   			/* document.getElementById("associatedDistributor1").value = associatedDistributor; */
@@ -478,8 +479,8 @@
                       <form:input class="form-control" placeholder="First Name" path="firstName" id="firstName1"  required="required" />
                     </div>
                      <div class="form-group">
-                      <label for="exampleInputPassword1">PAN.No</label>
-                      <form:input class="form-control" placeholder="Pan No" path="panNo" id="panNo1" />
+                      <!-- <label for="exampleInputPassword1">PAN.No</label> -->
+                      <form:input type="hidden" class="form-control" placeholder="Pan No" path="panNo" id="panNo1" />
                     </div>
 					<div class="form-group">
                       <label for="exampleInputPassword1">Company Name</label>
@@ -493,6 +494,10 @@
                       <label for="exampleInputPassword1">GST No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="GST No" path="gstNo" id="gstNo1" required="required" />
                     </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Email</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <form:input class="form-control" placeholder="Email Id" path="emailId" id="emailId1" required="required" />
+                    </div>
                     </div>
                     
                     <div class="col-md-6">
@@ -501,8 +506,8 @@
                       <form:input class="form-control" placeholder=" Last Name" id="lastName1" path="lastName" />
                     </div>
                      <div class="form-group">
-                      <label for="exampleInputPassword1">VAT.No</label>
-                      <form:input class="form-control" placeholder="VAT.No" path="vatNo" id="vatNo1" />
+                     <!--  <label for="exampleInputPassword1">VAT.No</label> -->
+                      <form:input type="hidden" class="form-control" placeholder="VAT.No" path="vatNo" id="vatNo1" />
                     </div>
                     
                     <div class="form-group">
@@ -529,6 +534,7 @@
 	                      <label for="exampleInputPassword1">Discount</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
 	                      <form:input class="form-control" placeholder="Discount" path="discount" id="discount1" required="required" />
 	                    </div>
+	                    
                     </div>
                   </div>
                   

@@ -113,7 +113,8 @@ public class UserDetails extends SimpleTagSupport {
 							+ userDetails.getDestination() + "','"
 							+ userDetails.getTransportName() + "','"
 							+ userDetails.getGstNo() + "','"
-							+ userDetails.getDiscount() + "'"
+							+ userDetails.getDiscount() + "','"
+							+ userDetails.getEmailId() + "'"
 							+ ")\">&nbsp&nbsp&nbsp&nbsp<i class=\"fa fa-pencil\"></i></a>"
 											+ "");
 //					out.print("&nbsp&nbsp&nbsp&nbsp<a href=\"deleteUser?trackId=" +userDetails.getUserTrackid() + "\" onclick=\"return confirm('Are you sure?')\"><i class=\"fa fa-trash\"></i></a>");

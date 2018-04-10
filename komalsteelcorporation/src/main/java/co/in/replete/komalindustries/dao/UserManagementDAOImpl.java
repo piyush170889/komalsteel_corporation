@@ -591,8 +591,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	@Override
 	public void updateUserDtl(UserAddTO request) {
 		
-		jdbcTemplate.update("update user_login_dtls set STATUS=?,USER_TYPE=? where TRACK_ID=?", new Object[] {request.getStatus(), 
-				request.getUserType(), request.getUserId()});
+		jdbcTemplate.update("update user_login_dtls set STATUS=?,USER_TYPE=?,LOGIN_ID=? where TRACK_ID=?", new Object[] {request.getStatus(), 
+				request.getUserType(), request.getEmailId(), request.getUserId()});
 		jdbcTemplate.update("update user_dtls set FIRST_NAME=?,LAST_NAME=?,PAN_NO=?,VAT_TIN_NO=?,DISPLAY_NAME=?,"
 				+ "CNTC_NUM=?,GSTNO=?,DISCOUNT=? where TRACK_ID=?", new Object[] {request.getFirstName(), request.getLastName(), request.getPanNo(),
 				request.getVatNo(), request.getDisplayName(), request.getContactNo(), request.getGstNo(), request.getDiscount(), request.getUserId()});
