@@ -232,8 +232,7 @@ public class UserManagementController extends KomalIndustriesConstants {
 			@RequestParam("status") String status, RedirectAttributes redirectAttributes) throws PrepareViewModelException {
 		try {
 				userDAO.updateUserDtls(trackId,status);
-				System.out.println("Updated SuccessFully");
-				redirectAttributes.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Updated SuccessFully");
+				redirectAttributes.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "User status Updated Successfully");
 		} catch(Exception e) {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
