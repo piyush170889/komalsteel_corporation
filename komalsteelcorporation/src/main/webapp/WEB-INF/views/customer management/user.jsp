@@ -107,7 +107,7 @@
 				           	 <div class="box-body">
 		              <div class="box box-info">
 		                <div class="box-header with-border">
-		                  <h3 class="box-title">Search User</h3>
+		                  <h3 class="box-title">Search Active Users</h3>
 		                </div>
 		                <form class="form-horizontal" action="${pageContext.request.contextPath }/user" method="get">
 		                  <div class="box-body">
@@ -159,7 +159,19 @@
               <div class="box">
                 <!-- /.Box-Header -->
                 <div class="box-header">
-                  <h3 class="box-title">User List</h3>
+                  <h3 class="box-title">
+				  <strong>
+				  <c:choose>
+					<c:when test="${not empty params.searchBy and searchBy eq 'InactiveUsers' }">
+						Inactive
+					</c:when>
+					<c:otherwise>
+						Active
+					</c:otherwise>
+				  </c:choose>
+				  </strong>
+				  User List
+				  </h3>
                 </div>
                 <div class="row">
                 	<div class="col-xs-12">
