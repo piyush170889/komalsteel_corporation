@@ -73,6 +73,7 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 					userDetailsTO.setUserType(rs.getString("USER_TYPE"));
 					userDetailsTO.setUserTrackId(rs.getString("TRACK_ID"));
 					userDetailsTO.setDisplayName(rs.getString("DISPLAY_NAME"));
+					userDetailsTO.setGstNo(rs.getString("GSTNO"));
 					
 					return userDetailsTO;
 				}

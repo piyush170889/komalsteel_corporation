@@ -162,7 +162,7 @@
                   <h3 class="box-title">
 				  <strong>
 				  <c:choose>
-					<c:when test="${not empty params.searchBy and searchBy eq 'InactiveUsers' }">
+					<c:when test="${not empty param.searchBy and param.searchBy eq 'InactiveUsers' }">
 						Inactive
 					</c:when>
 					<c:otherwise>
