@@ -232,6 +232,9 @@ public class UserServiceImpl implements UserService {
 		   String registrationSuccessMssg = MessageFormat.format(configProperties.getProperty("sms.registration.success"), fullCustomerName) ;
 		   messageUtility.sendMessage(contactNum, registrationSuccessMssg);
 		   
+		   String registrationSuccessAdminMssg = MessageFormat.format(configProperties.getProperty("sms.registration.admin"), fullCustomerName);
+		   messageUtility.sendMessage(configProperties.getProperty("admin.contactno"), registrationSuccessAdminMssg);
+		   
 		   return new BaseWrapper();
 	   }
 	   catch (DataAccessException e) 

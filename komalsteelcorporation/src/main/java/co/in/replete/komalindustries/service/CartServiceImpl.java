@@ -1,6 +1,7 @@
 
 package co.in.replete.komalindustries.service;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -492,11 +493,22 @@ public class CartServiceImpl implements CartService {
 //							e.printStackTrace();
 						}
 						
-						//Send Notification to alternate number
+						//Send Message Notification to alternate number
 						messageUtility.sendMessage(cartDetails.getAlternateCntc(), 
 								String.format(configProperties.getProperty("sms.orderplaced.success"), cartDtlsId));
 						
+						//Send Message Notification to Admin
+						String custName = userDetails.getFirstName() + (null == userDetails.getLastName() ? "" : " " + userDetails.getLastName());
+						String adminContactNumber = configProperties.getProperty("admin.contactno");
+						
+						System.out.println("Admin Contact No - " + adminContactNumber + ", \n Message - " + 
+								MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
+										custName, cartDtlsId));
+						messageUtility.sendMessage(adminContactNumber, 
+								MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
+										custName, cartDtlsId));
 					}
+					
 					return new BaseWrapper();
 				}
 			}
