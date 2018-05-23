@@ -76,6 +76,7 @@ public class UserDetails extends SimpleTagSupport {
 			if(userDetailsList.size() > 0) {
 				int i=1;
 				for(WUserDetailsTO userDetails : userDetailsList) {
+					String gstNo = userDetails.getGstNo();
 					out.println("<tr>");
 					out.println("<td>"+ i++ +"</td>");
 					out.println("<td>" +"<a href='userdetails?trackid="+ userDetails.getUserTrackid()+ "'>"+ userDetails.getUserFirstName()+" "+userDetails.getUserLastName() +"</a>"+ "</td>");
@@ -113,7 +114,7 @@ public class UserDetails extends SimpleTagSupport {
 							+ userDetails.getMark() + "','"
 							+ userDetails.getDestination() + "','"
 							+ userDetails.getTransportName() + "','"
-							+ userDetails.getGstNo() + "','"
+							+ gstNo + "','"
 							+ userDetails.getDiscount() + "','"
 							+ userDetails.getEmailId() + "'"
 							+ ")\">&nbsp&nbsp&nbsp&nbsp<i class=\"fa fa-pencil\"></i></a>"
@@ -123,6 +124,12 @@ public class UserDetails extends SimpleTagSupport {
 						out.print("&nbsp&nbsp&nbsp<a href=\"activate-deactivate-user?trackId="+userDetails.getUserTrackid()+"&status=Inactive\" onclick=\"return confirm('Are you sure you want to deactivate this user?')\"><i class=\"fa fa-ban\" title=\"Deactivate User\"></i></a>");
 					}else{
 						out.print("&nbsp&nbsp&nbsp<a href=\"activate-deactivate-user?trackId="+userDetails.getUserTrackid()+"&status=Active\" onclick=\"return confirm('Are you sure you want to activate this user?')\"><i class=\"fa fa-check\" title=\"Activate User\"></i></a>");
+					}
+					
+					if (null != gstNo && !gstNo.isEmpty()) {
+						out.print("&nbsp&nbsp&nbsp<a title=\"Create an order for the user\" href=\"add-order?user-id="+userDetails.getUserTrackid()+"\" ><i class=\"fa fa-shopping-cart\" aria-hidden=\"true\"></i></a>");
+					} else {
+						out.print("&nbsp&nbsp&nbsp<i class=\"fa fa-shopping-cart\" title=\"User does not have GST No. updated\" aria-hidden=\"true\"></i>");
 					}
 					out.print("</td>");
 					out.println("</tr>");

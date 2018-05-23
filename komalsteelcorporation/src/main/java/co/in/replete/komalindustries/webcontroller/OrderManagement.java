@@ -1,5 +1,6 @@
 package co.in.replete.komalindustries.webcontroller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
+import co.in.replete.komalindustries.beans.BaseWrapper;
+import co.in.replete.komalindustries.beans.CartDetailRequest;
+import co.in.replete.komalindustries.beans.CartDetailsTO;
+import co.in.replete.komalindustries.beans.CartItemDetailsListTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.UserOrderDetailsTO;
@@ -29,6 +34,7 @@ import co.in.replete.komalindustries.dao.AdminDAO;
 import co.in.replete.komalindustries.dao.UserManagementDAO;
 import co.in.replete.komalindustries.exception.PrepareViewModelException;
 import co.in.replete.komalindustries.exception.ServicesException;
+import co.in.replete.komalindustries.service.CartService;
 import co.in.replete.komalindustries.service.OrderDetailsService;
 import co.in.replete.komalindustries.utils.CommonUtility;
 import co.in.replete.komalindustries.utils.PrepareViewModelUtilty;
@@ -54,6 +60,9 @@ public class OrderManagement extends KomalIndustriesConstants {
 	
 	@Autowired
 	AdminDAO adminDAO;
+	
+	@Autowired
+	CartService cartService;
 	
 	/**
 	 * Description: get current orders
@@ -112,8 +121,8 @@ public class OrderManagement extends KomalIndustriesConstants {
 			ModelMap modelAndView) throws PrepareViewModelException
 	{
 		String returnViewURL = "redirect:order";
+		String userTrackId = servletRequest.getParameter("userId");
 		try {
-			String userTrackId = servletRequest.getParameter("userId");
 			String addressId = servletRequest.getParameter("addressId");
 			String stAddress = servletRequest.getParameter("submitStAddressVal");
 			String city = servletRequest.getParameter("submitCityVal");
@@ -133,12 +142,55 @@ public class OrderManagement extends KomalIndustriesConstants {
 			
 			System.out.println("\n Ordered items :-" + Arrays.asList(orderedItems) + "\n orderedItemQty :-" + Arrays.asList(orderedItemsQty));
 			
+			CartDetailsTO cartDetailsTO = new CartDetailsTO();
+			
+			//Set Cart Item Listing
+			List<CartItemDetailsListTO> cartItemsList = new ArrayList<CartItemDetailsListTO>();
+			for (int i=0; i<orderedItems.length; i++) {
+				CartItemDetailsListTO cartItemDetailsListTo = new CartItemDetailsListTO("", "", orderedItemsQty[i], orderedItems[i], "false", "");
+				cartItemsList.add(cartItemDetailsListTo);
+			}
+			cartDetailsTO.setCartItemsList(cartItemsList);
+			
+			//Set Shipping Details
+			if (null == addressId || addressId.isEmpty()) {
+				cartDetailsTO.setIsDefaultAddress("false");
+				cartDetailsTO.setStAddress1(stAddress);
+				cartDetailsTO.setCity(city);
+				cartDetailsTO.setPostalCode(pincode);
+				cartDetailsTO.setState(state);
+				cartDetailsTO.setCountry("India");
+				cartDetailsTO.setMark(mark);
+				cartDetailsTO.setDestination(dest);
+				cartDetailsTO.setTranNm(trans);
+			} else {
+				cartDetailsTO.setIsDefaultAddress("true");
+				cartDetailsTO.setShippingDtlsId(addressId);
+			}
+			
+			//Set Other Details
+			cartDetailsTO.setCartNotes(cartNotes);
+			cartDetailsTO.setAlternateCntc(alternateContact);
+			cartDetailsTO.setGstNo(userGstNo);
+			
+			//Prepare Place Order Object
+			List<CartDetailsTO> cartDetails = new ArrayList<CartDetailsTO>();
+			cartDetails.add(cartDetailsTO);
+			CartDetailRequest cartDetailRequest = new CartDetailRequest(cartDetails);
+			
+			BaseWrapper response = cartService.saveOrder(cartDetailRequest, userTrackId);	//Place Order
+			
+			if (null != response.getResponseMessage()) {
+				if (!response.getResponseMessage().getStatus().equalsIgnoreCase("200")) {
+					throw new Exception(response.getResponseMessage().getMessage());
+				}
+			}
 			
 			redirectAttributes.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Order Placed Successfully");
 		} catch (Exception e) {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
-			returnViewURL = "redirect:add-order";
+			returnViewURL = "redirect:add-order?user-id="+userTrackId;
 		}
 		
 		return returnViewURL;
