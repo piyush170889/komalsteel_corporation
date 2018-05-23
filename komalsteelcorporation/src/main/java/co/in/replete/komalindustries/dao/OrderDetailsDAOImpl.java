@@ -20,6 +20,7 @@ import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
 import co.in.replete.komalindustries.beans.entity.InvoiceDtl;
+import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.beans.entity.ItemsInventoryDtl;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.exception.ServicesException;
@@ -335,5 +336,12 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 		
 		jdbcTemplate.update("update cart_dlvry_dtls set COURIER_NM=?, DOCATE_NO=?, EXP_DLVRY_DT=? where CART_DLVRY_DTLS_ID=?", new Object[] {courierNm
 				, docateNo, delvryDate, cartDlvryDtlsId});
+	}
+	
+	@Override
+	public List<ItemMasterDtl> selectActiveProducts() {
+		
+		return jdbcTemplate.query("select * from item_master_dtls where IS_ACTIVE='Active'", 
+				new BeanPropertyRowMapper<ItemMasterDtl>(ItemMasterDtl.class));
 	}
 }

@@ -529,7 +529,8 @@ public class CartDetailsTO {
 	public ShippingAddressDetail convertToAddressDetailsEntity(String trackId) {
 		
 		ShippingAddressDetail addressDetail = new ShippingAddressDetail(this.addressType, this.city, this.country,
-				BigDecimal.valueOf(Double.parseDouble(this.latitude)), BigDecimal.valueOf(Double.parseDouble(this.longitude)), 
+				BigDecimal.valueOf(Double.parseDouble((null == this.latitude || this.latitude.isEmpty()) ? "0" : this.latitude)), 
+				BigDecimal.valueOf(Double.parseDouble((null == this.longitude || this.longitude.isEmpty()) ? "0" : this.longitude)), 
 				this.postalCode, this.stAddress1, this.stAddress2, this.stAddress3, this.state, trackId, (null == this.mark) ? "" : this.mark, 
 						(null == this.destination) ? "" : this.destination, (null == this.tranNm) ? "" : this.tranNm, 
 								(null == this.tinNo) ? "" : this.tinNo);
@@ -561,8 +562,8 @@ public class CartDetailsTO {
 
 	public CartDtl convertToCartDtlEntity(int cartDlvryDtlsId, int invoiceDtlsId, Integer offerAppldId, String paymentDtlId, String trackId) {
 
-		CartDtl cartDetail = new CartDtl(this.cartNotes, Float.parseFloat(this.cartPrice.isEmpty() ? "0.0" : this.cartPrice), this.isOfferApld, cartDlvryDtlsId, 
-				invoiceDtlsId, offerAppldId, paymentDtlId, UDValues.CART_STATUS_BOOKED.toString(), trackId);
+		CartDtl cartDetail = new CartDtl(this.cartNotes, Float.parseFloat((null == this.cartPrice || this.cartPrice.isEmpty()) ? "0.0" : this.cartPrice), 
+				this.isOfferApld, cartDlvryDtlsId, invoiceDtlsId, offerAppldId, paymentDtlId, UDValues.CART_STATUS_PENDING.toString(), trackId);
 		return cartDetail;
 	}
 

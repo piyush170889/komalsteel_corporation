@@ -12,11 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
+import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
+import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.beans.entity.ItemsInventoryDtl;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.OrderDetailsDAO;
+import co.in.replete.komalindustries.dao.UserManagementDAO;
 import co.in.replete.komalindustries.exception.ServicesException;
 import co.in.replete.komalindustries.utils.CommonUtility;
 import co.in.replete.komalindustries.utils.MessageUtility;
@@ -40,6 +43,10 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	@Autowired
 	Properties configProperties;
 	
+	@Autowired
+	private UserManagementDAO userDAO;
+	
+
 	@Override
 	public void editOrderDetails(OrderEditTO request) throws DataAccessException, Exception {
 		
@@ -139,7 +146,10 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 				"Courier Name - " + courierNm + "\n" + 
 				"Docate No - " + docateNo + "\n" + 
 				"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate));
+		
 		System.out.println("contactNo-" + contactNo + ",\n dispatchDetailsMssg - " + dispatchDetailsMssg);
+		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+		
 		messageUtility.sendMessage(contactNo, dispatchDetailsMssg);
 	}
 	
@@ -202,6 +212,18 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		
 		orderDetailsDAO.updateOrderPrice(Integer.parseInt(orderDtlsId), Float.parseFloat(discountPrice), 
 				KomalIndustriesConstants.UPDATE_TYPE_DISCOUNT);
+	}
+	
+	@Override
+	public UserDetailsAllTO getUserDetailsByTrackId(String userTrackId) throws Exception {
+		
+		return userDAO.selectUserDetailsByTrackId(userTrackId).get(0);
+	}
+	
+	@Override
+	public List<ItemMasterDtl> getActiveProducts() {
+		
+		return orderDetailsDAO.selectActiveProducts();
 	}
 	
 }

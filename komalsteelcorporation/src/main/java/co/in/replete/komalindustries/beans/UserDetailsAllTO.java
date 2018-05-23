@@ -48,7 +48,29 @@ public class UserDetailsAllTO {
 	
 	private String tranNm;
 	
+	private String gstNo;
+	
+	private String addressId;
+	
 	public UserDetailsAllTO(){}
+
+	public String getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
+	}
+
+	public String getGstNo() {
+		return gstNo;
+	}
+
+
+	public void setGstNo(String gstNo) {
+		this.gstNo = gstNo;
+	}
+
 
 	public String getAssociatedDistributorTrackId() {
 		return associatedDistributorTrackId;
@@ -225,5 +247,18 @@ public class UserDetailsAllTO {
 	public void setUserType(String userType) {
 		this.userType = userType;
 	}
+
+	@Override
+	public String toString() {
+		return "UserDetailsAllTO [trackId=" + trackId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", displayName=" + displayName + ", contactNo=" + contactNo + ", emailId=" + emailId + ", status="
+				+ status + ", panNo=" + panNo + ", vatNo=" + vatNo + ", street1=" + street1 + ", street2=" + street2
+				+ ", street3=" + street3 + ", city=" + city + ", state=" + state + ", country=" + country
+				+ ", postalCode=" + postalCode + ", regDate=" + regDate + ", userType=" + userType
+				+ ", associatedDistributorTrackId=" + associatedDistributorTrackId + ", mark=" + mark + ", destination="
+				+ destination + ", tranNm=" + tranNm + ", gstNo=" + gstNo + "]";
+	}
+	
+	
 	
 }

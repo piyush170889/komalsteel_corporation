@@ -11,6 +11,7 @@ import co.in.replete.komalindustries.beans.entity.AddressDetail;
 import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
+import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.beans.entity.ItemsInventoryDtl;
 import co.in.replete.komalindustries.exception.ServicesException;
 import co.in.replete.komalindustries.webcontroller.beans.EditCartItemDtlsTO;
@@ -60,5 +61,7 @@ public interface OrderDetailsDAO {
 	int selectOtherAddressIdByCartDlvryDtlsId(int cartDlvryDtlsId);
 
 	void updateCourierDetails(String courierNm, String docateNo, String delvryDate, int cartDlvryDtlsId);
+
+	List<ItemMasterDtl> selectActiveProducts();
 
 }

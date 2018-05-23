@@ -6,6 +6,8 @@ import org.springframework.dao.DataAccessException;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
+import co.in.replete.komalindustries.beans.UserDetailsAllTO;
+import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.exception.ServicesException;
 import co.in.replete.komalindustries.webcontroller.beans.EditCartItemDtlsTO;
 import co.in.replete.komalindustries.webcontroller.beans.WOrderDetailsTO;
@@ -26,5 +28,9 @@ public interface OrderDetailsService {
 	void editItemFromOrderCart(EditCartItemDtlsTO request) throws ServicesException;
 
 	void addDiscount(String discountPrice, String orderDtlsId) throws ServicesException;
+
+	UserDetailsAllTO getUserDetailsByTrackId(String userTrackId) throws Exception;
+
+	List<ItemMasterDtl> getActiveProducts();
 	
 }

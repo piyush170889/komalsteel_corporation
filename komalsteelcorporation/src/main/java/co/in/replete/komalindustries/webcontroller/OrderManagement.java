@@ -1,5 +1,6 @@
 package co.in.replete.komalindustries.webcontroller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -10,15 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
+import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.UserOrderDetailsTO;
+import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.AdminDAO;
 import co.in.replete.komalindustries.dao.UserManagementDAO;
@@ -56,7 +61,6 @@ public class OrderManagement extends KomalIndustriesConstants {
 	 * @return
 	 * @throws PrepareViewModelException 
 	 */
-	
 	@RequestMapping(value="/order",method=RequestMethod.GET)
 	public String orderHistoryPageView(Model model) throws PrepareViewModelException
 	{
@@ -68,6 +72,75 @@ public class OrderManagement extends KomalIndustriesConstants {
 			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, ERROR_MSSG_LABEL, ERROR_OCCURED);
 			returnViewURL = ERROR_PAGE_URL;
 		}
+		return returnViewURL;
+	}
+	
+	/**
+	 * Description: Displays Add Order
+	 * @param model
+	 * @return
+	 * @throws PrepareViewModelException 
+	 */
+	@RequestMapping(value="/add-order",method=RequestMethod.GET)
+	public String addOrderView(@RequestParam(value="user-id", required=true) String userTrackId, 
+			ModelMap modelAndView) throws PrepareViewModelException
+	{
+		String returnViewURL = VIEW_URL_ADD_ORDER;
+		try {
+			UserDetailsAllTO userDetails = orderDetailsService.getUserDetailsByTrackId(userTrackId);
+			List<ItemMasterDtl> productsList = orderDetailsService.getActiveProducts();
+			modelAndView.addAttribute("stateList", userDAO.getStateList());
+			modelAndView.addAttribute("userDetails", userDetails);
+			modelAndView.addAttribute("productsList", productsList);
+			modelAndView.addAttribute("userId", userTrackId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			returnViewURL = "redirect:order";
+		}
+		
+		return returnViewURL;
+	}
+	
+	/**
+	 * Description: Displays Add Order
+	 * @param model
+	 * @return
+	 * @throws PrepareViewModelException 
+	 */
+	@RequestMapping(value="/add-order",method=RequestMethod.POST)
+	public String addOrder(HttpServletRequest servletRequest, RedirectAttributes redirectAttributes, 
+			ModelMap modelAndView) throws PrepareViewModelException
+	{
+		String returnViewURL = "redirect:order";
+		try {
+			String userTrackId = servletRequest.getParameter("userId");
+			String addressId = servletRequest.getParameter("addressId");
+			String stAddress = servletRequest.getParameter("submitStAddressVal");
+			String city = servletRequest.getParameter("submitCityVal");
+			String pincode = servletRequest.getParameter("submitPincoeVal");
+			String state = servletRequest.getParameter("submitStateVal");
+			String mark = servletRequest.getParameter("submitMarkVal");
+			String dest = servletRequest.getParameter("submitDestVal");
+			String trans = servletRequest.getParameter("submitTransVal");
+			String []orderedItems = servletRequest.getParameterValues("itemMasterDtls[]");
+			String []orderedItemsQty = servletRequest.getParameterValues("itemQtyDtls[]");
+			String cartNotes = servletRequest.getParameter("cartNotes");
+			String alternateContact = servletRequest.getParameter("alternateContact");
+			String userGstNo = servletRequest.getParameter("userGstNo1");
+			
+			System.out.println(userTrackId + "-" + addressId + "-" + stAddress + "-" + city + "-" + pincode + "-" + state + "-" + mark + "-" + dest
+					 + "-" + trans + "-" + cartNotes + "-" + alternateContact + "-" + userGstNo);
+			
+			System.out.println("\n Ordered items :-" + Arrays.asList(orderedItems) + "\n orderedItemQty :-" + Arrays.asList(orderedItemsQty));
+			
+			
+			redirectAttributes.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Order Placed Successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+			returnViewURL = "redirect:add-order";
+		}
+		
 		return returnViewURL;
 	}
 	

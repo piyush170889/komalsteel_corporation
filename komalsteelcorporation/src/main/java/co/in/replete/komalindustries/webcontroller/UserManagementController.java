@@ -1,5 +1,8 @@
 package co.in.replete.komalindustries.webcontroller;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -45,6 +48,9 @@ public class UserManagementController extends KomalIndustriesConstants {
 	
 	@Autowired
 	MessageUtility messageUtility;
+
+	@Autowired
+	Properties configProperties;
 	
 	@RequestMapping(value="/user",method=RequestMethod.GET)
 	public String userPageView(Model model) throws Exception {
@@ -232,6 +238,26 @@ public class UserManagementController extends KomalIndustriesConstants {
 			@RequestParam("status") String status, RedirectAttributes redirectAttributes) throws PrepareViewModelException {
 		try {
 				userDAO.updateUserDtls(trackId,status);
+				
+				System.out.println("status - " + status);
+				if (status.equalsIgnoreCase("Active")) {
+					List<UserDetailsAllTO> userDetailsList = userDAO.selectUserDetailsByTrackId(trackId);
+					UserDetailsAllTO userDetails = userDetailsList.get(0);
+					String userCntcNum = userDetails.getContactNo();
+					String activatedUserName = userDetails.getFirstName() + " " + ((null == userDetails.getLastName() || userDetails.getLastName().isEmpty()) ? "" : userDetails.getLastName());
+					
+					String userActivationMssg = MessageFormat.format(configProperties.getProperty("sms.user.activation"), activatedUserName);
+					System.out.println("userActivationMssg - " + userActivationMssg + ", userCntcNum - " + userCntcNum);
+					
+					String currentDateTime = new SimpleDateFormat("dd-MM-yyyy hh:mm a").format(new Date());
+					String userActivationAdminMssg = MessageFormat.format(configProperties.getProperty("sms.admin.activation"), 
+							activatedUserName, currentDateTime);
+					System.out.println("userActivationAdminMssg - " + userActivationAdminMssg + ", adminContactNum - " + KomalIndustriesConstants.ADMIN_MOBILE_NO);
+					
+					messageUtility.sendMessage(userCntcNum, userActivationMssg);
+					messageUtility.sendMessage(KomalIndustriesConstants.ADMIN_MOBILE_NO, userActivationAdminMssg);
+				}
+				
 				redirectAttributes.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "User status Updated Successfully");
 		} catch(Exception e) {
 			e.printStackTrace();

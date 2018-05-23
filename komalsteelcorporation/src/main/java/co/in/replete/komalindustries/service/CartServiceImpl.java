@@ -222,10 +222,10 @@ public class CartServiceImpl implements CartService {
 */
 					CartDtl cartDetail = null;
 					Integer offerAppldId=0;
-					if(cartDetails.isOfferApld().equals(UDValues.BOOLEAN_TRUE))
+					/*if(cartDetails.isOfferApld().equals(UDValues.BOOLEAN_TRUE))
 					{
 						offerAppldId = Integer.parseInt(cartDetails.getOfferApldId());
-					}
+					}*/
 					
 //					cartDetail = cartDetails.convertToCartDtlEntity(cartDlvryDtlsId, invoiceDtlsId, offerAppldId, paymentDtlId, trackId);
 					cartDetail = cartDetails.convertToCartDtlEntity(cartDlvryDtlsId, 0, offerAppldId, null, trackId);

@@ -536,6 +536,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 					userDetailsAllTO.setMark(rs.getString("MARK"));
 					userDetailsAllTO.setDestination(rs.getString("DESTINATION"));
 					userDetailsAllTO.setTranNm(rs.getString("TRAN_NM"));
+					userDetailsAllTO.setGstNo(rs.getString("GSTNO"));
+					userDetailsAllTO.setAddressId(rs.getString("OTHER_ADDRESS_ID"));
 					
 					return userDetailsAllTO;
 				}

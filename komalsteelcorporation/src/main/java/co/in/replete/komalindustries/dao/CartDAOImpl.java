@@ -307,7 +307,8 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 				ps.setFloat(2, cartDetailParams.getCartPrice());
 				ps.setString(3, cartDetailParams.getTrackId());
 				ps.setString(4, cartDetailParams.getCartNotes());
-				ps.setString(5, cartDetailParams.getCartStatus());
+//				ps.setString(5, cartDetailParams.getCartStatus());
+				ps.setString(5, UDValues.CART_STATUS_PENDING.toString());
 				ps.setInt(6, cartDetailParams.getInvoiceDtlsId());
 				ps.setString(7, cartDetailParams.getPaymentDtlsId());
 				ps.setString(8, UDValues.BOOLEAN_FALSE.toString());
