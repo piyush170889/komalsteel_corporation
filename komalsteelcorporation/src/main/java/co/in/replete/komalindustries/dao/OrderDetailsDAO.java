@@ -66,4 +66,6 @@ public interface OrderDetailsDAO {
 
 	List<ItemMasterDtl> selectActiveProductsWithHsnNo();
 
+	String selectTrackingUrlByCourierName(String courierNm);
+
 }

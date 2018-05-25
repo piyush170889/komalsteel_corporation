@@ -50,6 +50,7 @@
 	}
  	
  	function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination, courierName, docateNo, dlvryDate) {
+ 		$("#courierNm1").val("Select");
  		if(lrNo == "null") {
  			lrNo = "";
  		}
@@ -84,8 +85,7 @@
  		document.getElementById("transporterNm1").value=transporterName;
  		document.getElementById("destination1").value=destination;
  		document.getElementById("mark1").value=mark;
- 		alert($("#courierNm1").val());
- 		$("#courierNm1").val("Select");
+ 		$("#courierNm1").val(courierName);
  		document.getElementById("docateNo1").value=docateNo;
  		document.getElementById("delvryDate1").value=dlvryDate;
  	}

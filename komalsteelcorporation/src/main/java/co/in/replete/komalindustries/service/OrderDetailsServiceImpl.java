@@ -151,11 +151,13 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
 		if (!lrNo.isEmpty() && !courierNm.isEmpty()) {
 			orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
+			String trackingUrl = orderDetailsDAO.selectTrackingUrlByCourierName(courierNm);
 			String courierDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
 					"Order No. - " + cartDtldId + "\n" + 
 					"Courier Name - " + courierNm + "\n" + 
 					"Docate No - " + docateNo + "\n" + 
-					"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate));
+					"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate)) + "\n" + 
+					"Tracking Url - " + trackingUrl;
 
 			System.out.println("contactNo-" + contactNo + ",\n courierDispatchDetailsMssg - " + courierDispatchDetailsMssg);
 			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;

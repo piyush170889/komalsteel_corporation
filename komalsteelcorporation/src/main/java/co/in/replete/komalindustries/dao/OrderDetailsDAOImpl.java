@@ -350,4 +350,16 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 		
 		return jdbcTemplate.query(sqlProperties.getProperty("select.products.withhsn"), new BeanPropertyRowMapper<ItemMasterDtl>(ItemMasterDtl.class));
 	}
+	
+	@Override
+	public String selectTrackingUrlByCourierName(String courierNm) {
+		
+		return jdbcTemplate.query("select TRACKING_URL from courier_master where COURIER_NM=?", new Object[] {courierNm}, new RowMapper<String>() {
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				return rs.getString("TRACKING_URL");
+			}
+		}).get(0);
+	}
 }
