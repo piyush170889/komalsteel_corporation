@@ -128,15 +128,44 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		
 		orderDetailsDAO.updateTransportDetails(transporterNm, destination, mark, otherAddressDtlsId);
 		
-		orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
-		
 		CartDtl cartDetails = orderDetailsDAO.selectOrderDetailsById(Integer.parseInt(cartDtldId));
 		String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
 		
 		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
 		
-		String dispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+		if (!lrNo.isEmpty() && courierNm.isEmpty()) {
+			String lrDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+					"Order No. - " + cartDtldId + "\n" + 
+					"Transporter Name - " + transporterNm + "\n" + 
+					"Destination - " + destination + "\n" + 
+					"LR NO - " + lrNo + "\n" + 
+					"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+					"No. Of Carton - " + noofcarton;
+
+			System.out.println("contactNo-" + contactNo + ",\n lrNoDispatchDetailsMssg - " + lrDispatchDetailsMssg);
+			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+			
+			messageUtility.sendMessage(contactNo, lrDispatchDetailsMssg);
+		}
+
+		if (!lrNo.isEmpty() && !courierNm.isEmpty()) {
+			orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
+			String courierDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+					"Order No. - " + cartDtldId + "\n" + 
+					"Courier Name - " + courierNm + "\n" + 
+					"Docate No - " + docateNo + "\n" + 
+					"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate));
+
+			System.out.println("contactNo-" + contactNo + ",\n courierDispatchDetailsMssg - " + courierDispatchDetailsMssg);
+			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+			
+			messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
+		}
+
+		
+		
+		/*String dispatchDetailsMssg = "From Komal Trading Corporation:\n" +
 				"Order No. - " + cartDtldId + "\n" + 
 				"Transporter Name - " + transporterNm + "\n" + 
 				"Destination - " + destination + "\n" + 
@@ -148,9 +177,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 				"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate));
 		
 		System.out.println("contactNo-" + contactNo + ",\n dispatchDetailsMssg - " + dispatchDetailsMssg);
-		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
-		
-		messageUtility.sendMessage(contactNo, dispatchDetailsMssg);
+		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;*/
 	}
 	
 	@Override
@@ -223,7 +250,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	@Override
 	public List<ItemMasterDtl> getActiveProducts() {
 		
-		return orderDetailsDAO.selectActiveProducts();
+		return orderDetailsDAO.selectActiveProductsWithHsnNo();
 	}
 	
 }

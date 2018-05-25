@@ -2,6 +2,10 @@ package co.in.replete.komalindustries.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.servlet.ModelAndView;
+
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
 
 public interface WMasterService {
@@ -13,5 +17,11 @@ public interface WMasterService {
 	int doUpdateHSN(HSNDetails hsnDetails);
 
 	List<HSNDetails> doGetAllActiveHSNDetails();
+
+	ModelAndView doGetCourierView();
+
+	void doAddCourierView(HttpServletRequest servletRequest);
+
+	void doUpdateCourierView(HttpServletRequest servletRequest);
 
 }

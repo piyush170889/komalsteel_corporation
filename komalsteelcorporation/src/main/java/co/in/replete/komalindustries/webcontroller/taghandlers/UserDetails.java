@@ -92,7 +92,8 @@ public class UserDetails extends SimpleTagSupport {
 					out.println("<td>" + userDetails.getContactNo() + "</td>");
 				    out.println("<td>" + userDetails.getEmailId() + "</td>");
 					out.println("<td>" + userDetails.getUserType() + "</td>");
-					out.println("<td>" + userDetails.getRegDate() + "</td>");
+					out.println("<td>" + userDetails.getRegDate() + 
+					"<div style=\"display:none;\" id=\"addr_" +userDetails.getUserTrackid() + "\" >" + userDetails.getStAddress1() + "</div></td>");
 					out.println("<td>");
 					out.print("<a data-toggle=\"modal\" data-target=\"#editUser\" onClick=\"sendEditUserValues('"
 							+ userDetails.getUserTrackid() + "','"
@@ -104,7 +105,7 @@ public class UserDetails extends SimpleTagSupport {
 							+ userDetails.getVatNo() + "','"
 							+ userDetails.getContactNo() + "','"
 							+ userDetails.getUserType() + "','"
-							+ userDetails.getStAddress1() + "','"
+							+ "addr_" +userDetails.getUserTrackid() + "','"
 							+ userDetails.getState() + "','"
 							+ userDetails.getCity() + "','"
 							+ userDetails.getPincode() + "','"

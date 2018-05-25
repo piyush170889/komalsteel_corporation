@@ -81,7 +81,8 @@ public class OrderDetails extends SimpleTagSupport {
 //					out.println("<td>" + orderDetails.getPaymentStatus() + "</td>");
 /*					out.println("<td>" + orderDetails.getDeliveryType() + "</td>");*/
 //					out.println("<td>"+orderDetails.getInvoiceId()+"</td>");
-					out.println("<td>" + orderDetails.getStatus() + "</td>");
+					out.println("<td>" + orderDetails.getStatus() + 
+							"<div style=\"display:none\" id=\"odraddr_" + orderDetailsId + "\" />" + orderDetails.getStreet1() + "</td>");
 					if(null == orderDetails.getLrNo()) {
 						out.println("<td>Not Specified</td>");
 					} else {
@@ -105,7 +106,7 @@ public class OrderDetails extends SimpleTagSupport {
 							/*+ orderDetails.getPaymentMode() + "','"
 							+ orderDetails.getPaymentStatus() + "','"
 							+ orderDetails.getOrderPrice() + "','"
-							*/+ orderDetails.getStreet1() + "','"
+							*/+ "odraddr_" + orderDetailsId + "','"
 							+ orderDetails.getCnctNum() + "'"
 							+ ")\"><i class=\"fa fa-pencil\"></i></a>"
 							+ "<a data-toggle=\"modal\" data-target=\"#editLrNo\" style=\"margin:0 10px;\" onClick=\"sendEditLrNo('"

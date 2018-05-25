@@ -43,7 +43,7 @@
 			/* document.getElementById("paymode1").value = paymode;
 			document.getElementById("paymentStatus1").value = payStatus;
 			document.getElementById("orderprice1").value = orderPrice;  */
-			document.getElementById("dlvryAddr1").value=dlvryAddr;
+			document.getElementById("dlvryAddr1").value=document.getElementById(dlvryAddr).innerHTML;
 		} catch(e) {
 			alert(e);
 		}
@@ -734,7 +734,7 @@
         				<div class="col-md-12">
 	        				<div class="form-group">
 	                      		<label for="exampleInputPassword1">LR No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
-	                      		<input class="form-control" placeholder="LR NO" id="lrNo1" name="lrNo" />
+	                      		<input class="form-control" placeholder="LR NO" id="lrNo1" name="lrNo" required="required" />
 	                    	</div>
         				</div>
         				</div>
@@ -742,13 +742,13 @@
         				<div class="col-md-6">
 	        				<div class="form-group">
 	                      		<label for="exampleInputPassword1">LR Date</label>
-	                      		<input class="form-control" placeholder="LR Date" id="lrdate1" name="lrdate" readonly="readonly" />
+	                      		<input class="form-control" placeholder="LR Date" id="lrdate1" name="lrdate" required="required" readonly="readonly" />
 	                    	</div>
         				</div>
         				<div class="col-md-6">
 	        				<div class="form-group">
 	                      		<label for="exampleInputPassword1">No. Of Carton Loaded</label>
-	                      		<input class="form-control" placeholder="No. Of Carton Loaded" id="noofcarton1" name="noofcarton" />
+	                      		<input class="form-control" placeholder="No. Of Carton Loaded" id="noofcarton1" name="noofcarton" required="required" />
 	                    	</div>
         				</div>
         				</div>
@@ -765,7 +765,7 @@
 		        				<div class="form-group">
 		                      		<label for="exampleInputPassword1">Courier Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
 		                      		<input class="form-control" placeholder="Courier Name" 
-		                      		id="courierNm1" name="courierNm" required="required" />
+		                      		id="courierNm1" name="courierNm" />
 		                    	</div>
 	        				</div>
         				</div>
@@ -774,14 +774,14 @@
 		        				<div class="form-group">
 		                      		<label for="exampleInputPassword1">Docate No.</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
 		                      		<input class="form-control" placeholder="Docate No." 
-		                      		id="docateNo1" name="docateNo" required="required" />
+		                      		id="docateNo1" name="docateNo" />
 		                    	</div>
 	        				</div>
 	        				<div class="col-md-6">
 		        				<div class="form-group">
 		                      		<label for="exampleInputPassword1">Delivery Date</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
 		                      		<input class="form-control" placeholder="Delivery Date" 
-		                      		id="delvryDate1" name="delvryDate" required="required" readonly="readonly" />
+		                      		id="delvryDate1" name="delvryDate" readonly="readonly" />
 		                    	</div>
 	        				</div>
         				</div>

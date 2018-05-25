@@ -1,5 +1,7 @@
 package co.in.replete.komalindustries.webcontroller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
@@ -89,5 +92,39 @@ public class WMasterController {
 		}
 		
 		return "redirect:hsnDetails";
+	}
+	
+	@RequestMapping(value="/courier-master", method=RequestMethod.GET) 
+	public ModelAndView getCourierView() {
+		
+		return wMasterService.doGetCourierView();
+	}
+	
+	@RequestMapping(value="/addCourierDetails", method=RequestMethod.POST) 
+	public String addCourierView(HttpServletRequest servletRequest, RedirectAttributes redirectAttribute) {
+		
+		try {
+			wMasterService.doAddCourierView(servletRequest);
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Courier Details Added Sucessfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return "redirect:courier-master";
+	}
+	
+	@RequestMapping(value="/editCourierDetails", method=RequestMethod.POST) 
+	public String updateCourierView(HttpServletRequest servletRequest, RedirectAttributes redirectAttribute) {
+		
+		try {
+			wMasterService.doUpdateCourierView(servletRequest);
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Courier Details Updated Sucessfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return "redirect:courier-master";
 	}
 }

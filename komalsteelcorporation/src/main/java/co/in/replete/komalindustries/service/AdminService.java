@@ -2,6 +2,8 @@ package co.in.replete.komalindustries.service;
 
 import java.util.List;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import co.in.replete.komalindustries.beans.AppConfigurationWrapper;
 import co.in.replete.komalindustries.beans.BaseWrapper;
 import co.in.replete.komalindustries.beans.CompanyInfoRequestWrapper;
@@ -35,4 +37,5 @@ public interface AdminService {
 	List<LocationDtls> getCityListByStateId(String stateId);
 
 	BaseWrapper saveEnquiry(EnquiryDetails request) throws ServicesException;
+
 }

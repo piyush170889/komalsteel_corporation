@@ -64,4 +64,6 @@ public interface OrderDetailsDAO {
 
 	List<ItemMasterDtl> selectActiveProducts();
 
+	List<ItemMasterDtl> selectActiveProductsWithHsnNo();
+
 }

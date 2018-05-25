@@ -1,7 +1,6 @@
 package co.in.replete.komalindustries.webcontroller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -137,10 +136,10 @@ public class OrderManagement extends KomalIndustriesConstants {
 			String alternateContact = servletRequest.getParameter("alternateContact");
 			String userGstNo = servletRequest.getParameter("userGstNo1");
 			
-			System.out.println(userTrackId + "-" + addressId + "-" + stAddress + "-" + city + "-" + pincode + "-" + state + "-" + mark + "-" + dest
+			/*System.out.println(userTrackId + "-" + addressId + "-" + stAddress + "-" + city + "-" + pincode + "-" + state + "-" + mark + "-" + dest
 					 + "-" + trans + "-" + cartNotes + "-" + alternateContact + "-" + userGstNo);
 			
-			System.out.println("\n Ordered items :-" + Arrays.asList(orderedItems) + "\n orderedItemQty :-" + Arrays.asList(orderedItemsQty));
+			System.out.println("\n Ordered items :-" + Arrays.asList(orderedItems) + "\n orderedItemQty :-" + Arrays.asList(orderedItemsQty));*/
 			
 			CartDetailsTO cartDetailsTO = new CartDetailsTO();
 			

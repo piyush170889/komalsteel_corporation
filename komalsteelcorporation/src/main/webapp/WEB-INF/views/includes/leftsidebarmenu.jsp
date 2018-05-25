@@ -64,6 +64,7 @@
                 <li><a href="packagingInfoMaster"><i class="fa fa-suitcase"></i><span>Packaging Info Master</span></a></li>
                 <li><a href="locationdetails"><i class="fa fa-location-arrow"></i><span>Location Master</span></a></li>
                 <li><a href="hsnDetails"><i class="fa fa-location-arrow"></i><span>HSN Master</span></a></li>
+                <li><a href="courier-master"><i class="fa fa-location-arrow"></i><span>Courier Master</span></a></li>
               </ul>
             </li>
 			<!-- <li class="treeview">

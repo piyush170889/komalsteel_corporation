@@ -347,6 +347,7 @@ public class CartServiceImpl implements CartService {
 						
 						for (CartItemDtl cartItemDtl : cartItemDtls){
 							ItemMasterDtl itemMasterDtl = productDAO.selectProductDetailsByItemId(Integer.toString(cartItemDtl.getItemMasterDtlsId()));
+							System.out.println("ItemMasterDtl - " + itemMasterDtl.getItemMasterDtlsId() + "HSN No - " +itemMasterDtl.getHsnDtlsId());
 							HSNDetails hsnDetails = wMasterDAO.selectHsnDetailsByHsnDtlsId(itemMasterDtl.getHsnDtlsId());
 							
 							int itemQty = cartItemDtl.getItemQty();

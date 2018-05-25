@@ -344,4 +344,10 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 		return jdbcTemplate.query("select * from item_master_dtls where IS_ACTIVE='Active'", 
 				new BeanPropertyRowMapper<ItemMasterDtl>(ItemMasterDtl.class));
 	}
+	
+	@Override
+	public List<ItemMasterDtl> selectActiveProductsWithHsnNo() {
+		
+		return jdbcTemplate.query(sqlProperties.getProperty("select.products.withhsn"), new BeanPropertyRowMapper<ItemMasterDtl>(ItemMasterDtl.class));
+	}
 }

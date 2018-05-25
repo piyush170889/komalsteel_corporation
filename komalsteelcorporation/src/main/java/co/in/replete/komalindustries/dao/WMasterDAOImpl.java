@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
+import co.in.replete.komalindustries.beans.entity.CourierMasterDtls;
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
 
 @Repository
@@ -25,7 +26,7 @@ public class WMasterDAOImpl extends BaseDAOImpl implements WMasterDAO {
 	
 	@Override
 	public HSNDetails selectHsnDetailsByHsnDtlsId(int hsnDtlsId) {
-		
+//		System.out.println("HSN Dtls ID - " + hsnDtlsId);
 		String sql = "select * from hsn_dtls where HSN_DTLS_ID=?";
 		return jdbcTemplate.query(sql, new Object[] {hsnDtlsId}, new BeanPropertyRowMapper<HSNDetails>(HSNDetails.class)).get(0);
 	}
@@ -48,5 +49,24 @@ public class WMasterDAOImpl extends BaseDAOImpl implements WMasterDAO {
 		String sql = "update hsn_dtls set HSN_NO=?,IGST=?,CGST=?,SGST=? where HSN_DTLS_ID=?";
 		return jdbcTemplate.update(sql, hsnDetails.getHsnNo(), hsnDetails.getiGst(), hsnDetails.getcGst(), 
 				hsnDetails.getsGst(), hsnDetails.getHsnDtlsId());
+	}
+	
+	@Override
+	public List<CourierMasterDtls> selectActiveCourierDetailsList() {
+		
+		return jdbcTemplate.query("select * from courier_master where IS_ACTIVE=1", 
+				new BeanPropertyRowMapper<CourierMasterDtls>(CourierMasterDtls.class));
+	}
+	
+	@Override
+	public void insertCourierDetails(String courierName, String trackingUrl) {
+		
+		jdbcTemplate.update("insert into courier_master(COURIER_NM,TRACKING_URL) values(?,?)", courierName, trackingUrl);
+	}
+	
+	@Override
+	public void updateCourierDetails(int courierDtlsId, String courierName, String trackingUrl) {
+		
+		jdbcTemplate.update("update courier_master set COURIER_NM=?,TRACKING_URL=? where COURIER_MASTER_ID=?", courierName, trackingUrl, courierDtlsId);
 	}
 }

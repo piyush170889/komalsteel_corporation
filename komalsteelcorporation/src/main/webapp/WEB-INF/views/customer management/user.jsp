@@ -44,7 +44,7 @@
   			document.getElementById("vatNo1").value = vatNo1;
   			document.getElementById("contactNo1").value = contactNo1;
   			document.getElementById("userType1").value = userType1;
-  			document.getElementById("stAddress1_1").value = stAddress1;
+  			document.getElementById("stAddress1_1").value = document.getElementById(stAddress1).innerHTML;
   			document.getElementById("state1").value = state;
   			document.getElementById("emailId1").value = emailId;
   			getCityList1(state,city);
