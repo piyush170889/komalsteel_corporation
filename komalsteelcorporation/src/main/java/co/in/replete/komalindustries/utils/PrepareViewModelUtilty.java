@@ -1,9 +1,7 @@
 package co.in.replete.komalindustries.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import co.in.replete.komalindustries.dao.AdminDAO;
 import co.in.replete.komalindustries.dao.UserManagementDAO;
 import co.in.replete.komalindustries.dao.WMasterDAO;
 import co.in.replete.komalindustries.exception.PrepareViewModelException;
-import co.in.replete.komalindustries.service.WMasterService;
 import co.in.replete.komalindustries.webcontroller.beans.EditCartItemDtlsTO;
 
 @Component
@@ -38,6 +35,7 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 	
 	@Autowired
 	private WMasterDAO wMasterDAO;
+	
 	
 	/**
 	 * Description :
@@ -75,6 +73,7 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 				model.addAttribute("orderStatusList", orderStatusList);
 				
 				model.addAttribute("orderEdit", new OrderEditTO());
+				model.addAttribute("courierList", wMasterDAO.selectActiveCourierDetailsList());
 				
 				//Add State List
 				model.addAttribute("stateList", userDAO.getStateList());

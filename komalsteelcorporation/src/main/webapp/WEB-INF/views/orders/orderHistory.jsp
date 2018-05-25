@@ -69,7 +69,7 @@
  			destination = "";
  		}
  		if(courierName == "null") {
- 			courierName = "";
+ 			courierName = "Select";
  		}
  		if(docateNo == "null") {
  			docateNo = "";
@@ -84,7 +84,8 @@
  		document.getElementById("transporterNm1").value=transporterName;
  		document.getElementById("destination1").value=destination;
  		document.getElementById("mark1").value=mark;
- 		document.getElementById("courierNm1").value=courierName;
+ 		alert($("#courierNm1").val());
+ 		$("#courierNm1").val("Select");
  		document.getElementById("docateNo1").value=docateNo;
  		document.getElementById("delvryDate1").value=dlvryDate;
  	}
@@ -764,8 +765,14 @@
 		                	<div class="col-md-12">
 		        				<div class="form-group">
 		                      		<label for="exampleInputPassword1">Courier Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
-		                      		<input class="form-control" placeholder="Courier Name" 
-		                      		id="courierNm1" name="courierNm" />
+		                      		<!-- <input class="form-control" placeholder="Courier Name" 
+		                      		id="courierNm1" name="courierNm" /> -->
+		                      		<select class="form-control" id="courierNm1" name="courierNm" >
+		                      			<option value="Select">Select Courier</option>
+		                      			<c:forEach items="${courierList }" var="courier">
+		                      				<option value="${courier.courierNm }">${courier.courierNm }</option>
+		                      			</c:forEach>
+		                      		</select>
 		                    	</div>
 	        				</div>
         				</div>
