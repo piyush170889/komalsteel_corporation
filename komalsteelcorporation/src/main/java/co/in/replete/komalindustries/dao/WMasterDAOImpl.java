@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import co.in.replete.komalindustries.beans.entity.CourierMasterDtls;
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
+import co.in.replete.komalindustries.beans.entity.TransportationMasterDtls;
 
 @Repository
 public class WMasterDAOImpl extends BaseDAOImpl implements WMasterDAO {
@@ -68,5 +69,23 @@ public class WMasterDAOImpl extends BaseDAOImpl implements WMasterDAO {
 	public void updateCourierDetails(int courierDtlsId, String courierName, String trackingUrl) {
 		
 		jdbcTemplate.update("update courier_master set COURIER_NM=?,TRACKING_URL=? where COURIER_MASTER_ID=?", courierName, trackingUrl, courierDtlsId);
+	}
+
+	@Override
+	public List<TransportationMasterDtls> selectActiveTransportationDetailsList() {
+		return jdbcTemplate.query("select * from transportation_master where IS_ACTIVE=1", 
+				new BeanPropertyRowMapper<TransportationMasterDtls>(TransportationMasterDtls.class));
+	}
+
+	@Override
+	public void insertTransportationDetails(String name, String description) {
+		jdbcTemplate.update("insert into transportation_master(NAME,DESCRIPTION) values(?,?)", name, description);
+		
+	}
+
+	@Override
+	public void updateTransportationDetails(int transportationDtlsId, String name, String description) {
+		jdbcTemplate.update("update transportation_master set NAME=?,DESCRIPTION=? where TRANSPORTATION_MASTER_ID=?", name, description, transportationDtlsId);
+		
 	}
 }

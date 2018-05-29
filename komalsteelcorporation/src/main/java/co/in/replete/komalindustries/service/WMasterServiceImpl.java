@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.in.replete.komalindustries.beans.entity.CourierMasterDtls;
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
+import co.in.replete.komalindustries.beans.entity.TransportationMasterDtls;
 import co.in.replete.komalindustries.dao.WMasterDAO;
 
 @Service
@@ -72,5 +73,30 @@ public class WMasterServiceImpl implements WMasterService {
 		int courierDtlsId = Integer.parseInt(servletRequest.getParameter("courierDtlsId"));
 		
 		wMasterDAO.updateCourierDetails(courierDtlsId, courierName, trackingUrl);
+	}
+
+	@Override
+	public List<TransportationMasterDtls> doGetTransportationView() {
+		List<TransportationMasterDtls> transportationMasterDtlsList = wMasterDAO.selectActiveTransportationDetailsList();
+		return transportationMasterDtlsList;
+	}
+
+	@Override
+	public void doAddTransportDetails(HttpServletRequest servletRequest) {
+	
+		String name = servletRequest.getParameter("name");
+		String description = servletRequest.getParameter("description");
+		
+		wMasterDAO.insertTransportationDetails(name, description);
+	}
+
+	@Override
+	public void doUpdateTransportationDetails(HttpServletRequest servletRequest) {
+		String name = servletRequest.getParameter("name");
+		String description = servletRequest.getParameter("description");
+		int transportationDtlsId = Integer.parseInt(servletRequest.getParameter("transportationMasterDtlsId"));
+		
+		wMasterDAO.updateTransportationDetails(transportationDtlsId, name, description);
+		
 	}
 }

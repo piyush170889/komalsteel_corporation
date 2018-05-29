@@ -13,6 +13,8 @@
     <title>Komal Industries | Order Details</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+
    	<!-- Required head CSS -->
 	<jsp:include page="../includes/requiredheadcss.jsp" />
 	<!-- ./Required head CSS -->   	
@@ -23,13 +25,7 @@
  	<!-- DataTables -->
     <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
+  
   <script type="text/javascript">
   function sendEditOrderDetails(orderId , orderStatus, orderDate, dlvryDate, city, state, dlvryAddr, alternateContact) {
 		try {
@@ -49,8 +45,11 @@
 		}
 	}
  	
- 	function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination, courierName, docateNo, dlvryDate) {
- 		$("#courierNm1").val("Select");
+ 	/* function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination, courierName, docateNo, dlvryDate) { */
+ 		function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination) {
+ 		
+ 		//$("#courierNm1").val("Select");
+ 		
  		if(lrNo == "null") {
  			lrNo = "";
  		}
@@ -69,6 +68,31 @@
  		if(destination == "null") {
  			destination = "";
  		}
+ 		/* if(courierName == "null") {
+ 			courierName = "Select";
+ 		}
+ 		if(docateNo == "null") {
+ 			docateNo = "";
+ 		}
+ 		if(dlvryDate == "null") {
+ 			dlvryDate = "";
+ 		} */
+ 		document.getElementById("lrNo1").value=lrNo;
+ 		document.getElementById("cartDtlsId2").value=cartDtlsId;
+ 		document.getElementById("lrdate1").value=lrNoDate;
+ 		document.getElementById("noofcarton1").value=noOfCarton;
+ 		document.getElementById("transporterNm1").value=transporterName;
+ 		document.getElementById("destination1").value=destination;
+ 		document.getElementById("mark1").value=mark;
+ 		/* $("#courierNm1").val(courierName);
+ 		document.getElementById("docateNo1").value=docateNo;
+ 		document.getElementById("delvryDate1").value=dlvryDate; */
+ 	}
+ 	
+ 	
+	function sendValueToCourier(cartDtlsId,courierName, docateNo, dlvryDate) {
+ 		$("#courierNm1").val("Select");
+ 		
  		if(courierName == "null") {
  			courierName = "Select";
  		}
@@ -78,16 +102,11 @@
  		if(dlvryDate == "null") {
  			dlvryDate = "";
  		}
- 		document.getElementById("lrNo1").value=lrNo;
- 		document.getElementById("cartDtlsId2").value=cartDtlsId;
- 		document.getElementById("lrdate1").value=lrNoDate;
- 		document.getElementById("noofcarton1").value=noOfCarton;
- 		document.getElementById("transporterNm1").value=transporterName;
- 		document.getElementById("destination1").value=destination;
- 		document.getElementById("mark1").value=mark;
+ 		
  		$("#courierNm1").val(courierName);
  		document.getElementById("docateNo1").value=docateNo;
  		document.getElementById("delvryDate1").value=dlvryDate;
+ 		document.getElementById("cartDtlsId3").value=cartDtlsId;
  	}
   </script>
   
@@ -95,6 +114,13 @@
   <script src="js/locationdetails.js"></script>
   <!-- ./Custom JS -->
   
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
   <c:set var="orderInjectedDAO" scope="page" value="${cartDAO}"/>
@@ -271,16 +297,18 @@
     <!-- ./wrapper -->
 
     <!-- REQUIRED JS SCRIPTS -->
-	<jsp:include page="../includes/requiredbodyjs.jsp" />
+	 <jsp:include page="../includes/requiredbodyjs.jsp" />
     <!-- ./REQUIRED JS SCRIPTS -->
-
-  
+	
     <!-- DataTables -->
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
     <!-- page script -->
+    
+    
+    
     <script>
       $(function () {
     	$('#example1').DataTable({
@@ -693,11 +721,21 @@
 
 					<!-- Transportation Details -->
               		<div class="box-header with-border">
-	                  <h3 class="box-title">Transportation Details</h3>
+	                  <h3 class="box-title">Transportation Details </h3>
 	                </div><!-- /.box-header -->
 	                
 	                <div class="box-body" style="color:#333;">
-		                <div class="row">	
+			                <!-- <div class="row">	
+				                	<div class="col-md-12">
+				        				<div class="form-group"> 
+			                				<div class="ui-widget">
+							  					<label for="tags">Tags: </label>
+							  					<input class="form-control" id="tags">
+											</div>
+										</div>
+									</div>
+							</div> -->
+							<div class="row">	
 		                	<div class="col-md-12">
 		        				<div class="form-group">
 		                      		<label for="exampleInputPassword1">Transporter Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
@@ -756,11 +794,91 @@
         			<!-- LR NO Details -->
         				
         				<!-- Courier Details -->
+        				
+              		<%-- <div class="box-header with-border">
+	                  <h3 class="box-title">Courier Details</h3>
+	                </div>
+	                
+		                <div class="row">	
+		                	<div class="col-md-12">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Courier Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<select class="form-control" id="courierNm1" name="courierNm" >
+		                      			<option value="Select">Select Courier</option>
+		                      			<c:forEach items="${courierList }" var="courier">
+		                      				<option value="${courier.courierNm }">${courier.courierNm }</option>
+		                      			</c:forEach>
+		                      		</select>
+		                    	</div>
+	        				</div>
+        				</div>
+        				<div class="row">	
+	        				<div class="col-md-6">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Docate No.</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<input class="form-control" placeholder="Docate No." 
+		                      		id="docateNo1" name="docateNo" />
+		                    	</div>
+	        				</div>
+	        				<div class="col-md-6">
+		        				<div class="form-group">
+		                      		<label for="exampleInputPassword1">Delivery Date</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		                      		<input class="form-control" placeholder="Delivery Date" 
+		                      		id="delvryDate1" name="delvryDate" readonly="readonly" />
+		                    	</div>
+	        				</div>
+        				</div> --%>
+        				
+	                <!-- Courier Details -->
+	                
+						<div class="box-footer">
+							<input type="hidden" name="cartDtlsId" id="cartDtlsId2" />
+	                    	<input type="submit" class="btn btn-primary" value="Submit" />
+	                  	</div>
+	                  	
+                  	</div>
+                  	
+                  	
+               </div>
+              </form>
+        </div><!-- /.box -->
+        </div>
+       </div>
+      </div>
+    </div>
+
+  </div>
+<!-- ./Edit LR No Modal -->
+
+
+<!-- Edit Courier Modal -->
+<div id=editcourierDtlsModal class="modal modal-primary fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Courier Details</h4>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+              <!-- general form elements -->
+			 <form role="form" action="editCourierDtls" method="post">
+              <div class="box box-primary">
+
+					<!-- Transportation Details -->
+              		<div class="box-header with-border">
+	                  <h3 class="box-title">Transportation Details </h3>
+	                </div><!-- /.box-header -->
+	              
+	                <div class="box-body" style="color:#333;">
+        				<!-- Courier Details -->
               		<div class="box-header with-border">
 	                  <h3 class="box-title">Courier Details</h3>
 	                </div><!-- /.box-header -->
 	                
-	                <!-- <div class="box-body" style="color:#333;"> -->
 		                <div class="row">	
 		                	<div class="col-md-12">
 		        				<div class="form-group">
@@ -792,11 +910,11 @@
 		                    	</div>
 	        				</div>
         				</div>
-	                <!-- </div> -->
+	               
 	                <!-- Courier Details -->
 	                
 						<div class="box-footer">
-							<input type="hidden" name="cartDtlsId" id="cartDtlsId2" />
+							<input type="hidden" name="cartDtlsId" id="cartDtlsId3" />
 	                    	<input type="submit" class="btn btn-primary" value="Submit" />
 	                  	</div>
 	                  	
@@ -812,7 +930,7 @@
     </div>
 
   </div>
-<!-- ./Edit LR No Modal -->
+<!-- ./Edit Courier Modal -->
 
 <!-- View Modal -->
 <div id="dataDisplayModel" class="modal modal-primary fade" role="dialog">
@@ -881,6 +999,8 @@
         }
         
 </script>
+
+
   </body>
 </html>
 

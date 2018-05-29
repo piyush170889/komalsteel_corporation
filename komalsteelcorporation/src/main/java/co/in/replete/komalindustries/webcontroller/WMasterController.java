@@ -1,5 +1,8 @@
 package co.in.replete.komalindustries.webcontroller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
+import co.in.replete.komalindustries.beans.entity.TransportationMasterDtls;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.exception.ServicesException;
 import co.in.replete.komalindustries.service.WMasterService;
@@ -127,4 +131,62 @@ public class WMasterController {
 		
 		return "redirect:courier-master";
 	}
+	
+	@RequestMapping(value="/transportation-master", method=RequestMethod.GET) 
+	public ModelAndView getTransportationView() {
+		
+		ModelAndView modelAndView =  new ModelAndView();
+		List<TransportationMasterDtls> transportationMasterDtlsList =null;
+		try {
+			transportationMasterDtlsList = wMasterService.doGetTransportationView();
+		} catch (Exception e) {
+			transportationMasterDtlsList= new ArrayList<>();
+			e.printStackTrace();
+		}
+		
+		modelAndView.addObject("transportationMasterDtlsList", transportationMasterDtlsList);
+		modelAndView.setViewName("masters/transportation-masters");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/addTransportationDetails", method=RequestMethod.POST) 
+	public String addTransportationDetails(HttpServletRequest servletRequest, RedirectAttributes redirectAttribute) {
+		
+		try {
+			//System.out.println("name is:"+servletRequest.getParameter("name")+",description:"+servletRequest.getParameter("description"));
+			wMasterService.doAddTransportDetails(servletRequest);
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Transportation Details Added Sucessfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return "redirect:transportation-master";
+	}
+	
+	
+	@RequestMapping(value="/editTransportationDetails", method=RequestMethod.POST) 
+	public String updateTransportationDetails(HttpServletRequest servletRequest, RedirectAttributes redirectAttribute) {
+		
+		try {
+			//System.out.println("name is:"+servletRequest.getParameter("name")+",description:"+servletRequest.getParameter("description"));
+			wMasterService.doUpdateTransportationDetails(servletRequest);
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Transportation Details Updated Sucessfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return "redirect:transportation-master";
+	}
+	
+	@RequestMapping(value="/test", method=RequestMethod.GET) 
+	public ModelAndView test() {
+		
+		ModelAndView modelAndView =  new ModelAndView();
+		
+		modelAndView.setViewName("test");
+		return modelAndView;
+	}
+	
 }

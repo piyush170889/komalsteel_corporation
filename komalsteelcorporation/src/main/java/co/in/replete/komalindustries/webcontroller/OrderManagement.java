@@ -267,13 +267,14 @@ public class OrderManagement extends KomalIndustriesConstants {
 		return returnViewURL;
 	}
 	
-	@RequestMapping(value="/editLrNo", method=RequestMethod.POST)
+	/*@RequestMapping(value="/editLrNo", method=RequestMethod.POST)
 	public String doEditLrNo(Model model, HttpServletRequest servletRequest) throws PrepareViewModelException  {
 		String returnViewURL = VIEW_URL_ORDER;
 		
 		try {
 			String cartDtldId = servletRequest.getParameter("cartDtlsId");
 			
+			System.out.println("cartDtldId :"+cartDtldId);
 			//LR Details
 			String lrNo = servletRequest.getParameter("lrNo");
 			String lrDate = servletRequest.getParameter("lrdate");
@@ -295,6 +296,89 @@ public class OrderManagement extends KomalIndustriesConstants {
 			
 			orderDetailsService.editLRNo(cartDtldId, lrNo, lrDate, noofcarton, 
 					transporterNm, destination, mark, courierNm, docateNo, delvryDate);
+			
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, 
+					SUCCESS_MSSG_LABEL, "Dispatch Details Edited Successfully");
+		} catch (PrepareViewModelException pvmme) {
+			pvmme.printStackTrace();
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, ERROR_MSSG_LABEL, pvmme.getMessage());
+			returnViewURL = ERROR_PAGE_URL;
+		} catch (DataAccessException dae) {
+			dae.printStackTrace();
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, ERROR_MSSG_LABEL, dae.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return returnViewURL;
+	}*/
+	
+	@RequestMapping(value="/editLrNo", method=RequestMethod.POST)
+	public String doEditLrNo(Model model, HttpServletRequest servletRequest) throws PrepareViewModelException  {
+		String returnViewURL = VIEW_URL_ORDER;
+		
+		try {
+			String cartDtldId = servletRequest.getParameter("cartDtlsId");
+			
+			System.out.println("cartDtldId :"+cartDtldId);
+			//LR Details
+			String lrNo = servletRequest.getParameter("lrNo");
+			String lrDate = servletRequest.getParameter("lrdate");
+			String noofcarton = servletRequest.getParameter("noofcarton");
+			
+			//transportation details
+			String transporterNm = servletRequest.getParameter("transporterNm");
+			String destination = servletRequest.getParameter("destination");
+			String mark = servletRequest.getParameter("mark");
+			
+			
+			
+			if(null == cartDtldId || cartDtldId.isEmpty() || null == lrNo || lrNo.isEmpty()) {
+				throw new Exception("Required Fields Are Empty");
+			}
+			
+			orderDetailsService.editLRNo(cartDtldId, lrNo, lrDate, noofcarton, 
+					transporterNm, destination, mark);
+			
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, 
+					SUCCESS_MSSG_LABEL, "Dispatch Details Edited Successfully");
+		} catch (PrepareViewModelException pvmme) {
+			pvmme.printStackTrace();
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, ERROR_MSSG_LABEL, pvmme.getMessage());
+			returnViewURL = ERROR_PAGE_URL;
+		} catch (DataAccessException dae) {
+			dae.printStackTrace();
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, ERROR_MSSG_LABEL, dae.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return returnViewURL;
+	}
+	
+	
+	
+	@RequestMapping(value="/editCourierDtls", method=RequestMethod.POST)
+	public String editCourierDtlsModal(Model model, HttpServletRequest servletRequest) throws PrepareViewModelException  {
+		String returnViewURL = VIEW_URL_ORDER;
+		
+		try {
+			String cartDtldId = servletRequest.getParameter("cartDtlsId");
+			
+			
+			//Courier Details
+			String courierNm = servletRequest.getParameter("courierNm");
+			String docateNo = servletRequest.getParameter("docateNo");
+			String delvryDate = servletRequest.getParameter("delvryDate");
+			System.out.println("cartDtldId :"+cartDtldId+",courierNm:"+courierNm+", docateNo:"+docateNo+",delvryDate:"+delvryDate);
+			
+			if(null == cartDtldId || cartDtldId.isEmpty() ) {
+				throw new Exception("Required Fields Are Empty");
+			}
+			
+			orderDetailsService.editCourierDtls(cartDtldId,courierNm, docateNo, delvryDate);
 			
 			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, 
 					SUCCESS_MSSG_LABEL, "Dispatch Details Edited Successfully");

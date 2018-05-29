@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
+import co.in.replete.komalindustries.beans.entity.TransportationMasterDtls;
 
 public interface WMasterService {
 
@@ -23,5 +24,11 @@ public interface WMasterService {
 	void doAddCourierView(HttpServletRequest servletRequest);
 
 	void doUpdateCourierView(HttpServletRequest servletRequest);
+
+	List<TransportationMasterDtls> doGetTransportationView();
+
+	void doAddTransportDetails(HttpServletRequest servletRequest);
+
+	void doUpdateTransportationDetails(HttpServletRequest servletRequest);
 
 }

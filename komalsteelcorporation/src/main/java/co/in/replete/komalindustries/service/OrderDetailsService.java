@@ -19,9 +19,9 @@ public interface OrderDetailsService {
 
 	List<WOrderDetailsTO> searchOrders(String searchBy, String searchDateRange) throws DataAccessException, Exception;
 
-	void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, 
+	/*void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, 
 			String transporterNm, String destination, String mark, String courierNm, String docateNo, String delvryDate) throws Exception;
-
+*/
 	void addCartItemToOrder(AddItemsToCartTO request) throws ServicesException;
 
 	void deleteItemFromOrderCart(int cartItemDtlsId) throws ServicesException;
@@ -34,6 +34,11 @@ public interface OrderDetailsService {
 
 	List<ItemMasterDtl> getActiveProducts();
 
+	void editCourierDtls(String cartDtldId, String courierNm, String docateNo, String delvryDate) throws Exception;
+
+	void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, String transporterNm,
+			String destination, String mark) throws Exception;
+	
 	List<CartItemDtlsTO> getCartItemDetailsByOrderId(int oid);
 	
 }

@@ -77,6 +77,11 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 				
 				//Add State List
 				model.addAttribute("stateList", userDAO.getStateList());
+				
+			/*	
+				String transportationName = "[\"First\",\"Second\"]";					
+				model.addAttribute("transportationName", transportationName);*/
+				
 				break;
 				
 			case VIEW_URL_USER_DTLS :

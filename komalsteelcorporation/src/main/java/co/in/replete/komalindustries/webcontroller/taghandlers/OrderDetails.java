@@ -104,10 +104,28 @@ public class OrderDetails extends SimpleTagSupport {
 							+ orderDetails.getDeliveryDate() + "','"
 							+ orderDetails.getCity() + "','"
 							+ orderDetails.getState() + "','"
-							/*+ orderDetails.getPaymentMode() + "','"
-							+ orderDetails.getPaymentStatus() + "','"
-							+ orderDetails.getOrderPrice() + "','"
-							*/+ "odraddr_" + orderDetailsId + "','"
+							+ "odraddr_" + orderDetailsId + "','"
+							+ orderDetails.getCnctNum() + "'"
+							+ ")\"><i class=\"fa fa-pencil\"></i></a>"
+							+ "<a data-toggle=\"modal\" data-target=\"#editLrNo\" style=\"margin:0 10px;\" onClick=\"sendEditLrNo('"
+							+ orderDetails.getLrNo() + "','"
+							+ orderDetails.getCartDtlId() + "','"
+							+ orderDetails.getLrNoDate() + "','"
+							+ orderDetails.getNoOfCartonLoaded() + "','"
+							+ mark + "','"
+							+ transporterName + "','"
+							+ destination + "'"
+							
+							+ ")\")><i class=\"fa fa-truck\" title=\"Update LR Details\"></i></a>"
+					//Original code
+					/*out.print("<a data-toggle=\"modal\" data-target=\"#editOrder\" style=\"margin:0 5px;\" onClick=\"sendEditOrderDetails('"
+							+ orderDetailsId + "','"
+							+ orderDetails.getStatus() + "','"
+							+ orderDetails.getOrderDate() + "','"
+							+ orderDetails.getDeliveryDate() + "','"
+							+ orderDetails.getCity() + "','"
+							+ orderDetails.getState() + "','"
+							+ "odraddr_" + orderDetailsId + "','"
 							+ orderDetails.getCnctNum() + "'"
 							+ ")\"><i class=\"fa fa-pencil\"></i></a>"
 							+ "<a data-toggle=\"modal\" data-target=\"#editLrNo\" style=\"margin:0 10px;\" onClick=\"sendEditLrNo('"
@@ -121,7 +139,17 @@ public class OrderDetails extends SimpleTagSupport {
 							+ orderDetails.getCourierNm() + "','"
 							+ orderDetails.getDocateNo() + "','"
 							+ orderDetails.getDeliveryDate() + "'"
-							+ ")\")><i class=\"fa fa-truck\"></i></a>");
+							+ ")\")><i class=\"fa fa-file\"></i></a>"*/
+					
+							//Asmita code
+							+ "<a data-toggle=\"modal\" data-target=\"#editcourierDtlsModal\" style=\"margin:0 10px;\" onClick=\"sendValueToCourier('"
+							+ orderDetails.getCartDtlId() + "','"
+							+ orderDetails.getCourierNm() + "','"
+							+ orderDetails.getDocateNo() + "','"
+							+ orderDetails.getDeliveryDate() + "'"
+							+ ")\")><i class=\"fa fa-file\" title=\"Update Courier Details\"></i></a>");
+					
+					
 					out.print("</td>");
 					out.println("</tr>");
     	       }

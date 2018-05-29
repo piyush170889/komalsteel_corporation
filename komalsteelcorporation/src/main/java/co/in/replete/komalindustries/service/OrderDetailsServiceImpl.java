@@ -113,7 +113,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		return orderDetailsDAO.searchOrders(searchBy, searchDateRange);
 	}
 	
-	@Override
+	/*@Override
 	public void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, 
 			String transporterNm, String destination, String mark, String courierNm, 
 			String docateNo, String delvryDate) throws Exception {
@@ -168,21 +168,96 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		}
 
 		
+	}*/
+	
+	@Override
+	public void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, 
+			String transporterNm, String destination, String mark) throws Exception {
+		if(lrDate.isEmpty()) {
+			lrDate = null;
+		}
 		
-		/*String dispatchDetailsMssg = "From Komal Trading Corporation:\n" +
-				"Order No. - " + cartDtldId + "\n" + 
-				"Transporter Name - " + transporterNm + "\n" + 
-				"Destination - " + destination + "\n" + 
-				"LR NO - " + lrNo + "\n" + 
-				"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
-				"No. Of Carton - " + noofcarton + "\n" + 
-				"Courier Name - " + courierNm + "\n" + 
-				"Docate No - " + docateNo + "\n" + 
-				"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate));
+		orderDetailsDAO.updateLrNo(cartDtldId, lrNo, lrDate, noofcarton);
 		
-		System.out.println("contactNo-" + contactNo + ",\n dispatchDetailsMssg - " + dispatchDetailsMssg);
-		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;*/
+		CartDtl cartDtl = orderDetailsDAO.selectCartDetailsByCartDtlsId(cartDtldId);
+		
+		int cartDlvryDtlsId = cartDtl.getCartDlvryDtlsId();
+		int otherAddressDtlsId = orderDetailsDAO.selectOtherAddressIdByCartDlvryDtlsId(cartDlvryDtlsId);
+		
+		orderDetailsDAO.updateTransportDetails(transporterNm, destination, mark, otherAddressDtlsId);
+		
+		CartDtl cartDetails = orderDetailsDAO.selectOrderDetailsById(Integer.parseInt(cartDtldId));
+		String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
+		
+		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+		
+		if (!lrNo.isEmpty()) {
+			String lrDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+					"Order No. - " + cartDtldId + "\n" + 
+					"Transporter Name - " + transporterNm + "\n" + 
+					"Destination - " + destination + "\n" + 
+					"LR NO - " + lrNo + "\n" + 
+					"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+					"No. Of Carton - " + noofcarton;
+
+			System.out.println("contactNo-" + contactNo + ",\n lrNoDispatchDetailsMssg - " + lrDispatchDetailsMssg);
+			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+			
+			messageUtility.sendMessage(contactNo, lrDispatchDetailsMssg);
+		}
+
+		/*if (!lrNo.isEmpty() && !courierNm.isEmpty()) {
+			orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
+			String trackingUrl = orderDetailsDAO.selectTrackingUrlByCourierName(courierNm);
+			String courierDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+					"Order No. - " + cartDtldId + "\n" + 
+					"Courier Name - " + courierNm + "\n" + 
+					"Docate No - " + docateNo + "\n" + 
+					"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate)) + "\n" + 
+					"Tracking Url - " + trackingUrl;
+
+			System.out.println("contactNo-" + contactNo + ",\n courierDispatchDetailsMssg - " + courierDispatchDetailsMssg);
+			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+			
+			messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
+		}*/		
 	}
+	
+	@Override
+	public void editCourierDtls(String cartDtldId, String courierNm, String docateNo, String delvryDate) throws Exception {
+		
+		
+		CartDtl cartDtl = orderDetailsDAO.selectCartDetailsByCartDtlsId(cartDtldId);
+		
+		int cartDlvryDtlsId = cartDtl.getCartDlvryDtlsId();
+		
+		CartDtl cartDetails = orderDetailsDAO.selectOrderDetailsById(Integer.parseInt(cartDtldId));
+		String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
+		
+		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+
+		if (!courierNm.isEmpty()) {
+			orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
+			String trackingUrl = orderDetailsDAO.selectTrackingUrlByCourierName(courierNm);
+			String courierDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+					"Order No. - " + cartDtldId + "\n" + 
+					"Courier Name - " + courierNm + "\n" + 
+					"Docate No - " + docateNo + "\n" + 
+					"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate)) + "\n" + 
+					"Tracking Url - " + trackingUrl;
+
+			System.out.println("contactNo-" + contactNo + ",\n courierDispatchDetailsMssg - " + courierDispatchDetailsMssg);
+			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+			
+			messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
+		}
+		
+		System.out.println(" Courier details update successfully ");
+		
+	}
+	
 	
 	@Override
 	public void addCartItemToOrder(AddItemsToCartTO request) throws ServicesException {
@@ -256,7 +331,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		
 		return orderDetailsDAO.selectActiveProductsWithHsnNo();
 	}
-	
+
 	@Override
 	public List<CartItemDtlsTO> getCartItemDetailsByOrderId(int oid) {
 		
