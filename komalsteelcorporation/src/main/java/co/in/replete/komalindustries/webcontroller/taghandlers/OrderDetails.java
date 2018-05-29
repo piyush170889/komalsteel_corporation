@@ -75,6 +75,7 @@ public class OrderDetails extends SimpleTagSupport {
 						out.println(i + ". " + itemDetails.getItemNm() + "(" + itemDetails.getUom() + ")" + " - " + itemDetails.getItemQty() + "</br>");
 						++i;
 					}
+					out.println("<button type=\"button\" class=\"btn btn-primary\" onclick=\"window.open('printOrderItems?oid=" + orderDetailsId + "', '_blank');\">PRINT</button>");
 					out.println("</td>");
 //					out.println("<td>" + orderDetails.getDeliveryDate() + "</td>");
 //					out.println("<td>" + orderDetails.getPaymentMode() + "</td>");

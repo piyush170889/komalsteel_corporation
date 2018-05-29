@@ -24,6 +24,7 @@ import co.in.replete.komalindustries.beans.BaseWrapper;
 import co.in.replete.komalindustries.beans.CartDetailRequest;
 import co.in.replete.komalindustries.beans.CartDetailsTO;
 import co.in.replete.komalindustries.beans.CartItemDetailsListTO;
+import co.in.replete.komalindustries.beans.CartItemDtlsTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.UserOrderDetailsTO;
@@ -194,6 +195,23 @@ public class OrderManagement extends KomalIndustriesConstants {
 		
 		return returnViewURL;
 	}
+	
+	
+	@RequestMapping(value="/printOrderItems",method=RequestMethod.GET)
+	public String wPrintOrderedItemsPage(@RequestParam(value="oid") int oid, ModelMap modelMap) {
+		
+		String returnViewUrl = "orders/printOrderItems";
+		try {
+			List<CartItemDtlsTO> orderItems = orderDetailsService.getCartItemDetailsByOrderId(oid);
+			modelMap.addAttribute("orderedItems", orderItems);
+		} catch (Exception e) {
+			e.printStackTrace();
+			modelMap.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return returnViewUrl;
+	}
+	
 	
 	@RequestMapping(value="/orderdetails",method=RequestMethod.GET)
 	public String wuserInvoicePageView(Model model, @RequestParam(value = "orderId", required = true) int orderId)

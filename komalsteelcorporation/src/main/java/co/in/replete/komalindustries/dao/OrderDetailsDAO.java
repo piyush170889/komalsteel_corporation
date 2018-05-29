@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
 import co.in.replete.komalindustries.beans.CartAndCartItemDetailTO;
+import co.in.replete.komalindustries.beans.CartItemDtlsTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
 import co.in.replete.komalindustries.beans.entity.AddressDetail;
 import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
@@ -67,5 +68,7 @@ public interface OrderDetailsDAO {
 	List<ItemMasterDtl> selectActiveProductsWithHsnNo();
 
 	String selectTrackingUrlByCourierName(String courierNm);
+
+	List<CartItemDtlsTO> selectCartItemsToByCartDtlsId(int orderId);
 
 }

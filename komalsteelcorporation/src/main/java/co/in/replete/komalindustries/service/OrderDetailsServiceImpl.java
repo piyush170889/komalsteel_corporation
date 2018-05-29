@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
+import co.in.replete.komalindustries.beans.CartItemDetailsListTO;
+import co.in.replete.komalindustries.beans.CartItemDtlsTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
@@ -253,6 +255,12 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	public List<ItemMasterDtl> getActiveProducts() {
 		
 		return orderDetailsDAO.selectActiveProductsWithHsnNo();
+	}
+	
+	@Override
+	public List<CartItemDtlsTO> getCartItemDetailsByOrderId(int oid) {
+		
+		return orderDetailsDAO.selectCartItemsToByCartDtlsId(oid);
 	}
 	
 }

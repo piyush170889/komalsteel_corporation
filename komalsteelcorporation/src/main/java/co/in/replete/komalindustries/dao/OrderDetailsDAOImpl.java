@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
 import co.in.replete.komalindustries.beans.CartAndCartItemDetailTO;
+import co.in.replete.komalindustries.beans.CartItemDtlsTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
 import co.in.replete.komalindustries.beans.entity.AddressDetail;
 import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
@@ -274,6 +275,14 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 	public List<CartItemDtl> selectCartItemsByCartDtlsId(int orderId) {
 		
 		return jdbcTemplate.query("select * from cart_item_dtls where CART_DTLS_ID=?", new Object[] {orderId}, new BeanPropertyRowMapper<CartItemDtl>(CartItemDtl.class));
+	}
+	
+	@Override
+	public List<CartItemDtlsTO> selectCartItemsToByCartDtlsId(int orderId) {
+		
+		return jdbcTemplate.query("SELECT cid.ITEM_MASTER_DTLS_ID,imd.ITEM_NM,cid.ITEM_QTY,imd.UOM FROM komal_db.cart_item_dtls cid inner join item_master_dtls imd on "
+				+ "cid.ITEM_MASTER_DTLS_ID=imd.ITEM_MASTER_DTLS_ID where cid.CART_DTLS_ID=?", new Object[] {orderId}, 
+				new BeanPropertyRowMapper<CartItemDtlsTO>(CartItemDtlsTO.class));
 	}
 	
 	@Override
