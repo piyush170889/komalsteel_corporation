@@ -78,9 +78,25 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 				//Add State List
 				model.addAttribute("stateList", userDAO.getStateList());
 				
-			/*	
-				String transportationName = "[\"First\",\"Second\"]";					
-				model.addAttribute("transportationName", transportationName);*/
+				List<String> transportationNameList = wMasterDAO.selectActiveTransportationNamesList();
+//				String transportationName = "[\"First\",\"Second\"]";
+				
+				String transportationName = "[";
+				
+				int i=0;
+				for (String trasnporterName : transportationNameList) {
+					if (i==0) {
+						transportationName+="\"" + trasnporterName + "\"";
+					} else {
+						transportationName+=",\"" + trasnporterName + "\"";
+					}
+					++i;
+				}
+				
+				transportationName += "]";
+				
+				System.out.println("transportationName - " + transportationName);
+				model.addAttribute("transportationName", transportationName);
 				
 				break;
 				

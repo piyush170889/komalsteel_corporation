@@ -66,7 +66,6 @@
                 <li><a href="hsnDetails"><i class="fa fa-location-arrow"></i><span>HSN Master</span></a></li>
                 <li><a href="courier-master"><i class="fa fa-location-arrow"></i><span>Courier Master</span></a></li>
                 <li><a href="transportation-master"><i class="fa fa-location-arrow"></i><span>Transportation Master</span></a></li>
-                <li><a href="test"><i class="fa fa-location-arrow"></i><span>Test</span></a></li>
               </ul>
             </li>
 			<!-- <li class="treeview">

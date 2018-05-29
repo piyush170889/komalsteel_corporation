@@ -32,4 +32,6 @@ public interface WMasterDAO extends BaseDAO {
 
 	void updateTransportationDetails(int transportationDtlsId, String name, String description);
 
+	List<String> selectActiveTransportationNamesList();
+
 }

@@ -14,7 +14,23 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
 
+<script>
+
+ $(function () {
+    var availableTags = ${transportationName};
+    $( "#tags").autocomplete ({
+      source: availableTags,
+      appendTo : $('#editLrNo')
+    });
+  }); 
+  </script>
+  
+  
    	<!-- Required head CSS -->
 	<jsp:include page="../includes/requiredheadcss.jsp" />
 	<!-- ./Required head CSS -->   	
@@ -45,8 +61,7 @@
 		}
 	}
  	
- 	/* function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination, courierName, docateNo, dlvryDate) { */
- 		function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination) {
+	function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination) {
  		
  		//$("#courierNm1").val("Select");
  		
@@ -81,7 +96,8 @@
  		document.getElementById("cartDtlsId2").value=cartDtlsId;
  		document.getElementById("lrdate1").value=lrNoDate;
  		document.getElementById("noofcarton1").value=noOfCarton;
- 		document.getElementById("transporterNm1").value=transporterName;
+ 		/* document.getElementById("transporterNm1").value=transporterName; */
+ 		document.getElementById("tags").value=transporterName;
  		document.getElementById("destination1").value=destination;
  		document.getElementById("mark1").value=mark;
  		/* $("#courierNm1").val(courierName);
@@ -297,7 +313,15 @@
     <!-- ./wrapper -->
 
     <!-- REQUIRED JS SCRIPTS -->
-	 <jsp:include page="../includes/requiredbodyjs.jsp" />
+	 <%-- <jsp:include page="../includes/requiredbodyjs.jsp" /> --%>
+	 <!-- Bootstrap 3.3.5 -->
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<!-- AdminLTE App -->
+		<script src="dist/js/app.min.js"></script>
+		<!-- SlimScroll -->
+		<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+		<!-- FastClick -->
+		<script src="plugins/fastclick/fastclick.min.js"></script>
     <!-- ./REQUIRED JS SCRIPTS -->
 	
     <!-- DataTables -->
@@ -738,9 +762,13 @@
 							<div class="row">	
 		                	<div class="col-md-12">
 		        				<div class="form-group">
-		                      		<label for="exampleInputPassword1">Transporter Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+		        					<div class="ui-widget">
+					  					<label for="tags">Transporter Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+					  					<input class="form-control" placeholder="Transporter Name" id="tags" name="transporterNm" required="required" />
+									</div>
+		                      		<!-- <label for="exampleInputPassword1">Transporter Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
 		                      		<input class="form-control" placeholder="Transporter Name" 
-		                      		id="transporterNm1" name="transporterNm" required="required" />
+		                      		id="transporterNm1" name="transporterNm" required="required" /> -->
 		                    	</div>
 	        				</div>
 	        			</div>
