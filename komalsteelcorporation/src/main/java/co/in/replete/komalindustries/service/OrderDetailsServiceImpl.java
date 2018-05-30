@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
-import co.in.replete.komalindustries.beans.CartItemDetailsListTO;
 import co.in.replete.komalindustries.beans.CartItemDtlsTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
+import co.in.replete.komalindustries.beans.entity.AddressDetail;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
 import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
@@ -192,20 +192,18 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
 		
-		if (!lrNo.isEmpty()) {
-			String lrDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
-					"Order No. - " + cartDtldId + "\n" + 
-					"Transporter Name - " + transporterNm + "\n" + 
-					"Destination - " + destination + "\n" + 
-					"LR NO - " + lrNo + "\n" + 
-					"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
-					"No. Of Carton - " + noofcarton;
+		String lrDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+				"Order No. - " + cartDtldId + "\n" + 
+				"Transporter Name - " + transporterNm + "\n" + 
+				"Destination - " + destination + "\n" + 
+				"LR NO - " + lrNo + "\n" + 
+				"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+				"No. Of Carton - " + noofcarton;
 
-			System.out.println("contactNo-" + contactNo + ",\n lrNoDispatchDetailsMssg - " + lrDispatchDetailsMssg);
-			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
-			
-			messageUtility.sendMessage(contactNo, lrDispatchDetailsMssg);
-		}
+		System.out.println("contactNo-" + contactNo + ",\n lrNoDispatchDetailsMssg - " + lrDispatchDetailsMssg);
+		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+		
+		messageUtility.sendMessage(contactNo, lrDispatchDetailsMssg);
 
 		/*if (!lrNo.isEmpty() && !courierNm.isEmpty()) {
 			orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
@@ -235,26 +233,31 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		CartDtl cartDetails = orderDetailsDAO.selectOrderDetailsById(Integer.parseInt(cartDtldId));
 		String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
 		
+		AddressDetail transportationDetails = orderDetailsDAO.selectTransportationDetailsByCartDlvryDtlsId(cartDlvryDtlsId);
+		
 		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
 
-		if (!courierNm.isEmpty()) {
-			orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
-			String trackingUrl = orderDetailsDAO.selectTrackingUrlByCourierName(courierNm);
-			String courierDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
-					"Order No. - " + cartDtldId + "\n" + 
-					"Courier Name - " + courierNm + "\n" + 
-					"Docate No - " + docateNo + "\n" + 
-					"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate)) + "\n" + 
-					"Tracking Url - " + trackingUrl;
-
-			System.out.println("contactNo-" + contactNo + ",\n courierDispatchDetailsMssg - " + courierDispatchDetailsMssg);
-			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
-			
-			messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
-		}
+		orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
+		String trackingUrl = orderDetailsDAO.selectTrackingUrlByCourierName(courierNm);
 		
-		System.out.println(" Courier details update successfully ");
+		String courierDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
+				"Order No. - " + cartDtldId + "\n" + 
+				"Transporter Name - " + transportationDetails.getTranNm() + "\n" + 
+				"Destination - " + transportationDetails.getDestination() + "\n" +
+				"Mark - " + transportationDetails.getMark() + "\n" +
+				"LR NO - " + cartDetails.getLrNo() + "\n" + 
+				"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(cartDetails.getLrNoDate())) + "\n" + 
+				"No. Of Carton - " + cartDetails.getNoOfCartonLoaded() + "\n" +
+				"Courier Name - " + courierNm + "\n" + 
+				"Docate No - " + docateNo + "\n" + 
+				"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate)) + "\n" + 
+				"Tracking Url - " + trackingUrl;
+
+		System.out.println("contactNo-" + contactNo + ",\n courierDispatchDetailsMssg - " + courierDispatchDetailsMssg);
+		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+		
+		messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
 		
 	}
 	

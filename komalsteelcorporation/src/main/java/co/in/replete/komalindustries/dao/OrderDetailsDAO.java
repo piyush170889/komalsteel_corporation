@@ -71,4 +71,6 @@ public interface OrderDetailsDAO {
 
 	List<CartItemDtlsTO> selectCartItemsToByCartDtlsId(int orderId);
 
+	AddressDetail selectTransportationDetailsByCartDlvryDtlsId(int cartDlvryDtlsId);
+
 }

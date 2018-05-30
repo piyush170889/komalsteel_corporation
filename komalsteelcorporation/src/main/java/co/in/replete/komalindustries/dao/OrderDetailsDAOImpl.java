@@ -341,6 +341,14 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 	}
 	
 	@Override
+	public AddressDetail selectTransportationDetailsByCartDlvryDtlsId(int cartDlvryDtlsId) {
+		
+		return jdbcTemplate.query("select MARK,DESTINATION,TRAN_NM from cart_dlvry_dtls cdd inner join "
+				+ "other_address_details oad on cdd.SHIPPING_ADDRESS_ID=oad.OTHER_ADDRESS_ID and cdd.CART_DLVRY_DTLS_ID=?", new Object[] {cartDlvryDtlsId}, 
+				new BeanPropertyRowMapper<AddressDetail>(AddressDetail.class)).get(0);
+	}
+	
+	@Override
 	public void updateCourierDetails(String courierNm, String docateNo, String delvryDate, int cartDlvryDtlsId) {
 		
 		jdbcTemplate.update("update cart_dlvry_dtls set COURIER_NM=?, DOCATE_NO=?, EXP_DLVRY_DT=? where CART_DLVRY_DTLS_ID=?", new Object[] {courierNm

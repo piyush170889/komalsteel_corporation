@@ -374,7 +374,7 @@ public class OrderManagement extends KomalIndustriesConstants {
 			String delvryDate = servletRequest.getParameter("delvryDate");
 			System.out.println("cartDtldId :"+cartDtldId+",courierNm:"+courierNm+", docateNo:"+docateNo+",delvryDate:"+delvryDate);
 			
-			if(null == cartDtldId || cartDtldId.isEmpty() ) {
+			if(null == cartDtldId || cartDtldId.isEmpty() || null==courierNm || courierNm.isEmpty()) {
 				throw new Exception("Required Fields Are Empty");
 			}
 			

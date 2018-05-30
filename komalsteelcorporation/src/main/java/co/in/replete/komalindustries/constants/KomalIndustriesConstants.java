@@ -71,7 +71,7 @@ public class KomalIndustriesConstants {
 
 //	public static final String ADMIN_MOBILE_NO = "9820087177";
 	
-	public static final String ADMIN_MOBILE_NO = "9096409749";
+	public static final String ADMIN_MOBILE_NO = "9970605818";
 
 	public static final String VIEW_URL_ADD_ORDER = "orders/add-order";
 }
