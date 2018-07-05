@@ -500,7 +500,7 @@ public class CartServiceImpl implements CartService {
 						
 						//Send Message Notification to Admin
 						String custName = userDetails.getFirstName() + (null == userDetails.getLastName() ? "" : " " + userDetails.getLastName());
-						String adminContactNumber = configProperties.getProperty("admin.contactno");
+						String adminContactNumber = KomalIndustriesConstants.ADMIN_MOBILE_NO;
 						
 						System.out.println("Admin Contact No - " + adminContactNumber + ", \n Message - " + 
 								MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 

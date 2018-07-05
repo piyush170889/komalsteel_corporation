@@ -79,7 +79,7 @@ public class AdminWebController extends KomalIndustriesConstants {
 				if(userDetailsList.size() != 1) {
 					throw new ServiceException("Invalid credentials");
 				} else {
-					messageUtility.sendMessage(userDetailsList.get(0).getCntcNum(), "Successful login to your dashboard");
+//					messageUtility.sendMessage(userDetailsList.get(0).getCntcNum(), "Successful login to your dashboard");
 					HttpSession session = servletRequest.getSession(true);
 					session.setAttribute("isUserLoggedIn", true);
 					return "redirect:dashboard";

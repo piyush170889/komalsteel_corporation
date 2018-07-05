@@ -67,7 +67,7 @@
         <!-- Main content -->
         <section class="content">
         	<!--  Form Starts -->
-        	<form action="add-order" method="post" id="placeOrderForm" >
+        	<form action="add-order" method="post" id="placeOrderForm" onsubmit="destoyTable()" >
             <div class="row">
             	<div class="col-xs-12">
             	
@@ -164,6 +164,40 @@
 	       </div> 
 	       <!-- ./Delivery Details -->
 	       
+	       <!-- Cart Notes and Other Details -->
+		  <div class="row">
+	            <div class="col-xs-12">
+				  <div class="box">
+				    	<!-- /.Box-Header -->
+			                <div class="box-header">
+			                  <h3 class="box-title">Cart Details</h3>
+			                </div>
+		                <!-- /.Box-Header -->
+		              <div class="box box-info">
+	                <div class="box-body">
+	                	<div class="row">
+	                		<div class="col-sm-2">
+	                	 		<label for="inputEmail3" class="control-label">Cart Notes</label>
+	                	 	</div>
+		                    <div class="col-sm-4">
+		                    	<textarea id="cartNotes1" name="cartNotes" cols=40 ></textarea>
+		                    </div>
+	                      	<div class="col-sm-2">
+	                	 		<label for="inputEmail3" class="control-label">Alternate Contact</label>
+	                	 	</div>
+	                	 	<div class="col-sm-4">
+		                    	<input type="text" id="alternateContact1" value="${userDetails.contactNo }" name="alternateContact" />
+		                    </div>
+	                    </div>
+	                </div>
+	             </div>
+	           </div>
+	       </div>  
+	       </div> 
+		  <!-- ./Cart Notes and Other Details -->
+		  
+	       
+	       <!-- Order Items -->
             <div class="row">
             <div class="col-xs-12">
 
@@ -251,6 +285,16 @@
 			                      </tr>
 			                    </tfoot>
                   			</table>
+                  			
+                  			<!-- Place Order Button -->
+							  <div class="row">
+							  	<div class="col-md-4 col-md-offset-4">
+							  		<input type="hidden" name="userId" value="${userId }" />
+							  		<button id="placeOrderBtn" class="form-control btn-primary" ><strong>Place Order</strong></button>
+							  	</div>
+							  </div>
+							  <!-- ./Place Order Button -->
+							  
                   		</div>
                   	</div>
                 </div>
@@ -259,48 +303,7 @@
               <!-- /.box -->
             </div><!-- /.col -->  
           </div><!-- /.row -->
-		  
-		  
-		  <!-- Cart Notes and Other Details -->
-		  <div class="row">
-	            <div class="col-xs-12">
-				  <div class="box">
-				    	<!-- /.Box-Header -->
-			                <div class="box-header">
-			                  <h3 class="box-title">Cart Details</h3>
-			                </div>
-		                <!-- /.Box-Header -->
-		              <div class="box box-info">
-	                <div class="box-body">
-	                	<div class="row">
-	                		<div class="col-sm-2">
-	                	 		<label for="inputEmail3" class="control-label">Cart Notes</label>
-	                	 	</div>
-		                    <div class="col-sm-4">
-		                    	<textarea id="cartNotes1" name="cartNotes" cols=40 ></textarea>
-		                    </div>
-	                      	<div class="col-sm-2">
-	                	 		<label for="inputEmail3" class="control-label">Alternate Contact</label>
-	                	 	</div>
-	                	 	<div class="col-sm-4">
-		                    	<input type="text" id="alternateContact1" value="${userDetails.contactNo }" name="alternateContact" />
-		                    </div>
-	                    </div>
-	                </div>
-	             </div>
-	           </div>
-	       </div>  
-	       </div> 
-		  <!-- ./Cart Notes and Other Details -->
-		  
-		  <!-- Place Order Button -->
-		  <div class="row">
-		  	<div class="col-md-4 col-md-offset-4">
-		  		<input type="hidden" name="userId" value="${userId }" />
-		  		<button id="placeOrderBtn" class="form-control btn-primary" ><strong>Place Order</strong></button>
-		  	</div>
-		  </div>
-		  <!-- ./Place Order Button -->
+		  <!-- Order Items -->
 		  
 		  </form>
 		  <!--  Form Ends -->
@@ -444,6 +447,11 @@
         	}
         }
         
+        function destoyTable() {
+        	var orderListTable = $('#example2').DataTable();
+        	orderListTable.destroy();
+        	return true;
+        }
         
         function useThisAddress() {
         	

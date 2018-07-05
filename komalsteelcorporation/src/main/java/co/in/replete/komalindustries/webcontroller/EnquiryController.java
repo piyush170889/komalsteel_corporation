@@ -6,15 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import co.in.replete.komalindustries.beans.BaseWrapper;
-import co.in.replete.komalindustries.beans.entity.EnquiryDetails;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
-import co.in.replete.komalindustries.exception.PrepareViewModelException;
-import co.in.replete.komalindustries.exception.ServicesException;
 import co.in.replete.komalindustries.service.EnquiryService;
 
 @Controller
