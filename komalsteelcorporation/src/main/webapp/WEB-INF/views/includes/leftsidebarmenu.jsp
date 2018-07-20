@@ -55,6 +55,7 @@
               </ul>
             </li>  -->
             <li><a href="enquiry"><i class="fa fa-envelope-o"></i> <span>Enquiries</span></a></li>
+            <li><a href="customer-messaging"><i class="fa fa-envelope-o"></i> <span>Unregistered Customer <br/>Messaging</span></a></li>
 			<li class="treeview">
               <a href="#"><i class="fa fa-life-ring"></i> <span>Masters</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">

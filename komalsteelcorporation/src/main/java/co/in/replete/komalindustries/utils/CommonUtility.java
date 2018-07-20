@@ -1,7 +1,9 @@
 package co.in.replete.komalindustries.utils;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
@@ -478,4 +480,30 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 	        
 	        return (prefix + current).trim();
 	    }
+
+		public String createLrMessage(String cartDtldId, String transporterNm, String destination, 
+				String lrNo, String noofcarton, String lrDate) throws ParseException {
+
+			DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+			return "From Komal Trading Corporation:\n" +
+					"Order No. - " + cartDtldId + "\n" + 
+					"Transporter Name - " + transporterNm + "\n" + 
+					"Destination - " + destination + "\n" + 
+					"LR NO - " + lrNo + "\n" + 
+					"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+					"No. Of Carton - " + noofcarton;
+		}
+
+		public String createCourierMessage(String cartDtldId, String courierNm, String docateNo, String trackingUrl, String delvryDate) throws ParseException {
+			
+			DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+			return "From Komal Trading Corporation:\n" +
+					"Order No. - " + cartDtldId + "\n" + 
+					"Courier Name - " + courierNm + "\n" + 
+					"Docate No - " + docateNo + "\n" + 
+					"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate)) + "\n" + 
+					"Tracking Url - " + trackingUrl;
+		}
 }

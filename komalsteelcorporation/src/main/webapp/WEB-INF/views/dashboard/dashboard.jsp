@@ -10,6 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
   <head>
+	<meta http-equiv="refresh" content="300"/> 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dashboard</title>

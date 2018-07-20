@@ -320,6 +320,7 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 		};
 		
 		jdbcTemplate.update(psc, holder);
+		System.out.println("Cart ID Generated: " + holder.getKey().intValue());
 		return holder.getKey().intValue();
 	}
 

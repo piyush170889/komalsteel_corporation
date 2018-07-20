@@ -231,6 +231,7 @@ public class CartServiceImpl implements CartService {
 					cartDetail = cartDetails.convertToCartDtlEntity(cartDlvryDtlsId, 0, offerAppldId, null, trackId);
 					
 					int cartDtlsId = cartDAO.selectLatestOrderId() + 1;
+					System.out.println("Order No - " + cartDtlsId);
 					cartDetail.setCartDtlsId(cartDtlsId);
 					cartDAO.insertCartDetails(cartDetail);
 					
