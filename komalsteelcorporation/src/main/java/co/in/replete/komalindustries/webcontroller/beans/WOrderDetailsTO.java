@@ -68,10 +68,33 @@ public class WOrderDetailsTO {
 	
 	private String delvryDate;
 	
+	private int isLrMssgSent;
+	
+	private int isCourierMssgSent;
+	
 	private List<ItemMasterDtl> orderedItems;
 	
 	public WOrderDetailsTO(){}
 	
+	
+	public int getIsCourierMssgSent() {
+		return isCourierMssgSent;
+	}
+
+
+	public void setIsCourierMssgSent(int isCourierMssgSent) {
+		this.isCourierMssgSent = isCourierMssgSent;
+	}
+
+
+	public int getIsLrMssgSent() {
+		return isLrMssgSent;
+	}
+
+	public void setIsLrMssgSent(int isLrMssgSent) {
+		this.isLrMssgSent = isLrMssgSent;
+	}
+
 	public String getCourierNm() {
 		return courierNm;
 	}

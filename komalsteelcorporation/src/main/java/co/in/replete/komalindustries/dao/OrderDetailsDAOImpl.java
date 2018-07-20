@@ -133,9 +133,10 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 	}
 	
 	@Override
-	public void updateLrNo(String cartDtldId, String lrNo, String lrDate, String noofcarton) {
+	public void updateLrNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, int isLrMssgSent) {
 		
-		jdbcTemplate.update("update cart_dtls set LR_NO=?,LR_NO_DATE=?,NO_OF_CARTON_LOADED=? where CART_DTLS_ID=?", new Object[] {lrNo, lrDate, noofcarton, cartDtldId});
+		jdbcTemplate.update("update cart_dtls set LR_NO=?,LR_NO_DATE=?,NO_OF_CARTON_LOADED=?,IS_LR_MSSG_SENT=? where CART_DTLS_ID=?", new Object[] {lrNo, lrDate, noofcarton, 
+				isLrMssgSent, cartDtldId});
 	}
 	
 	@Override
@@ -349,10 +350,11 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 	}
 	
 	@Override
-	public void updateCourierDetails(String courierNm, String docateNo, String delvryDate, int cartDlvryDtlsId) {
+	public void updateCourierDetails(String courierNm, String docateNo, String delvryDate, int cartDlvryDtlsId, 
+			int isCourierMssgSent) {
 		
-		jdbcTemplate.update("update cart_dlvry_dtls set COURIER_NM=?, DOCATE_NO=?, EXP_DLVRY_DT=? where CART_DLVRY_DTLS_ID=?", new Object[] {courierNm
-				, docateNo, delvryDate, cartDlvryDtlsId});
+		jdbcTemplate.update("update cart_dlvry_dtls set COURIER_NM=?, DOCATE_NO=?, EXP_DLVRY_DT=?, IS_COURIER_MSSG_SENT=? where CART_DLVRY_DTLS_ID=?", new Object[] {courierNm
+				, docateNo, delvryDate, isCourierMssgSent, cartDlvryDtlsId});
 	}
 	
 	@Override

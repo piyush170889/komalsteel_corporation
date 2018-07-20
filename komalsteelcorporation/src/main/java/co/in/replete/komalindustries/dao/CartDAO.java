@@ -78,4 +78,6 @@ public interface CartDAO {
 
 	ShippingAddressDetail selectShippingAddressDetailsById(int addressDtlsId);
 
+	int selectLatestOrderId();
+
 }

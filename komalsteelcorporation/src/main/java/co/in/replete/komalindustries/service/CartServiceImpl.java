@@ -229,8 +229,10 @@ public class CartServiceImpl implements CartService {
 					
 //					cartDetail = cartDetails.convertToCartDtlEntity(cartDlvryDtlsId, invoiceDtlsId, offerAppldId, paymentDtlId, trackId);
 					cartDetail = cartDetails.convertToCartDtlEntity(cartDlvryDtlsId, 0, offerAppldId, null, trackId);
-						
-					int cartDtlsId = cartDAO.insertCartDetails(cartDetail);
+					
+					int cartDtlsId = cartDAO.selectLatestOrderId() + 1;
+					cartDetail.setCartDtlsId(cartDtlsId);
+					cartDAO.insertCartDetails(cartDetail);
 					
 					List<CartItemDetailsListTO> cartItemDetailsListTO = cartDetails.getCartItemsList();
 					List<CartItemDtl> cartItemDtls = new ArrayList<CartItemDtl>();

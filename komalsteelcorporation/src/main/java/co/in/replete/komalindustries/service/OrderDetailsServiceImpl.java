@@ -171,12 +171,20 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	
 	@Override
 	public void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, 
-			String transporterNm, String destination, String mark) throws Exception {
+			String transporterNm, String destination, String mark, String sendLrMssg) throws Exception {
 		if(lrDate.isEmpty()) {
 			lrDate = null;
 		}
 		
-		orderDetailsDAO.updateLrNo(cartDtldId, lrNo, lrDate, noofcarton);
+		int isLrMssgSent = 0;
+		boolean doSendMssg = false;
+		
+		if (null != sendLrMssg && sendLrMssg.equals("1")) {
+			doSendMssg = true;
+			isLrMssgSent = 1;
+		}
+		
+		orderDetailsDAO.updateLrNo(cartDtldId, lrNo, lrDate, noofcarton, isLrMssgSent);
 		
 		CartDtl cartDtl = orderDetailsDAO.selectCartDetailsByCartDtlsId(cartDtldId);
 		
@@ -202,7 +210,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		System.out.println("contactNo-" + contactNo + ",\n lrNoDispatchDetailsMssg - " + lrDispatchDetailsMssg);
 		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
 		
-		messageUtility.sendMessage(contactNo, lrDispatchDetailsMssg);
+		if (doSendMssg) {
+			messageUtility.sendMessage(contactNo, lrDispatchDetailsMssg);
+		}
 
 		/*if (!lrNo.isEmpty() && !courierNm.isEmpty()) {
 			orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
@@ -222,12 +232,23 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	}
 	
 	@Override
-	public void editCourierDtls(String cartDtldId, String courierNm, String docateNo, String delvryDate) throws Exception {
+	public void editCourierDtls(String cartDtldId, String courierNm, String docateNo, 
+			String delvryDate, String sendCourierMssg) throws Exception {
 		
+		
+		int isCourierMssgSent = 0;
+		boolean doSendMssg = false;
+		
+		if (null != sendCourierMssg && sendCourierMssg.equals("1")) {
+			doSendMssg = true;
+			isCourierMssgSent = 1;
+		}
 		
 		CartDtl cartDtl = orderDetailsDAO.selectCartDetailsByCartDtlsId(cartDtldId);
 		
 		int cartDlvryDtlsId = cartDtl.getCartDlvryDtlsId();
+		
+		System.out.println("Cart Dlvry Dtls Id: " + cartDlvryDtlsId + ", sendCourierMssg: " + sendCourierMssg);
 		
 		CartDtl cartDetails = orderDetailsDAO.selectOrderDetailsById(Integer.parseInt(cartDtldId));
 		String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
@@ -237,7 +258,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
 
-		orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId);
+		orderDetailsDAO.updateCourierDetails(courierNm, docateNo, delvryDate, cartDlvryDtlsId, isCourierMssgSent);
 		String trackingUrl = orderDetailsDAO.selectTrackingUrlByCourierName(courierNm);
 		
 		String courierDispatchDetailsMssg = "From Komal Trading Corporation:\n" +
@@ -256,8 +277,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		System.out.println("contactNo-" + contactNo + ",\n courierDispatchDetailsMssg - " + courierDispatchDetailsMssg);
 		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
 		
-		messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
-		
+		if (doSendMssg) {
+			messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
+		}
 	}
 	
 	

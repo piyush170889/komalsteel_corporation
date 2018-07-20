@@ -95,7 +95,7 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 				
 				transportationName += "]";
 				
-				System.out.println("transportationName - " + transportationName);
+//				System.out.println("transportationName - " + transportationName);
 				model.addAttribute("transportationName", transportationName);
 				
 				break;

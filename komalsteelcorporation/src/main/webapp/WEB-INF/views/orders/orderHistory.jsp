@@ -61,7 +61,7 @@
 		}
 	}
  	
-	function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination) {
+	function sendEditLrNo(lrNo, cartDtlsId, lrNoDate, noOfCarton, mark, transporterName, destination, isLrMssgSent) {
  		
  		//$("#courierNm1").val("Select");
  		
@@ -100,13 +100,19 @@
  		document.getElementById("tags").value=transporterName;
  		document.getElementById("destination1").value=destination;
  		document.getElementById("mark1").value=mark;
+ 		alert(isLrMssgSent);
+ 		if (isLrMssgSent == '0') {
+ 			document.getElementById("sendLrMssg1").checked = true;
+ 		} else {
+ 			document.getElementById("sendLrMssg1").checked = false;
+ 		}
  		/* $("#courierNm1").val(courierName);
  		document.getElementById("docateNo1").value=docateNo;
  		document.getElementById("delvryDate1").value=dlvryDate; */
  	}
  	
  	
-	function sendValueToCourier(cartDtlsId,courierName, docateNo, dlvryDate) {
+	function sendValueToCourier(cartDtlsId,courierName, docateNo, dlvryDate, isCourierMssgSent) {
  		$("#courierNm1").val("Select");
  		
  		if(courierName == "null") {
@@ -123,6 +129,12 @@
  		document.getElementById("docateNo1").value=docateNo;
  		document.getElementById("delvryDate1").value=dlvryDate;
  		document.getElementById("cartDtlsId3").value=cartDtlsId;
+ 		alert(isCourierMssgSent);
+ 		if (isCourierMssgSent == '0') {
+ 			document.getElementById("sendCourierMssg1").checked = true;
+ 		} else {
+ 			document.getElementById("sendCourierMssg1").checked = false;
+ 		}
  	}
   </script>
   
@@ -819,6 +831,11 @@
 	                    	</div>
         				</div>
         				</div>
+        				<div class="row" >
+        					<div class="col-md-6">
+	                      		<input type="checkbox" id="sendLrMssg1" name="sendLrMssg" value="1" >Send Lr Details Message
+        					</div>
+        				</div>
         			<!-- LR NO Details -->
         				
         				<!-- Courier Details -->
@@ -938,7 +955,11 @@
 		                    	</div>
 	        				</div>
         				</div>
-	               
+	               		<div class="row" >
+        					<div class="col-md-6">
+	                      		<input type="checkbox" id="sendCourierMssg1" name="sendCourierMssg" value="1" >Send Courier Details Message
+        					</div>
+        				</div>	
 	                <!-- Courier Details -->
 	                
 						<div class="box-footer">

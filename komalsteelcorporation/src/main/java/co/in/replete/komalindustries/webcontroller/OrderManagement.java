@@ -320,8 +320,8 @@ public class OrderManagement extends KomalIndustriesConstants {
 		
 		try {
 			String cartDtldId = servletRequest.getParameter("cartDtlsId");
-			
-			System.out.println("cartDtldId :"+cartDtldId);
+			String sendLrMssg = servletRequest.getParameter("sendLrMssg");
+			System.out.println("cartDtldId :"+cartDtldId + ", sendLrMssg: " + sendLrMssg);
 			//LR Details
 			String lrNo = servletRequest.getParameter("lrNo");
 			String lrDate = servletRequest.getParameter("lrdate");
@@ -339,7 +339,7 @@ public class OrderManagement extends KomalIndustriesConstants {
 			}
 			
 			orderDetailsService.editLRNo(cartDtldId, lrNo, lrDate, noofcarton, 
-					transporterNm, destination, mark);
+					transporterNm, destination, mark, sendLrMssg);
 			
 			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, 
 					SUCCESS_MSSG_LABEL, "Dispatch Details Edited Successfully");
@@ -366,7 +366,7 @@ public class OrderManagement extends KomalIndustriesConstants {
 		
 		try {
 			String cartDtldId = servletRequest.getParameter("cartDtlsId");
-			
+			String sendCourierMssg = servletRequest.getParameter("sendCourierMssg");
 			
 			//Courier Details
 			String courierNm = servletRequest.getParameter("courierNm");
@@ -378,7 +378,7 @@ public class OrderManagement extends KomalIndustriesConstants {
 				throw new Exception("Required Fields Are Empty");
 			}
 			
-			orderDetailsService.editCourierDtls(cartDtldId,courierNm, docateNo, delvryDate);
+			orderDetailsService.editCourierDtls(cartDtldId,courierNm, docateNo, delvryDate, sendCourierMssg);
 			
 			model = prepareViewModelUtilty.prepareViewModelMap(VIEW_URL_ORDER, model, 
 					SUCCESS_MSSG_LABEL, "Dispatch Details Edited Successfully");

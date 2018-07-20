@@ -66,6 +66,9 @@ public class CartDtl implements Serializable {
 	@Column(name="NO_OF_CARTON_LOADED")
 	private String noOfCartonLoaded;
 	
+	@Column(name="IS_LR_MSSG_SENT")
+	private int isLrMssgSent;
+	
 	public CartDtl() {
 	}
 
@@ -94,6 +97,15 @@ public class CartDtl implements Serializable {
 		this.trackId = trackId;
 	}
 	
+	
+	public int getIsLrMssgSent() {
+		return isLrMssgSent;
+	}
+
+	public void setIsLrMssgSent(int isLrMssgSent) {
+		this.isLrMssgSent = isLrMssgSent;
+	}
+
 	public String getLrNoDate() {
 		return lrNoDate;
 	}

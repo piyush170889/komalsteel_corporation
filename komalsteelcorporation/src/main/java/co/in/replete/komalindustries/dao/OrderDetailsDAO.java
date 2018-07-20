@@ -24,7 +24,7 @@ public interface OrderDetailsDAO {
 
 	List<WOrderDetailsTO> searchOrders(String searchBy, String searchDateRange) throws DataAccessException;
 
-	void updateLrNo(String cartDtldId, String lrNo, String lrDate, String noofcarton);
+	void updateLrNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, int isLrMssgSent);
 
 	CartDtl selectOrderDetailsById(int orderId);
 
@@ -61,7 +61,8 @@ public interface OrderDetailsDAO {
 
 	int selectOtherAddressIdByCartDlvryDtlsId(int cartDlvryDtlsId);
 
-	void updateCourierDetails(String courierNm, String docateNo, String delvryDate, int cartDlvryDtlsId);
+	void updateCourierDetails(String courierNm, String docateNo, String delvryDate, int cartDlvryDtlsId, 
+			int isCourierMssgSent);
 
 	List<ItemMasterDtl> selectActiveProducts();
 

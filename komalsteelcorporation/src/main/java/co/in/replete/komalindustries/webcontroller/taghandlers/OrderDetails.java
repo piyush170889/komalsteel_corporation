@@ -114,9 +114,9 @@ public class OrderDetails extends SimpleTagSupport {
 							+ orderDetails.getNoOfCartonLoaded() + "','"
 							+ mark + "','"
 							+ transporterName + "','"
-							+ destination + "'"
-							
-							+ ")\")><i class=\"fa fa-truck\" title=\"Update LR Details\"></i></a>"
+							+ destination + "','"
+							+ orderDetails.getIsLrMssgSent() + "'"							
+							+ ")\"><i class=\"fa fa-truck\" title=\"Update LR Details\"></i></a>"
 					//Original code
 					/*out.print("<a data-toggle=\"modal\" data-target=\"#editOrder\" style=\"margin:0 5px;\" onClick=\"sendEditOrderDetails('"
 							+ orderDetailsId + "','"
@@ -146,8 +146,9 @@ public class OrderDetails extends SimpleTagSupport {
 							+ orderDetails.getCartDtlId() + "','"
 							+ orderDetails.getCourierNm() + "','"
 							+ orderDetails.getDocateNo() + "','"
-							+ orderDetails.getDeliveryDate() + "'"
-							+ ")\")><i class=\"fa fa-file\" title=\"Update Courier Details\"></i></a>");
+							+ orderDetails.getDeliveryDate() + "','"
+							+ orderDetails.getIsCourierMssgSent() + "'"
+							+ ")\"><i class=\"fa fa-file\" title=\"Update Courier Details\"></i></a>");
 					
 					
 					out.print("</td>");

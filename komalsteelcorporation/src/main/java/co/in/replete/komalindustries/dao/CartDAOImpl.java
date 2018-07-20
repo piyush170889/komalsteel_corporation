@@ -313,6 +313,7 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 				ps.setString(7, cartDetailParams.getPaymentDtlsId());
 				ps.setString(8, UDValues.BOOLEAN_FALSE.toString());
 				ps.setInt(9, cartDetailParams.getOfferDtlId());
+				ps.setInt(10, cartDetailParams.getCartDtlsId());
 				
 				return ps;
 			}
@@ -635,8 +636,10 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 				wOrderDetailsTO.setLrNo(rs.getString("LR_NO"));
 				wOrderDetailsTO.setLrNoDate(rs.getDate("LR_NO_DATE"));
 				wOrderDetailsTO.setNoOfCartonLoaded(rs.getString("NO_OF_CARTON_LOADED"));
+				wOrderDetailsTO.setIsLrMssgSent(rs.getInt("IS_LR_MSSG_SENT"));
 				wOrderDetailsTO.setCourierNm(rs.getString("COURIER_NM"));
 				wOrderDetailsTO.setDocateNo(rs.getString("DOCATE_NO"));
+				wOrderDetailsTO.setIsCourierMssgSent(rs.getInt("IS_COURIER_MSSG_SENT"));
 				
 				return wOrderDetailsTO;
 			}
@@ -688,8 +691,8 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 				+ "on cd.TRACK_ID=ud.TRACK_ID and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')>=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')<=? limit ?";*/
 			sql = "select ud.TRACK_ID,oad.CITY,oad.COUNTRY,cd.CART_DTLS_ID,cdd.EXP_DLVRY_DT,cdd.DLVRY_TYPE,cdd.COURIER_NM,cdd.DOCATE_NO,ud.FIRST_NAME,ud.LAST_NAME,cd.CART_NOTES,cd.CREATED_TS,"
 					+ "cd.CART_PRICE,oad.POSTAL_CODE,oad.STATE,cd.CART_STATUS,oad.ST_ADDRESS_2,oad.ST_ADDRESS_1,oad.ST_ADDRESS_3,cd.INVOICE_DTLS_ID,"
-					+ "oad.MARK,oad.DESTINATION,oad.TRAN_NM,oad.TINNO,"
-					+ "ud.CNTC_NUM,cd.LR_NO,cd.LR_NO_DATE,cd.NO_OF_CARTON_LOADED from cart_dtls as cd inner join cart_dlvry_dtls as cdd on cd.CART_DLVRY_DTLS_ID=cdd.CART_DLVRY_DTLS_ID inner join other_address_details as oad "
+					+ "oad.MARK,oad.DESTINATION,oad.TRAN_NM,oad.TINNO,cdd.IS_COURIER_MSSG_SENT,"
+					+ "ud.CNTC_NUM,cd.LR_NO,cd.LR_NO_DATE,cd.NO_OF_CARTON_LOADED,cd.IS_LR_MSSG_SENT from cart_dtls as cd inner join cart_dlvry_dtls as cdd on cd.CART_DLVRY_DTLS_ID=cdd.CART_DLVRY_DTLS_ID inner join other_address_details as oad "
 					+ "on cdd.SHIPPING_ADDRESS_ID=oad.OTHER_ADDRESS_ID inner join user_dtls as ud "
 					+ "on cd.TRACK_ID=ud.TRACK_ID inner join user_login_dtls as uld on ud.TRACK_ID=uld.TRACK_ID and uld.STATUS='Active' and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')>=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')<=? "
 					+ " order by cd.CART_DTLS_ID limit ?";
@@ -703,8 +706,8 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 				+ "on cd.TRACK_ID=ud.TRACK_ID and cd.CART_STATUS=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')>=? and DATE_FORMAT(cd.CREATED_TS,'%d-%m-%Y')<=? limit ?";*/
 			sql = "select ud.TRACK_ID,oad.CITY,oad.COUNTRY,cd.CART_DTLS_ID,cdd.EXP_DLVRY_DT,cdd.DLVRY_TYPE,cdd.COURIER_NM,cdd.DOCATE_NO,ud.FIRST_NAME,ud.LAST_NAME,cd.CART_NOTES,cd.CREATED_TS,"
 					+ "cd.CART_PRICE,oad.POSTAL_CODE,oad.STATE,cd.CART_STATUS,oad.ST_ADDRESS_2,oad.ST_ADDRESS_1,oad.ST_ADDRESS_3,cd.INVOICE_DTLS_ID,"
-					+ "oad.MARK,oad.DESTINATION,oad.TRAN_NM,oad.TINNO,"
-					+ "ud.CNTC_NUM,cd.LR_NO,cd.LR_NO_DATE,cd.NO_OF_CARTON_LOADED from cart_dtls as cd inner join cart_dlvry_dtls as cdd on cd.CART_DLVRY_DTLS_ID=cdd.CART_DLVRY_DTLS_ID inner join other_address_details as oad "
+					+ "oad.MARK,oad.DESTINATION,oad.TRAN_NM,oad.TINNO,cdd.IS_COURIER_MSSG_SENT,"
+					+ "ud.CNTC_NUM,cd.LR_NO,cd.LR_NO_DATE,cd.NO_OF_CARTON_LOADED,cd.IS_LR_MSSG_SENT from cart_dtls as cd inner join cart_dlvry_dtls as cdd on cd.CART_DLVRY_DTLS_ID=cdd.CART_DLVRY_DTLS_ID inner join other_address_details as oad "
 					+ "on cdd.SHIPPING_ADDRESS_ID=oad.OTHER_ADDRESS_ID inner join user_dtls as ud "
 					+ "on cd.TRACK_ID=ud.TRACK_ID "
 					+ " inner join user_login_dtls as uld on ud.TRACK_ID=uld.TRACK_ID and uld.STATUS='Active' "
@@ -746,8 +749,10 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 						wOrderDetailsTO.setLrNo(rs.getString("LR_NO"));
 						wOrderDetailsTO.setLrNoDate(rs.getDate("LR_NO_DATE"));
 						wOrderDetailsTO.setNoOfCartonLoaded(rs.getString("NO_OF_CARTON_LOADED"));
+						wOrderDetailsTO.setIsLrMssgSent(rs.getInt("IS_LR_MSSG_SENT"));
 						wOrderDetailsTO.setCourierNm(rs.getString("COURIER_NM"));
 						wOrderDetailsTO.setDocateNo(rs.getString("DOCATE_NO"));
+						wOrderDetailsTO.setIsCourierMssgSent(rs.getInt("IS_COURIER_MSSG_SENT"));
 						
 						return wOrderDetailsTO;
 					}
@@ -787,6 +792,13 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 		String sql = "select * from other_address_details where OTHER_ADDRESS_ID=?";
 		return jdbcTemplate.query(sql, new Object[] {addressDtlsId}, 
 				new BeanPropertyRowMapper<ShippingAddressDetail>(ShippingAddressDetail.class)).get(0);
+	}
+	
+	@Override
+	public int selectLatestOrderId() {
+		
+		String sql = "select MAX(CART_DTLS_ID) from cart_dtls";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 	
 }

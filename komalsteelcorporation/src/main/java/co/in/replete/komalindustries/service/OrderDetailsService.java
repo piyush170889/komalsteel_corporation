@@ -34,10 +34,10 @@ public interface OrderDetailsService {
 
 	List<ItemMasterDtl> getActiveProducts();
 
-	void editCourierDtls(String cartDtldId, String courierNm, String docateNo, String delvryDate) throws Exception;
+	void editCourierDtls(String cartDtldId, String courierNm, String docateNo, String delvryDate, String sendCourierMssg) throws Exception;
 
 	void editLRNo(String cartDtldId, String lrNo, String lrDate, String noofcarton, String transporterNm,
-			String destination, String mark) throws Exception;
+			String destination, String mark, String sendLrMssg) throws Exception;
 	
 	List<CartItemDtlsTO> getCartItemDetailsByOrderId(int oid);
 	
