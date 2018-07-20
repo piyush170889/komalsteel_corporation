@@ -30,7 +30,6 @@
   }); 
  
  function showView(viewName) {
-	 alert(viewName);
 	 if (viewName == 'Select' || viewName == 'NEW_ORDER') {
 		 disableAll();
 	 } else {
