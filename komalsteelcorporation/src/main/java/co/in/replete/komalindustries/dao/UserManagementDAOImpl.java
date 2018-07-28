@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -26,8 +27,10 @@ import co.in.replete.komalindustries.beans.UserDetailsTO;
 import co.in.replete.komalindustries.beans.UserOrderDetailsTO;
 import co.in.replete.komalindustries.beans.entity.AddressDetail;
 import co.in.replete.komalindustries.beans.entity.AppConfiguration;
+import co.in.replete.komalindustries.beans.entity.ContactDtls;
 import co.in.replete.komalindustries.beans.entity.LocationDtls;
 import co.in.replete.komalindustries.beans.entity.OtpDetails;
+import co.in.replete.komalindustries.beans.entity.SmsDtls;
 import co.in.replete.komalindustries.beans.entity.UserDetailsAssociatedTO;
 import co.in.replete.komalindustries.beans.entity.UserLoginDtl;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
@@ -156,7 +159,7 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	@Override
 	public int selectContactNumCount(String contactNum) {
 
-	    return (int)jdbcTemplate.queryForObject(sqlProperties.getProperty("select.count.contactno"),Integer.class, contactNum);
+	    return jdbcTemplate.queryForObject(sqlProperties.getProperty("select.count.contactno"), new Object[] {contactNum},Integer.class);
 	}
 
 	/**
@@ -882,4 +885,93 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 		jdbcTemplate.update("update user_login_dtls set STATUS=? where USER_LOGIN_DTLS_ID=?",new Object[]{status,userLoginDtl.getUserLoginDtlsId()});
 	}
 
+@Override
+	public List<ContactDtls> getAllContactDirectories() {
+		String sqlQuery ="SELECT * FROM contact_dtls";
+		return jdbcTemplate.query(sqlQuery,new Object[] {}, new BeanPropertyRowMapper<ContactDtls>(ContactDtls.class));
+	}
+
+@Override
+public List<SmsDtls> getAllSmsDtls() {
+	String sqlQuery="SELECT * FROM sms_dtls";
+	return jdbcTemplate.query(sqlQuery,new Object[] {}, new BeanPropertyRowMapper<SmsDtls>(SmsDtls.class));
 }
+
+@Override
+public int addContactDirectories(ContactDtls contactDtls) {
+	String sqlQuery="insert into contact_dtls(CONTACT_NUMBER,CONTACT_NAME) values(?,?)";
+	return jdbcTemplate.update(sqlQuery,new Object[] {contactDtls.getContactNumber(),contactDtls.getContactName()});
+}
+
+@Override
+public int editContactDirectories(ContactDtls contactDtls) {
+	String sqlQury="update contact_dtls set CONTACT_NUMBER=?, CONTACT_NAME=? where CONTACT_DTLS_ID=?";
+	return jdbcTemplate.update(sqlQury,new Object[] {contactDtls.getContactNumber(),contactDtls.getContactName(),contactDtls.getContactDtlsId() });
+}
+
+@Override
+public int activateDeactivateContactDetails(int status, int contactDtlsId) {
+	String sqlQury="update contact_dtls set IS_ACTIVE=? where CONTACT_DTLS_ID=?";
+	return jdbcTemplate.update(sqlQury,new Object[] {status,contactDtlsId});
+}
+@Override
+public int activateDeactivateSmsDetails(int status, int smsDtlsId) {
+	String sqlQury="update sms_dtls set IS_ACTIVE=? where SMS_DTLS_ID=?";
+	return jdbcTemplate.update(sqlQury,new Object[] {status,smsDtlsId});
+	
+	
+}
+
+@Override
+public int editContactDirectories(SmsDtls smsDtls) {
+String sqlQuery="insert into sms_dtls(CONTACT_NUMBER) values(?)";
+return jdbcTemplate.update(sqlQuery,new Object[] {smsDtls.getContactNumber()});
+
+}
+@Override
+public int addSmsDtls(String contactNo,String str) {
+	String sqlQuery="insert into sms_dtls(CONTACT_NAME,CONTACT_NUMBER) VALUES(?,?) ";
+	
+	return jdbcTemplate.update(sqlQuery,new Object[] {str,contactNo});
+}
+
+@Override
+public List<ContactDtls> selectName(String contactNo) {
+	String  sqlQuery="select CONTACT_NUMBER from contact_dtls WHERE CONTACT_NUMBER=?";
+	return jdbcTemplate.query(sqlQuery,new Object[] { contactNo}, new BeanPropertyRowMapper<ContactDtls>(ContactDtls.class));
+}
+
+@Override
+public int selectContactNum(String contactNo) {
+	String sqlQuery="select CONTACT_NUMBER from contact_dtls where CONTACT_NUMBER=?";
+	List<ContactDtls> str= jdbcTemplate.query(sqlQuery,new Object[] {contactNo}, new BeanPropertyRowMapper<ContactDtls>(ContactDtls.class));
+	Object n = 0;
+	  Iterator itr=str.iterator();  
+	  while(itr.hasNext()){  
+	 n=(Object) itr.next();
+	  }
+	  
+	  if(n==contactNo)
+	  {
+	  return 1;
+	  }
+	  else
+	return 0;
+}
+
+@Override
+public int selectContact(String contactNo) {
+	String sqlQuery="select COUNT(CONTACT_NUMBER) from contact_dtls where CONTACT_NUMBER=?";
+	 return jdbcTemplate.queryForObject(sqlQuery, new Object[] {contactNo},Integer.class);
+}
+
+@Override
+public String select(String contactNo) {
+	String sqlQuery="select CONTACT_NAME from contact_dtls where CONTACT_NUMBER=?";
+	 return jdbcTemplate.queryForObject(sqlQuery, new Object[] {contactNo},String.class);
+	
+}
+
+
+}
+

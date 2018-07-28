@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.in.replete.komalindustries.beans.UserAddTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
+import co.in.replete.komalindustries.beans.entity.ContactDtls;
+import co.in.replete.komalindustries.beans.entity.SmsDtls;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.UserManagementDAO;
 import co.in.replete.komalindustries.exception.PrepareViewModelException;
 import co.in.replete.komalindustries.exception.ServicesException;
+import co.in.replete.komalindustries.service.UserManagementService;
 import co.in.replete.komalindustries.utils.CommonUtility;
 import co.in.replete.komalindustries.utils.MessageUtility;
 import co.in.replete.komalindustries.utils.PrepareViewModelUtilty;
@@ -36,6 +40,9 @@ public class UserManagementController extends KomalIndustriesConstants {
 
 	@Autowired
 	CommonUtility commonUtility;
+	
+	@Autowired
+	UserManagementService  userService;
 	
 	@Autowired
 	Properties responseMessageProperties;
@@ -124,6 +131,8 @@ public class UserManagementController extends KomalIndustriesConstants {
 			if(contactNumCount > 0) {
 				throw new ServicesException("Contact Number already exists");
 			}
+			
+			
 			String userTrackid = userDAO.insertUserDtl(request.getFirstName(), request.getLastName(), contactNo, request.getDisplayName(), request.getPanNo(), 
 					request.getVatNo(), CMPNY_INFO_ID, request.getGstNo().trim(), request.getDiscount());
 
@@ -266,9 +275,100 @@ public class UserManagementController extends KomalIndustriesConstants {
 		
 		return "redirect:user"; 
 	}
+	/*
+	@RequestMapping(value="/sms-history", method=RequestMethod.GET)
+	public String smsHistory(Model model) throws PrepareViewModelException {
+		
+		model = prepareViewModelUtilty.prepareViewModelMap(KomalIndustriesConstants.VIEW_URL_ORDER, model, null, null);
+		return  "master/smsHistory";
+		
+		
+		
+		
+		
+		
+	}*/
+	
+	
+	@RequestMapping(value="/contact-history", method=RequestMethod.GET)
+	public String selectContactDtls(@ModelAttribute("SpringWeb")ContactDtls cnt,   ModelMap model) 
+
+		{
+			List<ContactDtls> contactDirectorieList = userDAO.getAllContactDirectories();
+			System.out.println("contactDirectorieList : "+contactDirectorieList.toString());
+			      model.addAttribute("contactDirectorieList",contactDirectorieList);	      
+			      model.addAttribute("addContctDetails",new ContactDtls());
+			      return "master/contactHistory";
+
+			   }
+	
+
+	//TODO: Shift all the logic to service Layer
+	@RequestMapping(value="/add-contact", method=RequestMethod.POST)
+	public String addContactDtls(@ModelAttribute("addContctDetails") ContactDtls request, ContactDtls contactDtls, RedirectAttributes rdrct) throws ServicesException  {
+	try {
+		String contactNo = request.getContactNumber();
+		 
+		userService.addContactDirectories(contactDtls,contactNo);
+	}
+		catch(Exception e)
+		{
+			rdrct.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL,e.getMessage());		
+		}
+		
+	return "redirect:contact-history";
+	}
+	
+	
+	@RequestMapping(value="/edit-contact", method=RequestMethod.POST)
+	public String editContactDtls(@ModelAttribute("addContctDetails") ContactDtls contactDtls) 
+
+		{
+			userDAO.editContactDirectories(contactDtls);
+			      
+			      return "redirect:contact-history";
+
+			   }
 	
 	
 	
+	
+	
+	
+	
+
+	@RequestMapping(value="/activate-deactivate-contact", method=RequestMethod.GET)
+	public String activateDeactivateContactDtls(@RequestParam ("status") int status,@RequestParam ("contactDtlsId") int contactDtlsId) 
+
+		{
+			userDAO.activateDeactivateContactDetails(status,contactDtlsId);
+			      
+			      return "redirect:contact-history";
+
+			   }
+
+	
+	
+	
+	@RequestMapping(value="/sms-history", method=RequestMethod.GET)
+	public String selectSmsDtls(@ModelAttribute("SpringWeb") SmsDtls smsDtls,   ModelMap model) {
+			List<SmsDtls> smsDtlsList = userService.getAllSmsDtls();
+			     model.addAttribute("smsDtlsList",smsDtlsList);	      
+
+			     model.addAttribute("addSmsDetails",new SmsDtls());
+
+			     return "master/smsHistory";
+		 }
+	
+	@RequestMapping(value="/activate-deactivate-sms", method=RequestMethod.GET)
+	public String activateDeactivateSmsDtls(@RequestParam ("status") int status,@RequestParam ("smsDtlsId") int smsDtlsId) 
+
+		{
+			userDAO.activateDeactivateSmsDetails(status,smsDtlsId);
+			      
+			      return "redirect:smsHistory";
+
+			   }
 	
 	/*@ModelAttribute("stateList")
 	public List<LocationDtls> getStateList() throws Exception {
@@ -301,5 +401,8 @@ public class UserManagementController extends KomalIndustriesConstants {
 		return returnViewURL; 
 	}
 	*/
+	
+	
+	
 	
 }

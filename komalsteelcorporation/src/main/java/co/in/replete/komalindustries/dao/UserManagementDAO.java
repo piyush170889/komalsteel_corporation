@@ -11,8 +11,10 @@ import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.UserDetailsTO;
 import co.in.replete.komalindustries.beans.UserOrderDetailsTO;
 import co.in.replete.komalindustries.beans.entity.AddressDetail;
+import co.in.replete.komalindustries.beans.entity.ContactDtls;
 import co.in.replete.komalindustries.beans.entity.LocationDtls;
 import co.in.replete.komalindustries.beans.entity.OtpDetails;
+import co.in.replete.komalindustries.beans.entity.SmsDtls;
 import co.in.replete.komalindustries.beans.entity.UserDetailsAssociatedTO;
 import co.in.replete.komalindustries.beans.entity.UserLoginDtl;
 import co.in.replete.komalindustries.webcontroller.beans.WUserDetailsTO;
@@ -118,6 +120,30 @@ public interface UserManagementDAO {
 	int updateGstNo(String trackId, String gstNo);
 
 	void updateUserDtls(String trackId, String status);
+
+	List<ContactDtls> getAllContactDirectories();
+
+	List<SmsDtls> getAllSmsDtls();
+
+	int addContactDirectories(ContactDtls contactDtls);
+
+	int editContactDirectories(ContactDtls contactDtls);
+
+	int activateDeactivateContactDetails(int status, int contactDtlsId);
+
+	int activateDeactivateSmsDetails(int status, int smsDtlsId);
+
+	int editContactDirectories(SmsDtls smsDtls);
+
+	int addSmsDtls(String contactNo,String str);
+
+	List<ContactDtls> selectName(String contactNo);
+
+	int selectContactNum(String contactNo);
+
+	int selectContact(String contactNo);
+
+	String select(String contactNo);
 
 //	Integer selectOTPRecord(String deviceInfo, String cellNum, int otp);
 

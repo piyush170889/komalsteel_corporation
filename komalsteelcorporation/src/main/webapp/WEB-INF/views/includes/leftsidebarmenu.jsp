@@ -55,7 +55,15 @@
               </ul>
             </li>  -->
             <li><a href="enquiry"><i class="fa fa-envelope-o"></i> <span>Enquiries</span></a></li>
-            <li><a href="customer-messaging"><i class="fa fa-envelope-o"></i> <span>Unregistered Customer <br/>Messaging</span></a></li>
+             <li class="treeview">
+           		<a href="#"><i class="fa fa-exchange"></i> <span>Unregistered Customer<br/>Messaging</span><i class="fa fa-angle-left pull-right"></i></a>
+              		<ul class="treeview-menu">
+              			<li><a href="customer-messaging"><i class="fa fa-building-o"></i><span>Messaging</span></a></li>
+              			<li><a href="sms-history"><i class="fa fa-clock-o"></i><span>Sms History</span></a></li>
+              				<li><a href="contact-history"><i class="fa fa-clock-o"></i><span>Contact Direcotry</span></a></li>
+              		</ul>
+            </li>
+           
 			<li class="treeview">
               <a href="#"><i class="fa fa-life-ring"></i> <span>Masters</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">

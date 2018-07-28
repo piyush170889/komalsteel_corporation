@@ -108,7 +108,7 @@
         
             <div class="row">
             	<div class="col-xs-12">
-            	
+            	.
 				  <!-- Any HTML and JSP TAG will go here -->   
 				           	
 				           	 <div class="box-body">
@@ -117,7 +117,7 @@
 		                  <h3 class="box-title">Send SMS</h3>
 		                </div>
 
-		                <form class="form-horizontal" action="${pageContext.request.contextPath }/customer-messaging" method="POST">
+		                <form class="form-horizontal" action="${pageContext.request.contextPath }/customer-messaging" method="POST" >
 		                  <div class="box-body">
 		                    <div class="form-group">
 		                      <label for="inputEmail3" class="col-sm-2 control-label">SMS Type: </label>
@@ -142,15 +142,15 @@
 				                      </div>
 				                      <input class="form-control" type="text" name="orderNo">
 				                    </div><!-- /.input group -->
-				                  </div>
-			                    </div>
+				 ..                 </div>
+			       ...             </div>
 				               </div>
 				               
 				               <div class="form-group">
-		                      <label for="inputEmail3" class="col-sm-2 control-label">Customer Contact No.: </label>
+		                      <label for="inputEmail3" class="col-sm-2 control-label"  path="contactNumber" >Customer Contact No.: </label>
 		                      <div class="col-sm-2">
-			                      <input type="text" class="form-control" name="custContact" />
-		                      </div>
+			          ...            <input type="text" class="form-control" name="custContact"  />
+		                 .     </div>
 		                    </div>
 		                    
 		                    
