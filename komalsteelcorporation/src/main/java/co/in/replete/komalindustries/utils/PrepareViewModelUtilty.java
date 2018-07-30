@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import co.in.replete.komalindustries.beans.AddItemsToCartTO;
 import co.in.replete.komalindustries.beans.OrderEditTO;
 import co.in.replete.komalindustries.beans.UserAddTO;
+import co.in.replete.komalindustries.beans.entity.ContactDtls;
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
 import co.in.replete.komalindustries.beans.entity.LocationDtls;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
@@ -45,6 +46,25 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 	 */
 	public Model prepareViewModelMap(String viewName, Model model, String messageLabel, Object message) throws PrepareViewModelException {
 		try {
+				
+				List<ContactDtls> contactDtlsList = wMasterDAO.selectActiveContactDetails();
+				String  appendedContactDtlsList = "[";
+				int j=0;
+				for (ContactDtls contactDtls : contactDtlsList) {
+					String  appendedContactDtls= contactDtls.getContactNumber()+"-"+contactDtls.getContactName()+"-"+contactDtls.getShopName();
+					if (j==0) {
+						appendedContactDtlsList+="\"" + appendedContactDtls + "\"";
+					} else {
+						appendedContactDtlsList+=",\"" + appendedContactDtls + "\"";
+					}
+					++j;
+//					appendedContactDtlsList += appendedContactDtls;
+//					appendedContactDtlsList.add(appendedContactNumbers);
+				}
+				appendedContactDtlsList += "]";
+				System.out.println("appendedContactDtlsList : "+appendedContactDtlsList);
+				model.addAttribute("appendedContactDtlsList", appendedContactDtlsList);
+				
 			switch(viewName) {
 			case VIEW_URL_ORDER :
 				List<String> paymodeList = new ArrayList<>();

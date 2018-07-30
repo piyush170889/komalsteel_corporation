@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 
 import co.in.replete.komalindustries.beans.DistributorDetailsTO;
 import co.in.replete.komalindustries.beans.DistributorTO;
+import co.in.replete.komalindustries.beans.SmsDtlsWrapper;
 import co.in.replete.komalindustries.beans.UserAddTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.UserDetailsTO;
@@ -123,7 +124,7 @@ public interface UserManagementDAO {
 
 	List<ContactDtls> getAllContactDirectories();
 
-	List<SmsDtls> getAllSmsDtls();
+	List<SmsDtlsWrapper> getAllSmsDtls();
 
 	int addContactDirectories(ContactDtls contactDtls);
 
@@ -135,7 +136,7 @@ public interface UserManagementDAO {
 
 	int editContactDirectories(SmsDtls smsDtls);
 
-	int addSmsDtls(String contactNo,String str);
+	int addSmsDtls(int contactDtlsId,String str);
 
 	List<ContactDtls> selectName(String contactNo);
 
@@ -144,6 +145,8 @@ public interface UserManagementDAO {
 	int selectContact(String contactNo);
 
 	String select(String contactNo);
+
+	ContactDtls getContactDetails(String contactNo);
 
 //	Integer selectOTPRecord(String deviceInfo, String cellNum, int otp);
 

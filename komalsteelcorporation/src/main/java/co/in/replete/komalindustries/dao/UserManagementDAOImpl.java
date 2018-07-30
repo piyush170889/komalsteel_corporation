@@ -1,5 +1,6 @@
 package co.in.replete.komalindustries.dao;
 
+import java.lang.annotation.Annotation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,8 +20,21 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.annotation.JsonFormat.Value;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.BeanProperty;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.PropertyMetadata;
+import com.fasterxml.jackson.databind.PropertyName;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
+
 import co.in.replete.komalindustries.beans.DistributorDetailsTO;
 import co.in.replete.komalindustries.beans.DistributorTO;
+import co.in.replete.komalindustries.beans.SmsDtlsWrapper;
 import co.in.replete.komalindustries.beans.UserAddTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.UserDetailsTO;
@@ -892,21 +906,21 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	}
 
 @Override
-public List<SmsDtls> getAllSmsDtls() {
-	String sqlQuery="SELECT * FROM sms_dtls";
-	return jdbcTemplate.query(sqlQuery,new Object[] {}, new BeanPropertyRowMapper<SmsDtls>(SmsDtls.class));
+public List<SmsDtlsWrapper> getAllSmsDtls() {
+	String sqlQuery="SELECT sd.SMS_CONTENT, sd.CONTACT_DTLS_ID, sd.SMS_HISTORY_ID, cd.CONTACT_NAME, cd.CONTACT_NUMBER, sd.CREATED_TS,sd.MODIFIED_TS FROM sms_dtls as sd join contact_dtls as cd on sd.CONTACT_DTLS_ID = cd.CONTACT_DTLS_ID";
+	return jdbcTemplate.query(sqlQuery,new Object[] {}, new BeanPropertyRowMapper<SmsDtlsWrapper>(SmsDtlsWrapper.class));
 }
 
 @Override
 public int addContactDirectories(ContactDtls contactDtls) {
-	String sqlQuery="insert into contact_dtls(CONTACT_NUMBER,CONTACT_NAME) values(?,?)";
-	return jdbcTemplate.update(sqlQuery,new Object[] {contactDtls.getContactNumber(),contactDtls.getContactName()});
+	String sqlQuery="insert into contact_dtls(CONTACT_NUMBER,CONTACT_NAME,SHOP_NAME) values(?,?,?)";
+	return jdbcTemplate.update(sqlQuery,new Object[] {contactDtls.getContactNumber(),contactDtls.getContactName(),contactDtls.getShopName()});
 }
 
 @Override
 public int editContactDirectories(ContactDtls contactDtls) {
-	String sqlQury="update contact_dtls set CONTACT_NUMBER=?, CONTACT_NAME=? where CONTACT_DTLS_ID=?";
-	return jdbcTemplate.update(sqlQury,new Object[] {contactDtls.getContactNumber(),contactDtls.getContactName(),contactDtls.getContactDtlsId() });
+	String sqlQury="update contact_dtls set CONTACT_NUMBER=?, CONTACT_NAME=?, SHOP_NAME=? where CONTACT_DTLS_ID=?";
+	return jdbcTemplate.update(sqlQury,new Object[] {contactDtls.getContactNumber(),contactDtls.getContactName(),contactDtls.getShopName(),contactDtls.getContactDtlsId() });
 }
 
 @Override
@@ -925,16 +939,32 @@ public int activateDeactivateSmsDetails(int status, int smsDtlsId) {
 @Override
 public int editContactDirectories(SmsDtls smsDtls) {
 String sqlQuery="insert into sms_dtls(CONTACT_NUMBER) values(?)";
-return jdbcTemplate.update(sqlQuery,new Object[] {smsDtls.getContactNumber()});
+return 0;//jdbcTemplate.update(sqlQuery,new Object[] {smsDtls.getContactNumber()});
 
 }
+
 @Override
-public int addSmsDtls(String contactNo,String str) {
+public ContactDtls getContactDetails(String contactNo) {
+	String sqlQuery="SELECT * FROM contact_dtls where CONTACT_NUMBER=?";
+	return jdbcTemplate.queryForObject(sqlQuery,new Object[] {contactNo}, new BeanPropertyRowMapper<ContactDtls>(ContactDtls.class));
+		
+}
+
+@Override
+public int addSmsDtls(int contactDtlsId, String finalMsgToStore) {
+	System.out.println("contactDtlsId : "+contactDtlsId+" finalMsgToStore :"+finalMsgToStore);
+String sqlQuery = "INSERT INTO sms_dtls(CONTACT_DTLS_ID,SMS_CONTENT) VALUES(?,?)";
+	return jdbcTemplate.update(sqlQuery,contactDtlsId, finalMsgToStore);
+}
+
+/*
+@Override
+public int addSmsDtls(int contactDtlsId ,String finalMsgToStore) {
 	String sqlQuery="insert into sms_dtls(CONTACT_NAME,CONTACT_NUMBER) VALUES(?,?) ";
 	
 	return jdbcTemplate.update(sqlQuery,new Object[] {str,contactNo});
 }
-
+*/
 @Override
 public List<ContactDtls> selectName(String contactNo) {
 	String  sqlQuery="select CONTACT_NUMBER from contact_dtls WHERE CONTACT_NUMBER=?";

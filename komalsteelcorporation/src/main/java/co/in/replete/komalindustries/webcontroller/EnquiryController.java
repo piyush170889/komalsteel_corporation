@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,28 +26,28 @@ import co.in.replete.komalindustries.utils.PrepareViewModelUtilty;
 public class EnquiryController extends KomalIndustriesConstants {
 	@Autowired
 	private EnquiryService enquiryService;
-	
+
 	@Autowired
 	UserManagementService userService;
-	
+
 	@Autowired
 	UserManagementDAO userDAO;
-	
+
 	@Autowired
 	private PrepareViewModelUtilty prepareViewModelUtilty;
-	
+
 	@Autowired
 	private CommonUtility commonUtility;
-	
+
 	@Autowired
 	private MessageUtility messageUtility;
-	
+
 	@Autowired
 	private Properties configProperties;
 
 	@Autowired
 	OrderDetailsDAO orderDetailsDAO;
-	
+
 	@RequestMapping(value = "/enquiry", method = RequestMethod.GET)
 	public String getTest(ModelMap model) {
 		try {
@@ -59,10 +58,10 @@ public class EnquiryController extends KomalIndustriesConstants {
 			return ERROR_PAGE_URL;
 		}
 		return "customer management/enquiry";
-		
+
 	}
-	
-	
+
+
 	@RequestMapping(value = "getenquirybydate", method = RequestMethod.GET)
 	public String getTest(HttpServletRequest request,HttpServletResponse response,ModelMap model) {
 		try {
@@ -77,37 +76,38 @@ public class EnquiryController extends KomalIndustriesConstants {
 			return ERROR_PAGE_URL;
 		}
 		return "customer management/enquiry";
-		
+
 	}
-	
+
 	@RequestMapping(value="customer-messaging", method=RequestMethod.GET)
 	public String showCustomerMessagingView(Model model) throws PrepareViewModelException {
-		
+
 		model = prepareViewModelUtilty.prepareViewModelMap(KomalIndustriesConstants.VIEW_URL_ORDER, model, null, null);
-		
+
 		return "masters/customer-messaging";
 	}
-	
+
 
 	@RequestMapping(value="customer-messaging", method=RequestMethod.POST)
 	public String sendCustomerSMS( HttpServletRequest servletRequest, Model model) throws Exception {
-		
+System.out.println("servletRequest.getParameter(\"custContact\") : "+servletRequest.getParameter("custContact"));
 		String smsType = servletRequest.getParameter("smsType");
-		String contactNo = servletRequest.getParameter("custContact");
+		String[] contactNo = servletRequest.getParameter("custContact").split("-");
 		String orderNo = servletRequest.getParameter("orderNo");
-		
-		String messageLabel = KomalIndustriesConstants.SUCCESS_MSSG_LABEL;
-		String message = " SMS Sent Successfully";
-		
-		
-				
-		userService.addSmsDtls(contactNo);
-	
-	
-	
+		String finalMsgToStore = null;
+		String splitCustContactNum =  contactNo[0];
+		String contactNumbersToSendMsg=splitCustContactNum;
+		String messageLabel = "";
+		String message = "";
+		try {
+
+		messageLabel = KomalIndustriesConstants.SUCCESS_MSSG_LABEL;
+		message = " SMS Sent Successfully";
+
 		switch (smsType) {
 		case "NEW_ORDER":
-			messageUtility.sendMessage(contactNo, String.format(configProperties.getProperty("sms.orderplaced.success"), orderNo));
+			finalMsgToStore = String.format(configProperties.getProperty("sms.orderplaced.success"), orderNo);
+			messageUtility.sendMessage(splitCustContactNum, finalMsgToStore);
 			message = "New Order" + message;
 			break;
 
@@ -117,38 +117,44 @@ public class EnquiryController extends KomalIndustriesConstants {
 			String lrNo = servletRequest.getParameter("lrNo");
 			String noOfCarton = servletRequest.getParameter("noOfCarton");
 			String lrDate = servletRequest.getParameter("lrDate");
-			
+
 			String lrDispatchDetailsMssg = commonUtility.createLrMessage(orderNo, transporterNm, destination, lrNo, noOfCarton, lrDate);
-			
-			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
-			
-			messageUtility.sendMessage(contactNo, lrDispatchDetailsMssg);
+
+			contactNumbersToSendMsg += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+
+			messageUtility.sendMessage(contactNumbersToSendMsg, lrDispatchDetailsMssg);
 			message = "LR Details" + message;;
+			finalMsgToStore = lrDispatchDetailsMssg;
 			break;
-			
+
 		case "COURIER_SMS":
 			String courierNm = servletRequest.getParameter("courierNm");
 			String docateNo = servletRequest.getParameter("docateNo");
 			String trackingUrl = orderDetailsDAO.selectTrackingUrlByCourierName(courierNm);
 			String delvryDate = servletRequest.getParameter("delvryDate");
-			
+
 			String courierDispatchDetailsMssg = commonUtility.createCourierMessage(orderNo, courierNm, docateNo, trackingUrl, delvryDate);
-			
-			contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
-			
-			messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
-			message = "Courier Details" +  message;;
+
+			contactNumbersToSendMsg += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+
+			messageUtility.sendMessage(contactNumbersToSendMsg, courierDispatchDetailsMssg);
+			message = "Courier Details" +  message;
+			finalMsgToStore = courierDispatchDetailsMssg;
 			break;
-			
+
 		default:
 			messageLabel = KomalIndustriesConstants.ERROR_MSSG_LABEL;
 			message = "Invalid SMS Type Supplied";
 		}
-		
+		userService.addSmsDtls(splitCustContactNum, finalMsgToStore );
 		model = prepareViewModelUtilty.prepareViewModelMap(KomalIndustriesConstants.VIEW_URL_ORDER, model, null, null);
+
+	}catch (Exception e) {
+			messageLabel = KomalIndustriesConstants.ERROR_MSSG_LABEL;
+			message="Exception Occured While sending Message.";
+		}
 		model.addAttribute(messageLabel, message);
-		
 		return "masters/customer-messaging";
 	}
-	
+
 }

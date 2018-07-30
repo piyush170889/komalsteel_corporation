@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import co.in.replete.komalindustries.beans.entity.ContactDtls;
 import co.in.replete.komalindustries.beans.entity.CourierMasterDtls;
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
 import co.in.replete.komalindustries.beans.entity.TransportationMasterDtls;
@@ -102,5 +103,11 @@ public class WMasterDAOImpl extends BaseDAOImpl implements WMasterDAO {
 						return rs.getString("NAME");
 					}
 				});
+	}
+	
+	@Override
+	public List<ContactDtls> selectActiveContactDetails() {
+	String sqlQuery = "SELECT * FROM contact_dtls where IS_ACTIVE=1";
+		return jdbcTemplate.query(sqlQuery, new Object[] {}, new BeanPropertyRowMapper<ContactDtls>(ContactDtls.class));
 	}
 }

@@ -135,6 +135,7 @@
                         <th>Sr. No</th>
                         <th>Contact Number</th>
                         <th>Contact Name</th>
+                        <th>Shop Name</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -145,8 +146,9 @@
                                           <td>${loopCount.count }</td>
                                           <td>${contactDtls.contactNumber}</td>
                                           <td>${contactDtls.contactName}</td>
+                                          <td>${contactDtls.shopName}</td>
                                           <td>
-											<a data-toggle="modal" data-target="#editmodal" onclick="updateContactDetails('${contactDtls.contactDtlsId}','${contactDtls.contactNumber}','${contactDtls.contactName}')" ><i class="fa fa-pencil" title="Edit"></i></a>
+											<a data-toggle="modal" data-target="#editmodal" onclick="updateContactDetails('${contactDtls.contactDtlsId}','${contactDtls.contactNumber}','${contactDtls.contactName}','${contactDtls.shopName}')" ><i class="fa fa-pencil" title="Edit"></i></a>
 											<c:choose>
 														<c:when test="${ contactDtls.isActive eq 0}">
 															<a
@@ -223,7 +225,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add a New User</h4>
+        <h4 class="modal-title">Add New Contact</h4>
       </div>
       <div class="modal-body">
       <div class="row">
@@ -231,7 +233,7 @@
               <!-- general form elements -->
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">User Details</h3>
+                  <h3 class="box-title">Contact Details</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -240,12 +242,19 @@
         			<div class="col-md-6">
                     <div class="form-group">
                       <label >Contact Number</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
-                      <form:input class="form-control" placeholder="Contact Number" path="contactNumber" required="required" />
+                      <form:input class="form-control" placeholder="Contact Number" path="contactNumber" id="contactNu" required="required"  onchange="checkNumberExistOrNot()"/>
+                    <div id="errorMsg" style="color: red"></div>
                     </div>
                       <div class="form-group">
                       <label >Contact Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Contact Name" path="contactName" required="required" />
                     </div>
+                    
+                    <div class="form-group">
+                      <label >Shop Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <form:input class="form-control" placeholder="Shop Name" path="shopName" required="required" />
+                    </div>
+                    
                     </div>
                     
                     
@@ -264,7 +273,43 @@
   </div>
 </div>
 <!-- ./Add user Modal -->
+<script type="text/javascript">
+function checkNumberExistOrNot(){
+	var contactNumber = $('#contactNu').val();
+	var data = {"contactNumber" : contactNumber};
+		 $.ajax({
+			 url: "check-contact-number",
+			type : "GET",
+			 data:data,
+			 success: function(result){
+		    },
+		    error: function(result){
+				$("#errorMsg").html("Contact Number already Exists.");
+		    }
+		 });
+	
+		 
+}
 
+function checkNumberExistOrNotEdit(){
+	var contactNumber = $('#contactNumber1').val();
+	var data = {"contactNumber" : contactNumber};
+		 $.ajax({
+			 url: "check-contact-number",
+			type : "GET",
+			 data:data,
+			 success: function(result){
+		    },
+		    error: function(result){
+				$("#errorMsgEdit").html("Contact Number already Exists.");
+		    }
+		 });
+	
+		
+}
+
+
+</script>
 
 <!-- Edit user Modal -->
 <div id="editmodal" class="modal modal-primary fade" role="dialog">
@@ -293,12 +338,18 @@
                     
                      <form:input  class="form-control"  type="hidden"  id="contactDtlsId1"  path="contactDtlsId" required="required" />
                       <label >Contact Number</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
-                      <form:input class="form-control" placeholder="Contact Number" id="contactNumber1"  path="contactNumber" required="required" />
+                      <form:input class="form-control" placeholder="Contact Number" id="contactNumber1"  path="contactNumber" required="required"  onchange="checkNumberExistOrNotEdit()" />
+                    <div id="errorMsgEdit" style="color: red"></div>
                     </div>
                       <div class="form-group">
                       <label >Contact Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Contact Name" id="contactName1" path="contactName" required="required" />
                     </div>
+                    <div class="form-group">
+                      <label >Shop Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <form:input class="form-control" placeholder="Shop Name" id="shopName1" path="shopName" required="required" />
+                    </div>
+                    
                     </div>
                   </div>
                     <div class="box-footer">
@@ -317,10 +368,12 @@
 <!-- ./Edit user Modal -->
 
 <script type="text/javascript">
-function updateContactDetails(contactId, contactNum, contactName){
+function updateContactDetails(contactId, contactNum, contactName,shopName){
 	$('#contactDtlsId1').val(contactId);
 	$('#contactNumber1').val(contactNum);
 	$('#contactName1').val(contactName);
+	$('#shopName1').val(shopName);
+	
 }
 
 </script>

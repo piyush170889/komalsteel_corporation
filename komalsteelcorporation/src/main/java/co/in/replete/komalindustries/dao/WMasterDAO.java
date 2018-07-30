@@ -2,6 +2,7 @@ package co.in.replete.komalindustries.dao;
 
 import java.util.List;
 
+import co.in.replete.komalindustries.beans.entity.ContactDtls;
 import co.in.replete.komalindustries.beans.entity.CourierMasterDtls;
 import co.in.replete.komalindustries.beans.entity.HSNDetails;
 import co.in.replete.komalindustries.beans.entity.TransportationMasterDtls;
@@ -33,5 +34,7 @@ public interface WMasterDAO extends BaseDAO {
 	void updateTransportationDetails(int transportationDtlsId, String name, String description);
 
 	List<String> selectActiveTransportationNamesList();
+
+	List<ContactDtls> selectActiveContactDetails();
 
 }

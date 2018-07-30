@@ -1,60 +1,31 @@
-package co.in.replete.komalindustries.beans.entity;
+package co.in.replete.komalindustries.beans;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class SmsDtlsWrapper {
 
-@Entity
-@Table(name="sms_dtls")
-public class SmsDtls {
-	@Id
-	@Column(name="SMS_HISTORY_ID")
 	private int smsDtlsId;
 
-	@Column(name="CONTACT_DTLS_ID")
 	private int contactDtlsId;
 
-	@Column(name="SMS_SEND_TIME")
 	private String smsSendTime;
 
-	@Column(name="SMS_CONTENT")
 	private String smsContent;
+	
+	private String contactName;
 
-	@Column(name="CREATED_BY")
-	private String createdBy;
+	private String contactNumber;
 
-	@Column(name="CREATED_TS")
 	private String createdTs;
 
-	@Column(name="MODIFIED_BY")
-	private String modifiedBy;
-
-	@Column(name="MODIFIED_TS")
 	private String modifiedTs;
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
+	
 	public String getCreatedTs() {
 		return createdTs;
 	}
 
 	public void setCreatedTs(String createdTs) {
 		this.createdTs = createdTs;
-	}
-
-	public String getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
 	}
 
 	public String getModifiedTs() {
@@ -97,11 +68,30 @@ public class SmsDtls {
 		this.smsContent = smsContent;
 	}
 
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
 	@Override
 	public String toString() {
-		return "SmsDtls [smsDtlsId=" + smsDtlsId + ", contactDtlsId=" + contactDtlsId + ", smsSendTime=" + smsSendTime
-				+ ", smsContent=" + smsContent + ", createdBy=" + createdBy + ", createdTs=" + createdTs
-				+ ", modifiedBy=" + modifiedBy + ", modifiedTs=" + modifiedTs + "]";
+		return "SmsDtlsWrapper [smsDtlsId=" + smsDtlsId + ", contactDtlsId=" + contactDtlsId + ", smsSendTime="
+				+ smsSendTime + ", smsContent=" + smsContent + ", contactName=" + contactName + ", contactNumber="
+				+ contactNumber + "]";
 	}
+
+	
+	
 
 }
