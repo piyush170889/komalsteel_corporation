@@ -271,7 +271,6 @@
     </div>
 
   </div>
-</div>
 <!-- ./Add user Modal -->
 <script type="text/javascript">
 function checkNumberExistOrNot(){
@@ -282,9 +281,12 @@ function checkNumberExistOrNot(){
 			type : "GET",
 			 data:data,
 			 success: function(result){
+				 if(result == "error"){
+					 $("#errorMsg").html("Contact Number already Exists.");
+				 }
 		    },
 		    error: function(result){
-				$("#errorMsg").html("Contact Number already Exists.");
+				/* $("#errorMsg").html("Contact Number already Exists."); */
 		    }
 		 });
 	

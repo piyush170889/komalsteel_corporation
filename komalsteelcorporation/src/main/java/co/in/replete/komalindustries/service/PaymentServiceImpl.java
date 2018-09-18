@@ -17,8 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import co.in.replete.komalindustries.beans.BaseWrapper;
 import co.in.replete.komalindustries.beans.PayUMoneyResponseDetails;
 import co.in.replete.komalindustries.beans.PaymentDetailsRequest;
-import co.in.replete.komalindustries.beans.PaymentResponse;
-import co.in.replete.komalindustries.beans.SingleValueCommonClass;
 import co.in.replete.komalindustries.dao.PaymentDAO;
 
 

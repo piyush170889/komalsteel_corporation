@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.in.replete.komalindustries.beans.SmsDtlsWrapper;
@@ -357,7 +358,7 @@ public class UserManagementController extends KomalIndustriesConstants {
 	
 
 	@RequestMapping(value="/check-contact-number", method=RequestMethod.GET)
-	public String checkContactNumber(HttpServletRequest request) throws ServicesException  {
+	public @ResponseBody String checkContactNumber(HttpServletRequest request) throws ServicesException  {
 		int count = userService.checkContactNumber(request.getParameter("contactNumber"));
 		System.out.println("Count : : "+count);
 		if(count != 0) {

@@ -1,6 +1,5 @@
 package co.in.replete.komalindustries.dao;
 
-import java.lang.annotation.Annotation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,18 +18,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-
-import com.fasterxml.jackson.annotation.JsonFormat.Value;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.BeanProperty;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.PropertyMetadata;
-import com.fasterxml.jackson.databind.PropertyName;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.cfg.MapperConfig;
-import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 
 import co.in.replete.komalindustries.beans.DistributorDetailsTO;
 import co.in.replete.komalindustries.beans.DistributorTO;
@@ -938,7 +925,7 @@ public int activateDeactivateSmsDetails(int status, int smsDtlsId) {
 
 @Override
 public int editContactDirectories(SmsDtls smsDtls) {
-String sqlQuery="insert into sms_dtls(CONTACT_NUMBER) values(?)";
+//String sqlQuery="insert into sms_dtls(CONTACT_NUMBER) values(?)";
 return 0;//jdbcTemplate.update(sqlQuery,new Object[] {smsDtls.getContactNumber()});
 
 }

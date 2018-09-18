@@ -242,8 +242,12 @@
 				                      			<input type="hidden" id="item_incval_${item_id }" value="${products.masterCartonQtyIncVal }" />
 				                      		</td>
 				                      		<td>
-				                      			<a href="javascript:void(0)" 
+<%-- 				                      			<a href="javascript:void(0)" 
 				                      			onclick="if (confirm('Are you sure you want to add this material to the order?')) {addMaterialToCart('${item_id }')}" >
+				                      				<i class="fa fa-plus"></i>
+				                      			</a> --%>
+				                      		<a href="javascript:void(0)" 
+				                      			onclick="addMaterialToCart('${item_id}')" >
 				                      				<i class="fa fa-plus"></i>
 				                      			</a>
 				                      		</td>

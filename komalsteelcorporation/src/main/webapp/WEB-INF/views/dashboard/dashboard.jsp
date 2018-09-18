@@ -91,6 +91,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					  </div><!-- /.info-box -->
 				  </a>
 				</div><!-- /.col -->
+				
+				<div class="col-md-4 col-sm-6 col-xs-12">
+				  <a href="order" >
+					  <div class="info-box">
+						<span class="info-box-icon bg-aqua"><i class="fa fa-inbox"></i></span>
+						<div class="info-box-content">
+						  <span class="info-box-text">New Orders</span>
+						  <span class="info-box-number"><d:NewOrdersCount dashboardDAO="${dashBoardDAO }"/></span>
+						</div><!-- /.info-box-content -->
+					  </div><!-- /.info-box -->
+				  </a>
+				</div><!-- /.col -->
+				
+				
+				<%-- 
 				<div class="col-md-4 col-sm-6 col-xs-12">
 					<a href="user" >
 					  <div class="info-box">
@@ -102,8 +117,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</div><!-- /.info-box-content -->
 					  </div><!-- /.info-box -->
 					</a>
-				</div><!-- /.col -->
-				<div class="col-md-4 col-sm-6 col-xs-12">
+				</div> --%>
+				<!-- /.col -->
+				
+				
+				<%-- <div class="col-md-4 col-sm-6 col-xs-12">
 				  <a href="user" >
 				  	<div class="info-box">
 						<span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
@@ -114,7 +132,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</div><!-- /.info-box-content -->
 				  	</div><!-- /.info-box -->
 				  </a>
-				</div><!-- /.col -->
+				</div> --%><!-- /.col -->
 				<%-- <div class="col-md-3 col-sm-6 col-xs-12">
 				  <div class="info-box">
 					<span class="info-box-icon bg-red"><i class="fa fa-barcode"></i></span>
@@ -127,21 +145,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				</div><!-- /.col --> --%>
 			  </div><!-- /.row -->
 			  
-			  <div class="row">
+			  <%-- <div class="row">
 			  <h4 style="margin: 0.4em 0.9em;background-color: #00c0ef !important;padding: 0.2em;color: #fff;">
 				Todays Orders Summary
 			  </h4>
-			  	<div class="col-md-4 col-sm-6 col-xs-12">
-				  <a href="order" >
-					  <div class="info-box">
-						<span class="info-box-icon bg-aqua"><i class="fa fa-inbox"></i></span>
-						<div class="info-box-content">
-						  <span class="info-box-text">New Orders</span>
-						  <span class="info-box-number"><d:NewOrdersCount dashboardDAO="${dashBoardDAO }"/></span>
-						</div><!-- /.info-box-content -->
-					  </div><!-- /.info-box -->
-				  </a>
-				</div><!-- /.col -->
+			  	
 				<div class="col-md-4 col-sm-6 col-xs-12">
 				  <a href="order">
 					  <div class="info-box">
@@ -175,7 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				  	</div><!-- /.info-box -->
 				  </a>
 				</div><!-- /.col -->
-				<%-- <div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="col-md-3 col-sm-6 col-xs-12">
 				  <div class="info-box">
 					<span class="info-box-icon bg-red"><i class="fa fa-inbox"></i></span>
 					<div class="info-box-content">
@@ -184,8 +192,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					  <span class="info-box-number"><d:OrdersCount dashboardDAO="${dashBoardDAO }" orderStatus="<%= UDValues.CART_STATUS_PENDING.toString() %>"/></span>
 					</div><!-- /.info-box-content -->
 				  </div><!-- /.info-box -->
-				</div><!-- /.col --> --%>
-			  </div><!-- /.row -->
+				</div><!-- /.col -->
+			  </div> --%>
+			  <!-- /.row -->
 			  
 			</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
