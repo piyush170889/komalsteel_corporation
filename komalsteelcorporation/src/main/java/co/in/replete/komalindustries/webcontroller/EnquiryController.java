@@ -150,6 +150,7 @@ System.out.println("servletRequest.getParameter(\"custContact\") : "+servletRequ
 		model = prepareViewModelUtilty.prepareViewModelMap(KomalIndustriesConstants.VIEW_URL_ORDER, model, null, null);
 
 	}catch (Exception e) {
+		e.printStackTrace();
 			messageLabel = KomalIndustriesConstants.ERROR_MSSG_LABEL;
 			message="Exception Occured While sending Message.";
 		}
