@@ -125,6 +125,7 @@
                         <th>Sr. No</th>
                         <th>Contact Number</th>
                         <th>Contact Name</th>
+                        <th>Shop Name</th>
                         <th>Msg Content</th>                      
                         <th>Msg Send Time</th>              
                       </tr>
@@ -136,6 +137,7 @@
                                           <td>${loopCount.count }</td>
                                           <td>${smsDtls.contactNumber}</td>
                                           <td>${smsDtls.contactName}</td>
+                                           <td>${smsDtls.shopName}</td>
                                           <td>${smsDtls.smsContent}</td>
                                           <td>${smsDtls.createdTs}</td>
                                          

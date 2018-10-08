@@ -132,15 +132,15 @@
 
 								<form class="form-horizontal"
 									action="${pageContext.request.contextPath }/customer-messaging"
-									method="POST" onsubmit="return checkContactNoRegistered()">
+									method="POST" onsubmit="return checkContactNoRegistered()" id="smsDtlsForm">
 									<div class="box-body">
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">SMS
 												Type: </label>
 											<div class="col-sm-2">
-												<select class="form-control" name="smsType" 
+												<select required class="form-control" name="smsType" 
 													onchange="showView(this.value)" id="smstype1">
-													<option value="Select">Select</option>
+													<option value="Select" disabled="disabled" selected="selected">Select</option>
 													<option value="NEW_ORDER">New Order</option>
 													<option value="LR_SMS">LR Details SMS</option>
 													<option value="COURIER_SMS">Courier SMS</option>
@@ -158,7 +158,7 @@
 														<div class="input-group-addon">
 															<i class="fa fa-shopping-cart"></i>
 														</div>
-														<input class="form-control" type="text" id="orderNo1" name="orderNo">
+														<input class="form-control" type="text" id="orderNo1" name="orderNo" required="required">
 													</div>
 													<!-- /.input group -->
 												</div>
@@ -168,7 +168,7 @@
 										<div class="form-group">
 											<label for="tags" class="col-sm-2 control-label">Customer Contact No.: </label>
 											<div class="col-sm-2">
-												<input type="text" class="form-control" id="contacttags" name="custContact" />
+												<input type="text" class="form-control" id="contacttags" name="custContact" required="required"/>
 											</div>
 										</div>
 
@@ -462,7 +462,7 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" action="${pageContext.request.contextPath }/customer-messaging" method="post">
+                <form role="form" action="${pageContext.request.contextPath }/customer-messaging" id="contactDtlsForm" method="post">
                   <div class="box-body" style="color:#333;">
         			<div class="col-md-6">
                     <div class="form-group">
@@ -598,6 +598,12 @@
         
         function doNotSendSms(){
         	$('#addUser').modal('toggle');
+
+
+        	document.getElementById("smsDtlsForm").reset();
+        	document.getElementById("contactDtlsForm").reset();
+
+
 			return false;
         }
 </script>

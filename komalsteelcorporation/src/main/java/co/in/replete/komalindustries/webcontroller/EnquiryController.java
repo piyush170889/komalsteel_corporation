@@ -92,6 +92,9 @@ public class EnquiryController extends KomalIndustriesConstants {
 	@RequestMapping(value="customer-messaging", method=RequestMethod.POST)
 	public String sendCustomerSMS( HttpServletRequest servletRequest, Model model) throws Exception {
 		System.out.println("servletRequest.getParameter(\"custContact\") : "+servletRequest.getParameter("custContact"));
+		
+		
+		
 		String smsType = servletRequest.getParameter("smsType");
 		String splitCustContactNum ="";
 		if(servletRequest.getParameter("contactNumber") != null && !servletRequest.getParameter("contactNumber").isEmpty())

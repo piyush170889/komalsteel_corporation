@@ -894,7 +894,7 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 
 @Override
 public List<SmsDtlsWrapper> getAllSmsDtls() {
-	String sqlQuery="SELECT sd.SMS_CONTENT, sd.CONTACT_DTLS_ID, sd.SMS_HISTORY_ID, cd.CONTACT_NAME, cd.CONTACT_NUMBER, sd.CREATED_TS,sd.MODIFIED_TS FROM sms_dtls as sd join contact_dtls as cd on sd.CONTACT_DTLS_ID = cd.CONTACT_DTLS_ID";
+	String sqlQuery="SELECT sd.SMS_CONTENT, sd.CONTACT_DTLS_ID, sd.SMS_HISTORY_ID, cd.CONTACT_NAME, cd.CONTACT_NUMBER,cd.SHOP_NAME,  sd.CREATED_TS,sd.MODIFIED_TS FROM sms_dtls as sd join contact_dtls as cd on sd.CONTACT_DTLS_ID = cd.CONTACT_DTLS_ID";
 	return jdbcTemplate.query(sqlQuery,new Object[] {}, new BeanPropertyRowMapper<SmsDtlsWrapper>(SmsDtlsWrapper.class));
 }
 

@@ -13,13 +13,25 @@ public class SmsDtlsWrapper {
 	private String contactName;
 
 	private String contactNumber;
+	
+	private String shopName;
 
 	private String createdTs;
 
 	private String modifiedTs;
 
+	
+	
 
 	
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
 	public String getCreatedTs() {
 		return createdTs;
 	}
