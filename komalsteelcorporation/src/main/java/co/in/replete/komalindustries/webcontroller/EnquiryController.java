@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import co.in.replete.komalindustries.beans.entity.ContactDtls;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.OrderDetailsDAO;
 import co.in.replete.komalindustries.dao.UserManagementDAO;
@@ -90,16 +91,30 @@ public class EnquiryController extends KomalIndustriesConstants {
 
 	@RequestMapping(value="customer-messaging", method=RequestMethod.POST)
 	public String sendCustomerSMS( HttpServletRequest servletRequest, Model model) throws Exception {
-System.out.println("servletRequest.getParameter(\"custContact\") : "+servletRequest.getParameter("custContact"));
+		System.out.println("servletRequest.getParameter(\"custContact\") : "+servletRequest.getParameter("custContact"));
 		String smsType = servletRequest.getParameter("smsType");
-		String[] contactNo = servletRequest.getParameter("custContact").split("-");
+		String splitCustContactNum ="";
+		if(servletRequest.getParameter("contactNumber") != null && !servletRequest.getParameter("contactNumber").isEmpty())
+		{
+			splitCustContactNum =  servletRequest.getParameter("contactNumber");
+			ContactDtls contactDtls = new ContactDtls();
+			contactDtls.setShopName(servletRequest.getParameter("shopName"));
+			contactDtls.setContactName(servletRequest.getParameter("contactName"));
+			contactDtls.setContactNumber(splitCustContactNum);
+			userService.addContactDirectories(contactDtls);
+		}else {
+			String[] contactNo = servletRequest.getParameter("custContact").split("-");
+			splitCustContactNum =  contactNo[0];
+			
+		}
 		String orderNo = servletRequest.getParameter("orderNo");
 		String finalMsgToStore = null;
-		String splitCustContactNum =  contactNo[0];
 		String contactNumbersToSendMsg=splitCustContactNum;
 		String messageLabel = "";
 		String message = "";
 		try {
+			
+			
 
 		messageLabel = KomalIndustriesConstants.SUCCESS_MSSG_LABEL;
 		message = " SMS Sent Successfully";

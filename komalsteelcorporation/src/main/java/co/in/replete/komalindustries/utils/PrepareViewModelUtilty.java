@@ -64,7 +64,6 @@ public class PrepareViewModelUtilty extends KomalIndustriesConstants {
 				appendedContactDtlsList += "]";
 				System.out.println("appendedContactDtlsList : "+appendedContactDtlsList);
 				model.addAttribute("appendedContactDtlsList", appendedContactDtlsList);
-				
 			switch(viewName) {
 			case VIEW_URL_ORDER :
 				List<String> paymodeList = new ArrayList<>();

@@ -132,14 +132,14 @@
 
 								<form class="form-horizontal"
 									action="${pageContext.request.contextPath }/customer-messaging"
-									method="POST">
+									method="POST" onsubmit="return checkContactNoRegistered()">
 									<div class="box-body">
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">SMS
 												Type: </label>
 											<div class="col-sm-2">
-												<select class="form-control" name="smsType"
-													onchange="showView(this.value)">
+												<select class="form-control" name="smsType" 
+													onchange="showView(this.value)" id="smstype1">
 													<option value="Select">Select</option>
 													<option value="NEW_ORDER">New Order</option>
 													<option value="LR_SMS">LR Details SMS</option>
@@ -158,7 +158,7 @@
 														<div class="input-group-addon">
 															<i class="fa fa-shopping-cart"></i>
 														</div>
-														<input class="form-control" type="text" name="orderNo">
+														<input class="form-control" type="text" id="orderNo1" name="orderNo">
 													</div>
 													<!-- /.input group -->
 												</div>
@@ -166,8 +166,7 @@
 										</div>
 
 										<div class="form-group">
-											<label for="tags" class="col-sm-2 control-label"
-												path="contactNumber">Customer Contact No.: </label>
+											<label for="tags" class="col-sm-2 control-label">Customer Contact No.: </label>
 											<div class="col-sm-2">
 												<input type="text" class="form-control" id="contacttags" name="custContact" />
 											</div>
@@ -443,6 +442,84 @@
 	<!-- ./View Modal -->
 
 
+<!-- Add user Modal -->
+<div id="addUser" class="modal modal-primary fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add New Contact</h4>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title" style="text-align: center; font-size: 14px; color: red">This contact No is not in directory. You can send SMS to only contacts from Directory</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" action="${pageContext.request.contextPath }/customer-messaging" method="post">
+                  <div class="box-body" style="color:#333;">
+        			<div class="col-md-6">
+                    <div class="form-group">
+                      <label >Contact Number</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <input class="form-control" placeholder="Contact Number" name="contactNumber" id="contactNu" required="required"  onchange="checkNumberExistOrNot()"/>
+                    <div id="errorMsg" style="color: red"></div>
+                    </div>
+                      <div class="form-group">
+                      <label >Contact Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <input class="form-control" placeholder="Contact Name" name="contactName" id="contactNm" required="required" />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label >Shop Name</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
+                      <input class="form-control" placeholder="Shop Name" name="shopName" id="shopNm" required="required" />
+                    </div>
+                   
+                   <input type="hidden" name="smsType" id="smsTyp1">
+                    <input type="hidden" name="orderNo" id="ordNo1">
+					<input type="hidden" id="contacttags1" name="custContact" />
+
+
+					<input type="hidden" id="tags1" name="transporterNm" />
+					<input type="hidden" id="destination2" name="destination" />
+					<input type="hidden" id="mark2" name="mark" />
+					<input type="hidden" id="lrNo2" name="lrNo" />
+					<input type="hidden" id="lrdate2" name="lrDate" />
+					<input type="hidden" id="noofcarton2" name="noOfCarton" />
+
+					<input type="hidden" id="docateNo2" name="docateNo" />
+					<input type="hidden" id="delvryDate2" name="delvryDate"/>
+					<input type="hidden" id="courrNam1" name="courierNm"/>
+                   
+                   
+                   
+                    </div>
+                    
+                    
+                  </div>
+                  <div class="box-footer" style="align-items: center;">
+                    <button type="submit" class="btn btn-primary">Add To Directory</button>
+                    <button type="button" class="btn btn-primary" onclick="return doNotSendSms()">Cancel</button>
+                  </div>
+                </form>
+              </div><!-- /.box -->
+          </div>
+       </div>
+       </div>
+      </div>
+    </div>
+
+  </div>
+<!-- ./Add user Modal -->
+
+
+
+
 	<!-- date-range-picker -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
@@ -474,6 +551,55 @@
         	    .substring(1);
         }
         
+        
+        function checkContactNoRegistered(){
+        	var contactNo = $('#contacttags').val();
+        	var result = contactNo.split("-").length;
+        	if(result > 1){
+        		return true;
+        	}else{
+        		var e = document.getElementById("smstype1");
+        		var strUser = e.options[e.selectedIndex].value;
+
+        		$('#smsTyp1').val(strUser);
+                 $('#ordNo1').val($('#orderNo1').val());
+                 $('#contacttags1').val($('#contacttags').val());
+        		
+        		/* if(strUser == 'NEW_ORDER')
+        		{
+        			alert('no');	
+        		}else  */
+        		if(strUser == 'LR_SMS'){
+        				$('#tags1').val($('#tags').val());
+                        $('#destination2').val($('#destination1').val());
+                        $('#mark2').val($('#mark1').val());
+                        $('#lrNo2').val($('#lrNo1').val());
+                        $('#lrdate2').val($('#lrdate1').val());
+                        $('#noofcarton2').val($('#noofcarton1').val());
+
+        		}else if('COURIER_SMS'){
+        			
+        			var c = document.getElementById("courierNm1");
+            		var courierName = c.options[c.selectedIndex].value;
+            		$('#docateNo2').val($('#docateNo1').val());
+                    $('#delvryDate2').val($('#delvryDate1').val());
+                    $('#courrNam1').val(courierName);
+        		}
+        			
+        		$('#contactNu').val($('#contacttags').val());
+        		$('#addUser').modal('show');
+				return false;        		
+        	}
+        	
+        	
+        	
+        }
+        
+        
+        function doNotSendSms(){
+        	$('#addUser').modal('toggle');
+			return false;
+        }
 </script>
 
 
