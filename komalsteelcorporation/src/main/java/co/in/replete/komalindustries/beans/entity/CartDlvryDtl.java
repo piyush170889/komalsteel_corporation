@@ -61,6 +61,16 @@ public class CartDlvryDtl implements Serializable {
 		this.expDlvryDt = expDlvryDt;
 		this.shippingAddressId = shippingAddressId;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "CartDlvryDtl [cartDlvryDtlsId=" + cartDlvryDtlsId + ", actualDlvryDt=" + actualDlvryDt
+				+ ", alternateCntc=" + alternateCntc + ", dlvryByTrackId=" + dlvryByTrackId + ", dlvryType=" + dlvryType
+				+ ", expDlvryDt=" + expDlvryDt + ", shippingAddressId=" + shippingAddressId + ", createdTs=" + createdTs
+				+ ", modifiedTs=" + modifiedTs + "]";
+	}
 
 	public int getCartDlvryDtlsId() {
 		return this.cartDlvryDtlsId;

@@ -356,4 +356,24 @@ public class Invoice {
 	}
 
 
+	@Override
+	public String toString() {
+		return "Invoice [invoiceNo=" + invoiceNo + ", invoiceDate=" + invoiceDate + ", deliveryNote=" + deliveryNote
+				+ ", mode_TermsPayment=" + mode_TermsPayment + ", supplierRef=" + supplierRef + ", otherRef=" + otherRef
+				+ ", dispDocumentNo=" + dispDocumentNo + ", deliveryNoteDate=" + deliveryNoteDate
+				+ ", dispatchedThrough=" + dispatchedThrough + ", mark=" + mark + ", destination=" + destination
+				+ ", companyName=" + companyName + ", companyEmail=" + companyEmail + ", companyGstinUin="
+				+ companyGstinUin + ", companyPanNo=" + companyPanNo + ", companyBankName=" + companyBankName
+				+ ", companyAcno=" + companyAcno + ", companyBranchIfscCode=" + companyBranchIfscCode + ", buyerName="
+				+ buyerName + ", buyerStreetAddress=" + buyerStreetAddress + ", buyerCity=" + buyerCity
+				+ ", buyerDistrict=" + buyerDistrict + ", buyerState=" + buyerState + ", buyerGstinUin=" + buyerGstinUin
+				+ ", iGstAmount=" + iGstAmount + ", cGstAmount=" + cGstAmount + ", sGstAmount=" + sGstAmount
+				+ ", totalQuantity=" + totalQuantity + ", totalChargableAmount=" + totalChargableAmount
+				+ ", totalTaxableValue=" + totalTaxableValue + ", iGsttotalTaxAmount=" + iGsttotalTaxAmount
+				+ ", cGsttotalTaxAmount=" + cGsttotalTaxAmount + ", sGsttotalTaxAmount=" + sGsttotalTaxAmount
+				+ ", totalTaxAmount=" + totalTaxAmount + ", transactionList=" + transactionList + ", taxDescription="
+				+ taxDescription + "]";
+	}
+
+
 }

@@ -85,6 +85,16 @@ public class ShippingAddressDetail implements Serializable {
 		this.tranNm=tranNm;
 		this.tinNo=tinNo;
 	}
+	
+
+	@Override
+	public String toString() {
+		return "ShippingAddressDetail [otherAddressId=" + otherAddressId + ", addressType=" + addressType + ", city="
+				+ city + ", country=" + country + ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", postalCode=" + postalCode + ", stAddress1=" + stAddress1 + ", stAddress2=" + stAddress2
+				+ ", stAddress3=" + stAddress3 + ", state=" + state + ", trackId=" + trackId + ", mark=" + mark
+				+ ", destination=" + destination + ", tranNm=" + tranNm + ", tinNo=" + tinNo + "]";
+	}
 
 	public String getMark() {
 		return mark;

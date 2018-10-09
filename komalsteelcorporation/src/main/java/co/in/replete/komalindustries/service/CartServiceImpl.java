@@ -210,6 +210,7 @@ public class CartServiceImpl implements CartService {
 					
 					//Add cart delivery details
 					CartDlvryDtl cartDelivryDtls = cartDetails.convertToCartDlvryDetailsEntity(addressDtlsId);
+					
 					int cartDlvryDtlsId = cartDAO.insertCartDeliveryDtls(cartDelivryDtls);
 					
 					/*//Add Invoice Details
@@ -323,6 +324,7 @@ public class CartServiceImpl implements CartService {
 					
 					ShippingAddressDetail shippingAddressDetail = cartDAO.selectShippingAddressDetailsById(addressDtlsId);
 					
+					
 					String finalEmailString = String.format(sb.toString(), 
 							(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
 							null == userDetails.getFirstName() ? "" : userDetails.getFirstName()
@@ -429,8 +431,11 @@ public class CartServiceImpl implements CartService {
 						
 						sbCust.append(emailContentSuffix);
 						
+						//Specify Mark, Destination and Transporter Name from Shipping Address Details
 						String mark = (null == shippingAddressDetail.getMark() || shippingAddressDetail.getMark().isEmpty()) ? "Not Specified" : shippingAddressDetail.getMark();
-						
+						String destination = (null == shippingAddressDetail.getDestination() || shippingAddressDetail.getDestination().isEmpty()) ? "Not Specified" : shippingAddressDetail.getDestination();
+						String dispThrough = (null == shippingAddressDetail.getTranNm() || shippingAddressDetail.getTranNm().isEmpty()) ? "Not Specified" : shippingAddressDetail.getTranNm();
+												
 						String finalEmailStringCustomer = String .format(sbCust.toString(), 
 								(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
 								null == userDetails.getFirstName() ? "" : userDetails.getFirstName()
@@ -453,7 +458,7 @@ public class CartServiceImpl implements CartService {
 						
 						if (gstCode.equalsIgnoreCase("27")) {
 							invoiceDetails = new Invoice(Integer.toString(cartDtlsId), todaysDate, Integer.toString(totalItemInCart), 
-									"", "", "", "", todaysDate, cartDetails.getTranNm(), cartDetails.getDestination(), "Komal Trading Corporation", 
+									"", "", "", "", todaysDate, dispThrough, destination, "Komal Trading Corporation", 
 									"komal@vsnl.com", "27AABPB6207H1Z6", "AABPB6207H", "HDFC BANK", "01452560000971", "HDFC0000145", 
 									(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
 									buyersShippingAddress.getStAddress1(), buyersShippingAddress.getCity(), buyersShippingAddress.getState(), 
@@ -463,13 +468,16 @@ public class CartServiceImpl implements CartService {
 						} else {
 							//Outside Maharashtra GST
 							invoiceDetails = new Invoice(Integer.toString(cartDtlsId), todaysDate, Integer.toString(totalItemInCart), 
-									"", "", "", "", todaysDate, cartDetails.getTranNm(), cartDetails.getDestination(), "Komal Trading Corporation", 
+									"", "", "", "", todaysDate, dispThrough, destination, "Komal Trading Corporation", 
 									"komal@vsnl.com", "27AABPB6207H1Z6", "AABPB6207H", "HDFC BANK", "01452560000971", "HDFC0000145", 
 									(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
 									buyersShippingAddress.getStAddress1(), buyersShippingAddress.getCity(), buyersShippingAddress.getState(), buyersShippingAddress.getState(), 
 									gstNo, (float)iGstAmount, totalItemInCart, (float)totalChargableAmount, (float)totalTaxableValue, 
 									(float)iGstAmount, (float)iGstAmount, transactionList, taxDescriptionList, mark); //Create the PDF to send
 						}
+						
+						
+						System.out.println("---> invoiceDetails <----"+invoiceDetails.toString());
 						
 						String pdfFilePath = configProperties.getProperty("pdf.savepath")+cartDtlsId + ".pdf";
 						
