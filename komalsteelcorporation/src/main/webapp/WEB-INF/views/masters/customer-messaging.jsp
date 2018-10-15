@@ -553,6 +553,7 @@
         
         
         function checkContactNoRegistered(){
+        	console.log('Called checkContactNoRegistered()');
         	var contactNo = $('#contacttags').val();
         	var result = contactNo.split("-").length;
         	if(result > 1){
