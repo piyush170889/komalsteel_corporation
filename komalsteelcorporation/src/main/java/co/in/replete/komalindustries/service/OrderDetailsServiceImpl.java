@@ -194,7 +194,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		CartDtl cartDetails = orderDetailsDAO.selectOrderDetailsById(Integer.parseInt(cartDtldId));
 		String contactNo = orderDetailsDAO.getContactNumberFromTrackId(cartDetails.getTrackId());
 		
-		String lrDispatchDetailsMssg = commonUtility.createLrMessage(cartDtldId, transporterNm, destination, lrNo, noofcarton, lrDate);
+		String lrDispatchDetailsMssg = commonUtility.createLrMessage(cartDtldId, transporterNm, destination, lrNo, noofcarton, lrDate, mark);
 
 		System.out.println("contactNo-" + contactNo + ",\n lrNoDispatchDetailsMssg - " + lrDispatchDetailsMssg);
 		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;

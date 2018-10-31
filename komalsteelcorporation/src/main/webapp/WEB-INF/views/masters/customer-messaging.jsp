@@ -197,9 +197,11 @@
 											</div>
 
 											<div class="form-group">
-												<label class="col-sm-2 control-label"
+												<!-- <label class="col-sm-2 control-label"
 													for="exampleInputPassword1">Mark<i
-													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i></label>
+													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i></label> -->
+													<label class="col-sm-2 control-label"
+													for="exampleInputPassword1">Mark<i></i></label>
 												<div class="col-sm-6">
 													<input class="form-control" placeholder="Mark" id="mark1"
 														name="mark" />
@@ -208,8 +210,8 @@
 
 											<div class="form-group">
 												<label class="col-sm-2 control-label"
-													for="exampleInputPassword1">LR No</label><i
-													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
+													for="exampleInputPassword1">LR No<i
+													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i></label>
 												<div class="col-sm-6">
 													<input class="form-control" placeholder="LR NO" id="lrNo1"
 														name="lrNo" />

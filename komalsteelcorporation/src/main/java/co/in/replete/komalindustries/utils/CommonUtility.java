@@ -482,17 +482,31 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 	    }
 
 		public String createLrMessage(String cartDtldId, String transporterNm, String destination, 
-				String lrNo, String noofcarton, String lrDate) throws ParseException {
+				String lrNo, String noofcarton, String lrDate, String mark) throws ParseException {
 
 			DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
 			DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
-			return "From Komal Trading Corporation:\n" +
-					"Order No. - " + cartDtldId + "\n" + 
-					"Transporter Name - " + transporterNm + "\n" + 
-					"Destination - " + destination + "\n" + 
-					"LR NO - " + lrNo + "\n" + 
-					"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
-					"No. Of Carton - " + noofcarton;
+			
+			if(mark == null || mark.isEmpty()) {
+				return "From Komal Trading Corporation:\n" +
+						"Order No. - " + cartDtldId + "\n" + 
+						"Transporter Name - " + transporterNm + "\n" + 
+						"Destination - " + destination + "\n" + 
+						"LR NO - " + lrNo + "\n" + 
+						"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+						"No. Of Carton - " + noofcarton;
+			}else {
+				return "From Komal Trading Corporation:\n" +
+						"Order No. - " + cartDtldId + "\n" + 
+						"Transporter Name - " + transporterNm + "\n" + 
+						"Destination - " + destination + "\n" + 
+						"Mark - " + mark + "\n" + 
+						"LR NO - " + lrNo + "\n" + 
+						"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+						"No. Of Carton - " + noofcarton;
+			}
+			
+			
 		}
 
 		public String createCourierMessage(String cartDtldId, String courierNm, String docateNo, String trackingUrl, String delvryDate) throws ParseException {

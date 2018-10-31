@@ -131,12 +131,13 @@ public class EnquiryController extends KomalIndustriesConstants {
 
 		case "LR_SMS":
 			String transporterNm = servletRequest.getParameter("transporterNm");
+			String mark = servletRequest.getParameter("mark");
 			String destination = servletRequest.getParameter("destination");
 			String lrNo = servletRequest.getParameter("lrNo");
 			String noOfCarton = servletRequest.getParameter("noOfCarton");
 			String lrDate = servletRequest.getParameter("lrDate");
 
-			String lrDispatchDetailsMssg = commonUtility.createLrMessage(orderNo, transporterNm, destination, lrNo, noOfCarton, lrDate);
+			String lrDispatchDetailsMssg = commonUtility.createLrMessage(orderNo, transporterNm, destination, lrNo, noOfCarton, lrDate,mark);
 
 			contactNumbersToSendMsg += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
 
