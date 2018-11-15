@@ -12,3 +12,15 @@ Password:	Komal@123
 
 GoDaddy Details:
 -------------------------------
+
+Shorten URL Details:
+-------------------------------
+iOs:
+Url - http://tny.im/gCO
+Passcode - x9c8km
+
+Android:
+Url - http://tny.im/gCP
+Passcode - vfeEQP
+
+
