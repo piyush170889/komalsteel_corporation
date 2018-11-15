@@ -320,7 +320,7 @@
                       <form:input class="form-control" placeholder=" Last Name" path="lastName" />
                     </div>
                     
-                    <div class="form-group">
+                   <%--  <div class="form-group">
                       <label for="exampleInputEmail1">Status</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                        <!-- select -->
 	                      <form:select class="form-control" path="status">
@@ -328,7 +328,7 @@
 	                        <option value="Active">Active</option>
 	                        <option value="Inactive">Inactive</option>
 	                      </form:select>
-                    </div>
+                    </div> --%>
                     
                      <div class="form-group">
                       <label for="exampleInputPassword1">Contact.No</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
@@ -385,7 +385,7 @@
 						</div>
 						<div class="form-group">
 						  <label for="exampleInputPassword1">Street Address</label>
-						  <form:textarea class="form-control" placeholder=" Last Name" path="staddress1" />
+						  <form:textarea class="form-control" placeholder=" Street Address" path="staddress1" />
 						</div>
                     </div>
                     

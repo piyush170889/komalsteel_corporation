@@ -125,7 +125,7 @@ public class UserManagementController extends KomalIndustriesConstants {
 
 		try {
 			//Add user basic details
-			if(request.getStatus().isEmpty() || request.getContactNo().isEmpty() || request.getFirstName().isEmpty() || request.getUserType().isEmpty()) {
+			if(request.getContactNo().isEmpty() || request.getFirstName().isEmpty() || request.getUserType().isEmpty()) {
 				throw new ServicesException("Required Fileds are empty");
 			}
 
@@ -163,13 +163,15 @@ public class UserManagementController extends KomalIndustriesConstants {
 
 			//Add user login details
 			String activationCode = UUID.randomUUID().toString();
-			String passsword = UUID.randomUUID().toString().substring(0, 5);
-			userDAO.insertWLoginDtl(userTrackid, request.getEmailId(), passsword, request.getUserType(), CMPNY_INFO_ID, activationCode, request.getStatus().trim());
+			String passsword = UUID.randomUUID().toString().substring(0, 8);
+			userDAO.insertWLoginDtl(userTrackid, request.getEmailId(), passsword, request.getUserType(), CMPNY_INFO_ID, activationCode,UDValues.USER_STATUS_ACTIVE.toString());
 
 			//Send Login Credentials to customer
-			try {
-				messageUtility.sendMessage(contactNo, "Your login credentials for our app are. Usrename : " + contactNo + ". Password : " + passsword);
-			} catch (Exception tre) {}
+			String userRegMsg = MessageFormat.format(configProperties.getProperty("sms.user.registration"), 
+					contactNo, passsword);
+			messageUtility.sendMessage(contactNo, userRegMsg);
+
+			System.out.println("userRegMsg :"+userRegMsg);
 
 			/*//Associate Distributor
 			if(null != request.getAssociatedDistributor() && !request.getAssociatedDistributor().isEmpty() && !request.getAssociatedDistributor().equalsIgnoreCase("Select")) {
@@ -311,7 +313,7 @@ public class UserManagementController extends KomalIndustriesConstants {
 	public String addContactDtls(@ModelAttribute("addContctDetails") ContactDtls contactDtls, RedirectAttributes rdrct) throws ServicesException  {
 		String messageLabel ="";
 		String message="";
-		
+
 		try {
 			int count = userService.checkContactNumber(contactDtls.getContactNumber());
 			if(count==0)
@@ -329,7 +331,7 @@ public class UserManagementController extends KomalIndustriesConstants {
 			messageLabel = KomalIndustriesConstants.ERROR_MSSG_LABEL;
 			message="Exception Occured while adding contact details.";
 		}
-		
+
 		rdrct.addFlashAttribute(messageLabel,message);		
 
 		return "redirect:contact-history";
@@ -341,7 +343,7 @@ public class UserManagementController extends KomalIndustriesConstants {
 	{
 		String messageLabel ="";
 		String message="";
-		
+
 		try {
 			userDAO.editContactDirectories(contactDtls);
 			messageLabel=KomalIndustriesConstants.SUCCESS_MSSG_LABEL;
@@ -350,12 +352,12 @@ public class UserManagementController extends KomalIndustriesConstants {
 			messageLabel=KomalIndustriesConstants.ERROR_MSSG_LABEL;
 			message="Exception Occured while Updating contact details.";
 		}
-		
+
 		redirectAttributes.addFlashAttribute(messageLabel,message);			
 		return "redirect:contact-history";
 
 	}
-	
+
 
 	@RequestMapping(value="/check-contact-number", method=RequestMethod.GET)
 	public @ResponseBody String checkContactNumber(HttpServletRequest request) throws ServicesException  {

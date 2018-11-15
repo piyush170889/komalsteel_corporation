@@ -261,7 +261,7 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 		String uuid = getUUID();
 		
 		jdbcTemplate.update(sqlProperties.getProperty("insert.userlogindtls.newlogindetails"),uuid,userTrackId,emailId,password,cmpnyInfoId,userType,UDValues.BOOLEAN_TRUE.toString(),
-				UDValues.BOOLEAN_TRUE.toString(), UDValues.BOOLEAN_FALSE.toString(), userStatus,activationCode);
+				UDValues.BOOLEAN_TRUE.toString(), UDValues.BOOLEAN_TRUE.toString(), userStatus,activationCode);
 		
 		return uuid;
 	}
