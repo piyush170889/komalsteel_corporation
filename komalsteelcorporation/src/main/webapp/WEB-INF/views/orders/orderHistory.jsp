@@ -100,7 +100,7 @@
  		document.getElementById("tags").value=transporterName;
  		document.getElementById("destination1").value=destination;
  		document.getElementById("mark1").value=mark;
- 		alert(isLrMssgSent);
+ 		//alert(isLrMssgSent);
  		if (isLrMssgSent == '0') {
  			document.getElementById("sendLrMssg1").checked = true;
  		} else {
@@ -129,7 +129,7 @@
  		document.getElementById("docateNo1").value=docateNo;
  		document.getElementById("delvryDate1").value=dlvryDate;
  		document.getElementById("cartDtlsId3").value=cartDtlsId;
- 		alert(isCourierMssgSent);
+ 		//alert(isCourierMssgSent);
  		if (isCourierMssgSent == '0') {
  			document.getElementById("sendCourierMssg1").checked = true;
  		} else {
