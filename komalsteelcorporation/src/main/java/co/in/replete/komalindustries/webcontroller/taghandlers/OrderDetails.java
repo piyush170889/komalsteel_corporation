@@ -151,10 +151,10 @@ public class OrderDetails extends SimpleTagSupport {
 							+ ")\"><i class=\"fa fa-file\" title=\"Update Courier Details\"></i></a>"
 
 							//Rahul code
-							+ "<a href='send-message?orderId="+orderDetails.getCartDtlId()+"'" 
+							+ "<a href='send-message?orderId="+orderDetails.getCartDtlId()+"' onclick=\"return confirm('Are you sure want to send Message?')\"" 
 							+ ")\"> <i class=\"fa fa-comments\" title=\"Send Message\" aria-hidden=\"true\"></i>\r\n"
 
-							+ "<a href='send-email?orderId="+orderDetails.getCartDtlId()+"'" 
+							+ "<a href='send-email?orderId="+orderDetails.getCartDtlId()+"' onclick=\"return confirm('Are you sure too send Email?')\"" 
 							+ ")\"> <i class=\"fa fa-envelope\" title=\"Send Email\" aria-hidden=\"true\"></i>\r\n");
 
 					out.print("</td>");
