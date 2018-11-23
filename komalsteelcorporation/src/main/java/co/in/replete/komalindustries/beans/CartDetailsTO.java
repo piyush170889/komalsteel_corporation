@@ -157,9 +157,14 @@ public class CartDetailsTO {
 	
 	private String shippingDtlsId;
 	
+	private String shippingAddressId;
+	
+	private String trackId;
+	
 	@NotNull(message="error.gstno.required")
 	@NotEmpty(message="error.gstno.required")
 	private String gstNo;
+	
 	
 	
 	public CartDetailsTO(String cartDtlsId, String cartNotes, String cartPrice, String isOfferApld, String cartStatus,
@@ -220,6 +225,47 @@ public class CartDetailsTO {
 		this.shippingDtlsId=shippingDtlsId;
 	}
 	
+	
+	
+	
+	public String getShippingAddressId() {
+		return shippingAddressId;
+	}
+
+
+
+
+	public void setShippingAddressId(String shippingAddressId) {
+		this.shippingAddressId = shippingAddressId;
+	}
+
+
+
+
+	public String getTrackId() {
+		return trackId;
+	}
+
+
+
+	public void setTrackId(String trackId) {
+		this.trackId = trackId;
+	}
+
+
+
+	public String getIsOfferApld() {
+		return isOfferApld;
+	}
+
+
+
+	public void setAddressType(String addressType) {
+		this.addressType = addressType;
+	}
+
+
+
 	public String getGstNo() {
 		return gstNo;
 	}
@@ -567,6 +613,8 @@ public class CartDetailsTO {
 		return cartDetail;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "CartDetailsTO [cartDtlsId=" + cartDtlsId + ", cartNotes=" + cartNotes + ", cartPrice=" + cartPrice
@@ -582,8 +630,13 @@ public class CartDetailsTO {
 				+ discountValue + ", grandTotal=" + grandTotal + ", miscCharges=" + miscCharges + ", serviceTax="
 				+ serviceTax + ", serviceTaxValue=" + serviceTaxValue + ", shippingCharges=" + shippingCharges
 				+ ", subTotal=" + subTotal + ", vat=" + vat + ", vatValue=" + vatValue + ", cartItemsList="
-				+ cartItemsList + "]";
+				+ cartItemsList + ", mark=" + mark + ", destination=" + destination + ", tranNm=" + tranNm + ", tinNo="
+				+ tinNo + ", isDefaultAddress=" + isDefaultAddress + ", shippingDtlsId=" + shippingDtlsId + ", trackId="
+				+ trackId + ", gstNo=" + gstNo + "]";
 	}
+
+
+
 	
 	
 }

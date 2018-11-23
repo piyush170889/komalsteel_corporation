@@ -1,6 +1,7 @@
 
 package co.in.replete.komalindustries.service;
 
+import java.io.FileNotFoundException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.itextpdf.text.DocumentException;
 
 import co.in.replete.komalindustries.beans.BaseWrapper;
 import co.in.replete.komalindustries.beans.CartDetailRequest;
@@ -605,4 +608,231 @@ public class CartServiceImpl implements CartService {
 			throw new Exception(responseMessageProperties.getProperty("error.dataaccess"));
 		}
 	}
+	
+	
+	@Override
+	public void resendMessagesToUser(String orderId) throws Exception {
+		
+		try {
+		CartDetailsTO cartDetailsTO = cartDAO.selectOrderDetailsAndDeliveryDetails(Integer.parseInt(orderId));
+		System.out.println("cartDetailsTO :---->"+cartDetailsTO.toString());
+		UserDetailsTO userDetails = cartDAO.selectUserDetails(cartDetailsTO.getTrackId());
+		
+		
+		messageUtility.sendMessage(cartDetailsTO.getAlternateCntc(), 
+				String.format(configProperties.getProperty("sms.orderplaced.success"), orderId));
+		
+		
+		//Send Message Notification to Admin
+		String custName = userDetails.getFirstName() + (null == userDetails.getLastName() ? "" : " " + userDetails.getLastName());
+		String adminContactNumber = KomalIndustriesConstants.ADMIN_MOBILE_NO;
+		
+		System.out.println("Admin Contact No - " + adminContactNumber + ", \n Message - " + 
+				MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
+						custName, orderId));
+		messageUtility.sendMessage(adminContactNumber, 
+				MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
+						custName, orderId));
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void resendEmailToUserAndAdmin(String orderId) throws FileNotFoundException, DocumentException {
+		
+		
+
+		CartDetailsTO cartDetailsTO = cartDAO.selectOrderDetailsAndDeliveryDetails(Integer.parseInt(orderId));
+		System.out.println("cartDetailsTO :---->"+cartDetailsTO.toString());
+		UserDetailsTO userDetails = cartDAO.selectUserDetails(cartDetailsTO.getTrackId());
+		
+		ShippingAddressDetail buyersShippingAddress = null;
+			buyersShippingAddress = cartDAO.selectShippingAddressDetailsById(Integer.parseInt(cartDetailsTO.getShippingAddressId()));
+		String gstCode = commonUtility.getGstCode(userDetails.getGstNo().trim());	
+		
+		
+		List<CartItemDtl> cartItemDtls = cartDAO.selectCartItemDetailsList(Integer.parseInt(orderId));
+		System.out.println("cartItemDtls : "+cartItemDtls.toString());
+		int totalItemInCart = cartItemDtls.size();
+		
+		float gstRate = 0F;
+		TaxDescription taxDescription = null;
+		float cGstRate = 0; 
+		float cGsttaxAmount = 0; 
+		float sGstRate = 0; 
+		float sGsttaxAmount = 0;
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		List<TaxDescription> taxDescriptionList = new ArrayList<TaxDescription>();
+		double totalChargableAmount = 0;
+		double totalTaxableValue = 0;
+		double iGstAmount = 0;
+		double totalSGstAmount = 0;
+		double totalCGstAmount = 0;
+		String todaysDate = new Date().toString();
+		
+		//Send Order Email to Admin
+		String emailContentPrefix = responseMessageProperties.getProperty("order.book.prefix");
+		String emailContentSuffix = responseMessageProperties.getProperty("order.book.suffix");
+		String customerEmailContentPrefix = responseMessageProperties.getProperty("customer.order.book.prefix");
+		
+		StringBuilder sb = new StringBuilder(emailContentPrefix);
+
+		String custEmailId = userDetails.getLoginId();
+		
+		if (null != custEmailId && !custEmailId.isEmpty() && configProperties.getProperty("details.isfilled").equalsIgnoreCase("Y")) {
+			StringBuilder sbCust = new StringBuilder(customerEmailContentPrefix);
+		for (CartItemDtl cartItemDtl : cartItemDtls){
+			int cartItemQty = cartItemDtl.getItemQty();
+			ItemMasterDtl itemMasterDtl = productDAO.selectProductDetailsByItemId(Integer.toString(cartItemDtl.getItemMasterDtlsId()));
+			sb = appendData(itemMasterDtl, sb, cartItemQty);
+			
+			System.out.println("ItemMasterDtl - " + itemMasterDtl.getItemMasterDtlsId() + "HSN No - " +itemMasterDtl.getHsnDtlsId());
+			HSNDetails hsnDetails = wMasterDAO.selectHsnDetailsByHsnDtlsId(itemMasterDtl.getHsnDtlsId());
+			
+			int itemQty = cartItemDtl.getItemQty();
+			
+//			double perUnitPrice = itemMasterDtl.getPerUnitPrice();
+			double perUnitPrice = cartItemDtl.getItemPrice();
+			Double amount = perUnitPrice * itemQty;
+			String hsnSac = Integer.toString(hsnDetails.getHsnNo());
+			
+			if (gstCode.equalsIgnoreCase("27")) {
+				cGstRate = hsnDetails.getcGst();
+				cGsttaxAmount = (float) ((amount * cGstRate)/100);
+				sGstRate = hsnDetails.getsGst(); 
+				sGsttaxAmount = (float) ((amount * sGstRate)/100);
+				gstRate = cGstRate + sGstRate;
+			} else {
+				gstRate = hsnDetails.getiGst();
+			}
+			
+			float taxAmount = (float) ((amount * gstRate)/100);
+			Transaction transaction = new Transaction(itemMasterDtl.getItemNm() + "-" + itemMasterDtl.getUom(), 
+					hsnSac, gstRate, itemQty, Float.parseFloat(Double.toString(perUnitPrice)), "Pc.", 
+					Float.parseFloat(Double.toString(amount)));
+			transactionList.add(transaction);
+			
+			if (existsHsn(hsnSac, taxDescriptionList)) {
+				//If exists than update the taxable amount and tax detials
+				int taxDescriptionListSize = taxDescriptionList.size();
+				for (int i=0; i<taxDescriptionListSize; i++) {
+					TaxDescription taxDescriptionToCompare = taxDescriptionList.get(i);
+					if (hsnSac.equalsIgnoreCase(taxDescriptionToCompare.getHsnSac())) {
+						float updatedCGstTaxAmmount = 0F;
+						float updatedSGstTaxAmmount = 0F;
+						float updatedIGstTaxAmmount = 0F;
+						
+						Float updatedTaxableValue = taxDescriptionToCompare.getTaxableValue() + Float.parseFloat(Double.toString(amount));
+						if (gstCode.equalsIgnoreCase("27")) {
+							updatedCGstTaxAmmount = taxDescriptionToCompare.getcGsttaxAmount() + cGsttaxAmount;
+							updatedSGstTaxAmmount = taxDescriptionToCompare.getsGsttaxAmount() + sGsttaxAmount;
+							taxDescription = new TaxDescription(hsnSac, updatedTaxableValue, 
+									cGstRate, updatedCGstTaxAmmount, sGstRate, updatedSGstTaxAmmount);
+						} else {
+							updatedIGstTaxAmmount = taxDescriptionToCompare.getiGsttaxAmount() + taxAmount;
+							taxDescription = new TaxDescription(hsnSac, updatedTaxableValue, hsnDetails.getiGst(), updatedIGstTaxAmmount);
+						}
+						taxDescriptionList.set(i, taxDescription);
+						break;
+					}
+				}
+			} else {
+				if (gstCode.equalsIgnoreCase("27")) {
+					taxDescription = new TaxDescription(hsnSac, Float.parseFloat(Double.toString(amount)), 
+							cGstRate, cGsttaxAmount, sGstRate, sGsttaxAmount);
+				} else {
+					taxDescription = new TaxDescription(hsnSac, Float.parseFloat(Double.toString(amount)), hsnDetails.getiGst(), taxAmount);
+				}
+				taxDescriptionList.add(taxDescription);
+			}
+			
+			totalItemInCart += itemQty;
+			totalChargableAmount += amount + taxAmount;
+			totalTaxableValue += amount;
+			iGstAmount += taxAmount;
+			totalSGstAmount +=  sGsttaxAmount;
+			totalCGstAmount +=  cGsttaxAmount;
+			
+//			sb = appendData(itemMasterDtl, sb, itemQty);
+			sbCust = appendData(itemMasterDtl, sbCust, cartItemDtl.getItemQty());
+		}
+		sbCust.append(emailContentSuffix);
+		
+		//Specify Mark, Destination and Transporter Name from Shipping Address Details
+		String mark = (null == buyersShippingAddress.getMark() || buyersShippingAddress.getMark().isEmpty()) ? "Not Specified" : buyersShippingAddress.getMark();
+		String destination = (null == buyersShippingAddress.getDestination() || buyersShippingAddress.getDestination().isEmpty()) ? "Not Specified" : buyersShippingAddress.getDestination();
+		String dispThrough = (null == buyersShippingAddress.getTranNm() || buyersShippingAddress.getTranNm().isEmpty()) ? "Not Specified" : buyersShippingAddress.getTranNm();
+		
+		String finalEmailString = String.format(sb.toString(), 
+				(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
+				null == userDetails.getFirstName() ? "" : userDetails.getFirstName()
+				, null == userDetails.getLastName() ? "" : userDetails.getLastName(),  
+				(null == userDetails.getCntc_num() || userDetails.getCntc_num().isEmpty()) ? "Not Specified": userDetails.getCntc_num(), orderId,
+				(null == buyersShippingAddress.getMark() || buyersShippingAddress.getMark().isEmpty()) ? "Not Specified" : buyersShippingAddress.getMark(), 
+				(null == buyersShippingAddress.getDestination() || buyersShippingAddress.getDestination().isEmpty()) ? "Not Specified" : buyersShippingAddress.getDestination(), 
+				(null == buyersShippingAddress.getTranNm() || buyersShippingAddress.getTranNm().isEmpty()) ? "Not Specified" : buyersShippingAddress.getTranNm(),
+						cartDetailsTO.getCartNotes());
+		
+		String finalEmailStringCustomer = String .format(sbCust.toString(), 
+				(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
+				null == userDetails.getFirstName() ? "" : userDetails.getFirstName()
+				, null == userDetails.getLastName() ? "" : userDetails.getLastName(),  
+				(null == userDetails.getCntc_num() || userDetails.getCntc_num().isEmpty()) ? "Not Specified": userDetails.getCntc_num(), orderId,
+				mark, 
+				(null == buyersShippingAddress.getDestination() || buyersShippingAddress.getDestination().isEmpty()) ? "Not Specified" : buyersShippingAddress.getDestination(), 
+				(null == buyersShippingAddress.getTranNm() || buyersShippingAddress.getTranNm().isEmpty()) ? "Not Specified" : buyersShippingAddress.getTranNm(),
+						cartDetailsTO.getCartNotes());
+		
+		
+		Invoice invoiceDetails = null;
+		if (gstCode.equalsIgnoreCase("27")) {
+			invoiceDetails = new Invoice(orderId, todaysDate, Integer.toString(totalItemInCart), 
+					"", "", "", "", todaysDate, dispThrough, destination, "Komal Trading Corporation", 
+					"komal@vsnl.com", "27AABPB6207H1Z6", "AABPB6207H", "HDFC BANK", "01452560000971", "HDFC0000145", 
+					(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
+					buyersShippingAddress.getStAddress1(), buyersShippingAddress.getCity(), buyersShippingAddress.getState(), 
+					buyersShippingAddress.getState(), userDetails.getGstNo(), (float)totalCGstAmount, (float)totalSGstAmount, 
+					totalItemInCart, (float)totalChargableAmount, (float)totalTaxableValue, 
+					(float)totalCGstAmount, (float)totalSGstAmount, (float)iGstAmount, transactionList, taxDescriptionList, mark); //Create the PDF to send
+		} else {
+			//Outside Maharashtra GST
+			invoiceDetails = new Invoice(orderId, todaysDate, Integer.toString(totalItemInCart), 
+					"", "", "", "", todaysDate, dispThrough, destination, "Komal Trading Corporation", 
+					"komal@vsnl.com", "27AABPB6207H1Z6", "AABPB6207H", "HDFC BANK", "01452560000971", "HDFC0000145", 
+					(null == userDetails.getDisplayName() || userDetails.getDisplayName().isEmpty() || userDetails.getDisplayName().equalsIgnoreCase("null")) ? "Not Specified" : userDetails.getDisplayName().trim(), 
+					buyersShippingAddress.getStAddress1(), buyersShippingAddress.getCity(), buyersShippingAddress.getState(), buyersShippingAddress.getState(), 
+					userDetails.getGstNo(), (float)iGstAmount, totalItemInCart, (float)totalChargableAmount, (float)totalTaxableValue, 
+					(float)iGstAmount, (float)iGstAmount, transactionList, taxDescriptionList, mark); //Create the PDF to send
+		}
+		
+		String pdfFilePath = configProperties.getProperty("pdf.savepath")+orderId + ".pdf";
+		
+		System.out.println("PDF Filepath: " + pdfFilePath);
+		
+		if (gstCode.equalsIgnoreCase("27")) {
+			generatePdf.genearatePDFForMaharashtra(invoiceDetails, pdfFilePath);
+		} else {
+			generatePdf.genearatePDFOutsideMaharashtra(invoiceDetails, pdfFilePath);
+		}
+		
+		//Replace the email id with user-email Id
+		/*commonUtility.sendEmail(configProperties.getProperty("email.test"), finalEmailStringCustomer, 
+				configProperties.getProperty("order.book.subject"), pdfFilePath);*/
+		
+		try {
+			//Send Email To Admin about the order
+			commonUtility.sendEmailToAdmin(finalEmailString, 
+					configProperties.getProperty("order.book.subject"));
+			
+			//Send Email To Customer about the order
+			commonUtility.sendEmail(custEmailId, finalEmailStringCustomer, 
+					configProperties.getProperty("order.book.subject"), pdfFilePath);
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+		}
+	}
+	
 }

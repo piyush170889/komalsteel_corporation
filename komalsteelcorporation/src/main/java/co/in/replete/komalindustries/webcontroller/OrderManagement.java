@@ -84,6 +84,10 @@ public class OrderManagement extends KomalIndustriesConstants {
 		return returnViewURL;
 	}
 	
+	
+	
+	
+	
 	/**
 	 * Description: Displays Add Order
 	 * @param model
@@ -555,6 +559,52 @@ public class OrderManagement extends KomalIndustriesConstants {
 		
 		return returnViewURL;
 	}
+	
+	/**
+	 * Description: Send Message to User
+	 * @param model
+	 * @return
+	 * @throws PrepareViewModelException 
+	 */
+	@RequestMapping(value="/send-message",method=RequestMethod.GET)
+	public String sendMessage(@RequestParam(value="orderId", required=true) String orderId, 
+			RedirectAttributes redirectAttribute) throws PrepareViewModelException
+	{
+		
+		try {
+			cartService.resendMessagesToUser(orderId);
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Message Sent Successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return  "redirect:order";
+	}
+	
+	
+	/**
+	 * Description: Send Message to User
+	 * @param model
+	 * @return
+	 * @throws PrepareViewModelException 
+	 */
+	@RequestMapping(value="/send-email",method=RequestMethod.GET)
+	public String resendEmail(@RequestParam(value="orderId", required=true) String orderId, 
+			RedirectAttributes redirectAttribute) throws PrepareViewModelException
+	{
+		
+		try {
+			cartService.resendEmailToUserAndAdmin(orderId);
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "Email Sent Successfully.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttribute.addFlashAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, e.getMessage());
+		}
+		
+		return  "redirect:order";
+	}
+	
 	/*@RequestMapping(value="/searchOrders", method=RequestMethod.POST)
 	public String orderDetailsProcessSearch(HttpServletRequest request, Model model) throws Exception {
 		

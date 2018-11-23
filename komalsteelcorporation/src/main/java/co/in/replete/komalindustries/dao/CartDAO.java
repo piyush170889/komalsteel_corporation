@@ -16,7 +16,6 @@ import co.in.replete.komalindustries.beans.entity.CartDlvryDtl;
 import co.in.replete.komalindustries.beans.entity.CartDtl;
 import co.in.replete.komalindustries.beans.entity.CartItemDtl;
 import co.in.replete.komalindustries.beans.entity.InvoiceDtl;
-import co.in.replete.komalindustries.beans.entity.ItemMasterDtl;
 import co.in.replete.komalindustries.beans.entity.ItemsInventoryDtl;
 import co.in.replete.komalindustries.beans.entity.OfferDtl;
 import co.in.replete.komalindustries.beans.entity.PaymentDtl;
@@ -79,5 +78,11 @@ public interface CartDAO {
 	ShippingAddressDetail selectShippingAddressDetailsById(int addressDtlsId);
 
 	int selectLatestOrderId();
+
+	CartDetailsTO selectOrderDetailsAndDeliveryDetails(int orderId);
+
+	int getCountOfItemsInCart(String orderId);
+
+	List<CartItemDtl> selectCartItemDetailsList(int parseInt);
 
 }

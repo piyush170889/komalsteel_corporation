@@ -802,4 +802,20 @@ public class CartDAOImpl extends BaseDAOImpl implements CartDAO {
 		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 	
+	@Override
+	public CartDetailsTO selectOrderDetailsAndDeliveryDetails(int orderId) {
+		String sql = "select * from cart_dtls as cd join cart_dlvry_dtls as cdd on cd.CART_DLVRY_DTLS_ID = cdd.CART_DLVRY_DTLS_ID where CART_DTLS_ID = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] {orderId}, new BeanPropertyRowMapper<CartDetailsTO>(CartDetailsTO.class));
+	}
+	@Override
+	public int getCountOfItemsInCart(String orderId) {
+		String sql = "SELECT count(*) FROM komal_db.cart_item_dtls where CART_DTLS_ID=?";
+		return jdbcTemplate.queryForObject(sql, new Object[] {orderId}, Integer.class);
+	}
+	
+	@Override
+	public List<CartItemDtl> selectCartItemDetailsList(int orderId) {
+		String sql = "SELECT * FROM komal_db.cart_item_dtls where CART_DTLS_ID=?";
+		return jdbcTemplate.query(sql, new Object[] {orderId}, new BeanPropertyRowMapper<CartItemDtl>(CartItemDtl.class));
+	}
 }

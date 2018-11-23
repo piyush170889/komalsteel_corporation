@@ -18,9 +18,9 @@ import co.in.replete.komalindustries.webcontroller.beans.WOrderDetailsTO;
 public class OrderDetails extends SimpleTagSupport {
 
 	private String searchBy;
-	
+
 	private String searchDateRange;
-	
+
 	private CartDAO cartDAO;
 
 	public void setSearchBy(String searchBy) {
@@ -36,27 +36,27 @@ public class OrderDetails extends SimpleTagSupport {
 	}
 
 	@Override
-    public void doTag() throws JspException,IOException
-    {
-    	JspWriter out=getJspContext().getOut();
-    	DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-    	
-    	try{
-    		List<WOrderDetailsTO> orderDetailsList;
-    		if(null!=searchBy && !searchBy.isEmpty() || null!=searchDateRange && !searchDateRange.isEmpty()) {
-    			orderDetailsList = cartDAO.searchOrders(searchBy, searchDateRange);
-    		} else {
-    			orderDetailsList= cartDAO.selectOrderDetails();
-    		}
-    		
+	public void doTag() throws JspException,IOException
+	{
+		JspWriter out=getJspContext().getOut();
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+
+		try{
+			List<WOrderDetailsTO> orderDetailsList;
+			if(null!=searchBy && !searchBy.isEmpty() || null!=searchDateRange && !searchDateRange.isEmpty()) {
+				orderDetailsList = cartDAO.searchOrders(searchBy, searchDateRange);
+			} else {
+				orderDetailsList= cartDAO.selectOrderDetails();
+			}
+
 			if(orderDetailsList.size() > 0) {
-				
+
 				for(WOrderDetailsTO orderDetails : orderDetailsList) {
 					int i=1;
 					String mark = orderDetails.getMark();
 					String destination = orderDetails.getDestination();
 					String transporterName = orderDetails.getTransNm();
-					
+
 					out.println("<tr>");
 					int orderDetailsId = orderDetails.getCartDtlId();
 					out.println("<td>"+"<a href='orderdetails?orderId="+orderDetailsId+"'>"+ orderDetailsId +"</a>"+ "</td>");
@@ -77,11 +77,11 @@ public class OrderDetails extends SimpleTagSupport {
 					}
 					out.println("<button type=\"button\" class=\"btn btn-primary\" onclick=\"window.open('printOrderItems?oid=" + orderDetailsId + "', '_blank');\">PRINT</button>");
 					out.println("</td>");
-//					out.println("<td>" + orderDetails.getDeliveryDate() + "</td>");
-//					out.println("<td>" + orderDetails.getPaymentMode() + "</td>");
-//					out.println("<td>" + orderDetails.getPaymentStatus() + "</td>");
-/*					out.println("<td>" + orderDetails.getDeliveryType() + "</td>");*/
-//					out.println("<td>"+orderDetails.getInvoiceId()+"</td>");
+					//					out.println("<td>" + orderDetails.getDeliveryDate() + "</td>");
+					//					out.println("<td>" + orderDetails.getPaymentMode() + "</td>");
+					//					out.println("<td>" + orderDetails.getPaymentStatus() + "</td>");
+					/*					out.println("<td>" + orderDetails.getDeliveryType() + "</td>");*/
+					//					out.println("<td>"+orderDetails.getInvoiceId()+"</td>");
 					out.println("<td>" + orderDetails.getStatus() + 
 							"<div style=\"display:none\" id=\"odraddr_" + orderDetailsId + "\" />" + orderDetails.getStreet1() + "</td>");
 					if(null == orderDetails.getLrNo()) {
@@ -117,8 +117,8 @@ public class OrderDetails extends SimpleTagSupport {
 							+ destination + "','"
 							+ orderDetails.getIsLrMssgSent() + "'"							
 							+ ")\"><i class=\"fa fa-truck\" title=\"Update LR Details\"></i></a>"
-					//Original code
-					/*out.print("<a data-toggle=\"modal\" data-target=\"#editOrder\" style=\"margin:0 5px;\" onClick=\"sendEditOrderDetails('"
+							//Original code
+							/*out.print("<a data-toggle=\"modal\" data-target=\"#editOrder\" style=\"margin:0 5px;\" onClick=\"sendEditOrderDetails('"
 							+ orderDetailsId + "','"
 							+ orderDetails.getStatus() + "','"
 							+ orderDetails.getOrderDate() + "','"
@@ -140,7 +140,7 @@ public class OrderDetails extends SimpleTagSupport {
 							+ orderDetails.getDocateNo() + "','"
 							+ orderDetails.getDeliveryDate() + "'"
 							+ ")\")><i class=\"fa fa-file\"></i></a>"*/
-					
+
 							//Asmita code
 							+ "<a data-toggle=\"modal\" data-target=\"#editcourierDtlsModal\" style=\"margin:0 10px;\" onClick=\"sendValueToCourier('"
 							+ orderDetails.getCartDtlId() + "','"
@@ -148,15 +148,21 @@ public class OrderDetails extends SimpleTagSupport {
 							+ orderDetails.getDocateNo() + "','"
 							+ orderDetails.getDeliveryDate() + "','"
 							+ orderDetails.getIsCourierMssgSent() + "'"
-							+ ")\"><i class=\"fa fa-file\" title=\"Update Courier Details\"></i></a>");
-					
-					
+							+ ")\"><i class=\"fa fa-file\" title=\"Update Courier Details\"></i></a>"
+
+							//Rahul code
+							+ "<a href='send-message?orderId="+orderDetails.getCartDtlId()+"'" 
+							+ ")\"> <i class=\"fa fa-comments\" title=\"Send Message\" aria-hidden=\"true\"></i>\r\n"
+
+							+ "<a href='send-email?orderId="+orderDetails.getCartDtlId()+"'" 
+							+ ")\"> <i class=\"fa fa-envelope\" title=\"Send Email\" aria-hidden=\"true\"></i>\r\n");
+
 					out.print("</td>");
 					out.println("</tr>");
-    	       }
+				}
 			}
-    	}
-    	catch (DataAccessException dae) {
+		}
+		catch (DataAccessException dae) {
 			dae.printStackTrace();
 			out.println("-11");
 		} catch (Exception e) {
@@ -164,5 +170,5 @@ public class OrderDetails extends SimpleTagSupport {
 			out.println("-11");
 		}
 
-    }
+	}
 }
