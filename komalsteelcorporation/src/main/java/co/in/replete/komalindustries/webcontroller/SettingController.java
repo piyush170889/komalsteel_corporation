@@ -1,7 +1,5 @@
 package co.in.replete.komalindustries.webcontroller;
 
-import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.service.spi.ServiceException;
@@ -15,17 +13,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.exception.PrepareViewModelException;
 import co.in.replete.komalindustries.service.SettingService;
+import co.in.replete.komalindustries.utils.CommonUtility;
 
 @Controller
 public class SettingController {
-	
+
 	@Autowired
 	private SettingService settingService;
+
 	
+
 	@Autowired
-	Properties configProperties;
-	
-	
+	private CommonUtility commonUtility;
 	/**
 	 * Description: get Settings Page
 	 * @param model
@@ -37,7 +36,7 @@ public class SettingController {
 	{
 		return "settings/setting_password";
 	}
-	
+
 	@RequestMapping(value="/settings",method=RequestMethod.POST)
 	public String settingPage(Model model,HttpServletRequest request) throws PrepareViewModelException
 	{
@@ -45,7 +44,7 @@ public class SettingController {
 		System.out.println("Password : "+request.getParameter("password"));
 		String matchPassword = settingService.getSettingsPassword();
 		System.out.println("Password 2: "+password);
-		
+
 		if( null == password || password.isEmpty()) {
 			model.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL, "Required Fields Are empty");
 			return "redirect:setting";
@@ -54,7 +53,9 @@ public class SettingController {
 				if(!password.equals(matchPassword)) {
 					throw new ServiceException("Invalid credentials");
 				} else {
-					String adminEmailList = configProperties.getProperty("email.admin.list");
+					String adminEmailList = commonUtility.getAdminEmailIds();
+					String contactNumbers = commonUtility.getAdminContactNumbers();
+					model.addAttribute("contactNumbers", contactNumbers);
 					model.addAttribute("adminEmailList", adminEmailList);
 					model.addAttribute("matchPassword", matchPassword);
 					return "settings/setting";
@@ -66,9 +67,9 @@ public class SettingController {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	@RequestMapping(value="/check-oldPassword",method=RequestMethod.POST)
 	public String checkPassword(Model model,HttpServletRequest request) throws PrepareViewModelException
 	{
@@ -80,8 +81,8 @@ public class SettingController {
 			return "Unmatched";
 		}
 	}
-	
-	
+
+
 	@RequestMapping(value="/update-password",method=RequestMethod.POST)
 	public String updatePassword(Model model,HttpServletRequest request,RedirectAttributes redirectAttributes) throws PrepareViewModelException
 	{
@@ -89,22 +90,42 @@ public class SettingController {
 		settingService.updatePassword(newPassword);
 		return"redirect:setting";
 	}
-	
+
 	@RequestMapping(value="/update-email",method=RequestMethod.POST)
 	public String updateEmail(Model model,HttpServletRequest request,RedirectAttributes redirectAttributes) throws PrepareViewModelException
 	{
 		try {
-		String email = request.getParameter("emailId");
-		configProperties.setProperty("email.admin.list", email);
-		String adminEmailList = configProperties.getProperty("email.admin.list");
-		model.addAttribute("adminEmailList", adminEmailList);
-		 model.addAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL,"Email Id Updated Successfully." );
+			String email = request.getParameter("emailId");
+			 settingService.updateAdminEmailIds(email);
+			String adminEmailList = commonUtility.getAdminEmailIds();
+			String contactNumbers = commonUtility.getAdminContactNumbers();
+			model.addAttribute("contactNumbers", contactNumbers);
+			model.addAttribute("adminEmailList", adminEmailList);
+			model.addAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL,"Email Id Updated Successfully." );
 		}catch(Exception e) {
 			e.printStackTrace();
-			 model.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL,"Exception Occured while updating email id.");
+			model.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL,"Exception Occured while updating email id.");
 		}
 		return"settings/setting";
 	}
 	
-	
+	@RequestMapping(value="/update-contact",method=RequestMethod.POST)
+	public String updateContact(Model model,HttpServletRequest request,RedirectAttributes redirectAttributes) throws PrepareViewModelException
+	{
+		try {
+			String contact = request.getParameter("contact");
+			 settingService.updateContactNumbers(contact);
+			String adminEmailList = commonUtility.getAdminEmailIds();
+			String contactNumbers = commonUtility.getAdminContactNumbers();
+			model.addAttribute("contactNumbers", contactNumbers);
+			model.addAttribute("adminEmailList", adminEmailList);
+			model.addAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL,"Contact Numbers Updated Successfully." );
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL,"Exception Occured while updating email id.");
+		}
+		return"settings/setting";
+	}
+
+
 }

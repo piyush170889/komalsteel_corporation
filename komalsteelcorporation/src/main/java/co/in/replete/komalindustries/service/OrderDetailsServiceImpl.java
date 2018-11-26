@@ -1,7 +1,6 @@
 package co.in.replete.komalindustries.service;
 
 import java.util.List;
-import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -39,8 +38,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	@Autowired
 	MessageUtility messageUtility;
 	
-	@Autowired
-	Properties configProperties;
+//	@Autowired
+//	Properties configProperties;
 	
 	@Autowired
 	private UserManagementDAO userDAO;
@@ -197,7 +196,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		String lrDispatchDetailsMssg = commonUtility.createLrMessage(cartDtldId, transporterNm, destination, lrNo, noofcarton, lrDate, mark);
 
 		System.out.println("contactNo-" + contactNo + ",\n lrNoDispatchDetailsMssg - " + lrDispatchDetailsMssg);
-		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+//		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+		contactNo += "," + commonUtility.getAdminContactNumbers();
+//configProperties.getProperty("contact.admin.list");
 		
 		if (doSendMssg) {
 			messageUtility.sendMessage(contactNo, lrDispatchDetailsMssg);
@@ -250,8 +251,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		String courierDispatchDetailsMssg = commonUtility.createCourierMessage(cartDtldId, courierNm, docateNo, trackingUrl, delvryDate);
 
 		System.out.println("contactNo-" + contactNo + ",\n courierDispatchDetailsMssg - " + courierDispatchDetailsMssg);
-		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
-		
+//		contactNo += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+		contactNo += "," + commonUtility.getAdminContactNumbers();
+//configProperties.getProperty("contact.admin.list");
 		if (doSendMssg) {
 			messageUtility.sendMessage(contactNo, courierDispatchDetailsMssg);
 		}

@@ -23,10 +23,22 @@ public class SettingDAOImpl implements SettingDAO {
 	
 	
 	@Override
-	public int updatePassword(String newPassword, String name) {
+	public int updateConfigurationValues(String newPassword, String name) {
 		
 		String sql ="update configuration set CONFIG_VAL=? where CONFIG_NAME=?";
 		return jdbcTemplate.update(sql,new Object[] {newPassword,name});
+	}
+	
+	@Override
+	public String getAdminEmailIds(String value) {
+		String sql = "select CONFIG_VAL from configuration where CONFIG_NAME=?";
+		return jdbcTemplate.queryForObject(sql, new Object[] {value}, String.class);
+	}
+	
+	@Override
+	public String getAdminContactNumbers(String value) {
+		String sql = "select CONFIG_VAL from configuration where CONFIG_NAME=?";
+		return jdbcTemplate.queryForObject(sql, new Object[] {value}, String.class);
 	}
 
 }

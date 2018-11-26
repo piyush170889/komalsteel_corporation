@@ -80,6 +80,8 @@ public class UserOrderDetailsTO {
     
     private String lastName;
 */    
+    private String lastName;
+    
     private String mark;
     
     private String destination;
@@ -89,6 +91,37 @@ public class UserOrderDetailsTO {
 	private String tinNo;
 	
 	public UserOrderDetailsTO(){}
+	
+	
+
+	@Override
+	public String toString() {
+		return "UserOrderDetailsTO [cartDtlId=" + cartDtlId + ", orderDate=" + orderDate + ", cartStatus=" + cartStatus
+				+ ", cartPrice=" + cartPrice + ", paymentStatus=" + paymentStatus + ", cartNotes=" + cartNotes
+				+ ", lrNo=" + lrNo + ", lrDate=" + lrDate + ", itemsLoaded=" + itemsLoaded + ", expectedDlvrDate="
+				+ expectedDlvrDate + ", alternateContactNo=" + alternateContactNo + ", st1=" + st1 + ", city=" + city
+				+ ", state=" + state + ", invoiceId=" + invoiceId + ", subTotal=" + subTotal + ", discount=" + discount
+				+ ", discountValue=" + discountValue + ", serviceTax=" + serviceTax + ", serviceTaxValue="
+				+ serviceTaxValue + ", vat=" + vat + ", vatValue=" + vatValue + ", miscCharges=" + miscCharges
+				+ ", grandTotal=" + grandTotal + ", amountPaid=" + amountPaid + ", amountBal=" + amountBal
+				+ ", firstName=" + firstName + ", taxRefNo=" + taxRefNo + ", payMentMode=" + payMentMode + ", lastName="
+				+ lastName + ", mark=" + mark + ", destination=" + destination + ", tranNm=" + tranNm + ", tinNo="
+				+ tinNo + "]";
+	}
+
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
 
 	public String getMark() {
 		return mark;

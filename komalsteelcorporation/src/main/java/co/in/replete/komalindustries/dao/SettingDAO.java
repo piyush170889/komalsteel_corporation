@@ -4,6 +4,11 @@ public interface SettingDAO {
 
 	String selectPassword(String string);
 
-	int updatePassword(String newPassword, String string);
+	int updateConfigurationValues(String newPassword, String string);
+
+	String getAdminEmailIds(String string);
+
+	String getAdminContactNumbers(String string);
+
 
 }

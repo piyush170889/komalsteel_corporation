@@ -66,7 +66,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Setting
+            Settings
             <small></small>
           </h1>
            <c:if test="${not empty errorMssg }" >
@@ -114,17 +114,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				Admin Email Id's
 			</h4>
 				<div class=" col-xs-12">
-								<div class="col-sm-6">
 								 <div class="row">
 									<div class="col-sm-2"><label>Email Id :</label></div>
 									<div class="col-sm-9 form-group">
-									<input type="text" style="width: 410px; " name="emailIds" id="emailid" value="${ adminEmailList}" data-role="tagsinput" disabled="disabled"/>
+									<%-- <input type="text" style="width: 410px; " name="emailIds" id="emailid" value="${ adminEmailList}" data-role="tagsinput" disabled="disabled"/> --%>
+									<label>${ adminEmailList}</label>
 									</div>
 									<div class="col-sm-1">	<a data-toggle="modal" data-target="#editemailmodal"
 															style="margin: 0 5px;"> <i class="fa fa-pencil" onclick="updateEmailId()"
 																title="Edit"></i></a></div>
 									</div>
+								
 								</div> 
+							 </div>
+							 
+							 <div class="row">
+			<h4 style="margin: 0.4em 0.9em;background-color: #00c0ef !important;padding: 0.2em;color: #fff;">
+				Admin Contacts
+			</h4>
+				<div class=" col-xs-12">
+								 <div class="row">
+									<div class="col-sm-2"><label>Contact No. :</label></div>
+									<div class="col-sm-9 form-group">
+									<%-- <input type="text" style="width: 410px; " name="emailIds" id="emailid" value="${ contactNumbers}" data-role="tagsinput" disabled="disabled"/> --%>
+									<label>${ contactNumbers}</label>
+									</div>
+									<div class="col-sm-1">	<a data-toggle="modal" data-target="#editcntcmodal"
+															style="margin: 0 5px; "> <i class="fa fa-pencil" onclick="updateEmailId()"
+																title="Edit"></i></a></div>
+									</div>
 								
 								</div> 
 							 </div>
@@ -258,6 +276,64 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											<div class="col-md-8">
 												<div class="form-group">
 													<input type="text" class="form-control"  value="${ adminEmailList}" data-role="tagsinput"  name="emailId" required="required" id="emailIdss1"  />
+												</div>
+												
+											</div>
+										</div>
+										
+										
+										
+										
+										<div class="box-footer">
+											<button type="submit" class="btn btn-primary">Update</button>
+										</div>
+										</div>
+										</div>
+									</div>	
+								</div>
+							</form>
+						</div>
+						<!-- /.box -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	<div id="editcntcmodal" class="modal modal-primary fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Update Admin Contact Numbers</h4>
+				</div>
+				
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<!-- general form elements "-->
+							<form action="update-contact" method="post" >
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<!-- <h3 class="box-title">Add New Details</h3> -->
+									</div>
+									<!-- /.box-header -->
+									<!-- form start -->
+							
+									<div class="box-body" style="color: #333;">
+										
+										<div class="row">
+											<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-4">
+												<label>Contact No. :<span class="col-red">*</span></label>
+											</div>
+											<div class="col-md-8">
+												<div class="form-group">
+													<input type="text" class="form-control"  value="${ contactNumbers}" data-role="tagsinput"  name="contact" required="required" id="emailIdss1"  />
 												</div>
 												
 											</div>

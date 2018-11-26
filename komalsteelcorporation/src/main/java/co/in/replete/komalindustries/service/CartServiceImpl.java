@@ -514,14 +514,22 @@ public class CartServiceImpl implements CartService {
 						
 						//Send Message Notification to Admin
 						String custName = userDetails.getFirstName() + (null == userDetails.getLastName() ? "" : " " + userDetails.getLastName());
-						String adminContactNumber = KomalIndustriesConstants.ADMIN_MOBILE_NO;
+//						String adminContactNumber = KomalIndustriesConstants.ADMIN_MOBILE_NO;
+						String adminContactNumber =  commonUtility.getAdminContactNumbers();
+//						String[] contactNumb = adminContact.split(",");
+//						List<String> adminContactList =	commonUtility.returnListOfString(contactNumb);
+//						for (String adminContactNumber : adminContactList) {
+							
+							System.out.println("Admin Contact No - " + adminContactNumber + ", \n Message - " + 
+									MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
+											custName, cartDtlsId));
+							messageUtility.sendMessage(adminContactNumber, 
+									MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
+											custName, cartDtlsId));
+//						}
 						
-						System.out.println("Admin Contact No - " + adminContactNumber + ", \n Message - " + 
-								MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
-										custName, cartDtlsId));
-						messageUtility.sendMessage(adminContactNumber, 
-								MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
-										custName, cartDtlsId));
+						
+						
 					}
 					
 					return new BaseWrapper();
@@ -625,15 +633,21 @@ public class CartServiceImpl implements CartService {
 		
 		//Send Message Notification to Admin
 		String custName = userDetails.getFirstName() + (null == userDetails.getLastName() ? "" : " " + userDetails.getLastName());
-		String adminContactNumber = KomalIndustriesConstants.ADMIN_MOBILE_NO;
+//		String adminContactNumber = KomalIndustriesConstants.ADMIN_MOBILE_NO;
 		
-		System.out.println("Admin Contact No - " + adminContactNumber + ", \n Message - " + 
-				MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
-						custName, orderId));
-		messageUtility.sendMessage(adminContactNumber, 
-				MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
-						custName, orderId));
-
+		String adminContactNumber =  commonUtility.getAdminContactNumbers();
+//		String[] contactNumb = adminContact.split(",");
+//		List<String> adminContactList =	commonUtility.returnListOfString(contactNumb);
+//		for (String adminContactNumber : adminContactList) {
+			
+			System.out.println("Admin Contact No - " + adminContactNumber + ", \n Message - " + 
+					MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
+							custName, orderId));
+			messageUtility.sendMessage(adminContactNumber, 
+					MessageFormat.format(configProperties.getProperty("sms.orderplaced.admin"), 
+							custName, orderId));
+//		}
+		
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

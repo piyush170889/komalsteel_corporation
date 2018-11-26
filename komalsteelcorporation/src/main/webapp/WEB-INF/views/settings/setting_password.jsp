@@ -84,9 +84,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				  
 
 <div class="login-box">
-      <div class="login-logo">
+      <%-- <div class="login-logo">
         <a href="#"><b>Komal</b>Trading Corporation</a>
-      </div><!-- /.login-logo -->
+      </div><!-- /.login-logo --> --%>
       <div class="login-box-body">
         <p class="login-box-msg">Enter Settings Password to Access Settings</p>
         <form action="settings" method="post">

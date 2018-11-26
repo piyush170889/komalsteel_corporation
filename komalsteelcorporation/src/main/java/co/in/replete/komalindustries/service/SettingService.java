@@ -6,4 +6,9 @@ public interface SettingService {
 
 	int updatePassword(String newPassword);
 
+	int updateAdminEmailIds(String email);
+
+	int updateContactNumbers(String contact);
+
+
 }

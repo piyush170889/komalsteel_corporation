@@ -28,80 +28,85 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import co.in.replete.komalindustries.dao.SettingDAO;
+
 @Component
 public class CommonUtility {
 
-	
+
 	@Autowired
 	Properties responseMessageProperties;
-	
+
 	@Autowired
 	Properties configProperties;
-	
+
+	@Autowired
+	private SettingDAO settingDAO;
+
 	private static final String[] specialNames = {
-	        "",
-	        " thousand",
-	        " million",
-	        " billion",
-	        " trillion",
-	        " quadrillion",
-	        " quintillion"
-	    };
-	    
-	    private static final String[] tensNames = {
-	        "",
-	        " ten",
-	        " twenty",
-	        " thirty",
-	        " forty",
-	        " fifty",
-	        " sixty",
-	        " seventy",
-	        " eighty",
-	        " ninety"
-	    };
-	    
-	    private static final String[] numNames = {
-	        "",
-	        " one",
-	        " two",
-	        " three",
-	        " four",
-	        " five",
-	        " six",
-	        " seven",
-	        " eight",
-	        " nine",
-	        " ten",
-	        " eleven",
-	        " twelve",
-	        " thirteen",
-	        " fourteen",
-	        " fifteen",
-	        " sixteen",
-	        " seventeen",
-	        " eighteen",
-	        " nineteen"
-	    };
-	    
+			"",
+			" thousand",
+			" million",
+			" billion",
+			" trillion",
+			" quadrillion",
+			" quintillion"
+	};
+
+	private static final String[] tensNames = {
+			"",
+			" ten",
+			" twenty",
+			" thirty",
+			" forty",
+			" fifty",
+			" sixty",
+			" seventy",
+			" eighty",
+			" ninety"
+	};
+
+	private static final String[] numNames = {
+			"",
+			" one",
+			" two",
+			" three",
+			" four",
+			" five",
+			" six",
+			" seven",
+			" eight",
+			" nine",
+			" ten",
+			" eleven",
+			" twelve",
+			" thirteen",
+			" fourteen",
+			" fifteen",
+			" sixteen",
+			" seventeen",
+			" eighteen",
+			" nineteen"
+	};
+
 	public static Date getParsedDate(String dateToParse) throws ParseException{
-		 
+
 		String[] formatStrings = new String[] {"M/y", "M/d/y", "M-d-y","dd-mm-yy","dd/mm/yyyy","dd.mm.yyyy","d month yyyy","yyyy-mm-dd"," MMM/DD/YYYY","yyyymmdd","dd-mm-yyyy","DD-MM-YY ","YYYYMMDD","dd-mmm-yyyy HH:MM:SS","yyyymmddTHHMMSS","yyyy-mm-dd HH:MM:SS",
-				"mmm.dd.yyyy HH:MM:SS"};
+		"mmm.dd.yyyy HH:MM:SS"};
 
 		System.out.println("date To Parse : " + dateToParse);
-		    return DateUtils.parseDateStrictly(dateToParse, formatStrings);
+		return DateUtils.parseDateStrictly(dateToParse, formatStrings);
 	}
-	
+
 	/**
 	 * Description : Validates the input parameters for null check and empty
 	 * @param Map<Object, Object>
 	 * @return Object
 	 */
 	public Object isInputValid(Map<Object, Object> inputParams) {
-		
+
 		Object returnVal = null;
-		
+
 		Set<Object> keySet = inputParams.keySet();
 		for(Object key : keySet) {
 			Object inputParam = inputParams.get(key);
@@ -113,10 +118,10 @@ public class CommonUtility {
 				break;
 			}
 		}
-		
+
 		return returnVal;
 	}
-	
+
 	/**
 	 * Sends specified OTP to the specified contact number
 	 * 
@@ -160,9 +165,9 @@ public class CommonUtility {
 			e.printStackTrace();
 			throw new Exception(responseMessageProperties.getProperty("error.sms"));
 		}
-		
+
 	}*/
-	
+
 	/**
 	 * Sends email to the toAddress specified, with message body containing the baseURL appended with activate user account page. This forms the activation link for the user's account
 	 * 
@@ -171,51 +176,51 @@ public class CommonUtility {
 	 * @return		isEmailSent		true if mail is sent successfully.false if mail sending fails
 	 */
 	public boolean sendEmail(String toAddress, String message, String subject){
-		
+
 		final String PROP_USERNAME = configProperties.getProperty("email.username");
-		
+
 		final String PROP_PASSWORD = configProperties.getProperty("email.password");
-		
-		
+
+
 		boolean isEmailSend = false;
 		try{
-		// sets SMTP server properties
-		Properties properties = new Properties();
-		properties.put(PROP_SMTP_HOST, PROP_HOST);
-		properties.put(PROP_SMTP_PORT, PROP_PORT);
-		properties.put(PROP_SMTP_AUTH, PROP_AUTH);
-		properties.put(PROP_SMTP_STARTTLS_ENABLE, PROP_STARTTLS_ENABLE);
-		// creates a new session with an authenticator
-		Authenticator auth = new Authenticator() {
-			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(PROP_USERNAME, PROP_PASSWORD);
+			// sets SMTP server properties
+			Properties properties = new Properties();
+			properties.put(PROP_SMTP_HOST, PROP_HOST);
+			properties.put(PROP_SMTP_PORT, PROP_PORT);
+			properties.put(PROP_SMTP_AUTH, PROP_AUTH);
+			properties.put(PROP_SMTP_STARTTLS_ENABLE, PROP_STARTTLS_ENABLE);
+			// creates a new session with an authenticator
+			Authenticator auth = new Authenticator() {
+				public PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(PROP_USERNAME, PROP_PASSWORD);
+				}
+			};
+			Session session = Session.getInstance(properties, auth);
+			// creates a new e-mail message
+			Message msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress(PROP_USERNAME));
+			String[] emailIds = toAddress.split(",");
+
+			InternetAddress[] toAddresses = new InternetAddress[emailIds.length];
+			for(int i=0; i<emailIds.length; i++) {
+				toAddresses[i] = new InternetAddress(emailIds[i]);
 			}
-		};
-		Session session = Session.getInstance(properties, auth);
-		// creates a new e-mail message
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(PROP_USERNAME));
-		String[] emailIds = toAddress.split(",");
-				
-		InternetAddress[] toAddresses = new InternetAddress[emailIds.length];
-		for(int i=0; i<emailIds.length; i++) {
-			toAddresses[i] = new InternetAddress(emailIds[i]);
-		}
-		msg.setRecipients(Message.RecipientType.TO, toAddresses);
-		msg.setSubject(subject);
-		msg.setSentDate(new Date());
-		msg.setContent(message,"text/html");
-		// sends the e-mail
-		Transport.send(msg);
-		isEmailSend = true;
+			msg.setRecipients(Message.RecipientType.TO, toAddresses);
+			msg.setSubject(subject);
+			msg.setSentDate(new Date());
+			msg.setContent(message,"text/html");
+			// sends the e-mail
+			Transport.send(msg);
+			isEmailSend = true;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
 		}
 		return isEmailSend;
 	}
-	
-	
+
+
 	/**
 	 * Sends email to the toAddress specified, with message body containing the baseURL appended with activate user account page. This forms the activation link for the user's account
 	 * 
@@ -224,85 +229,86 @@ public class CommonUtility {
 	 * @return		isEmailSent		true if mail is sent successfully.false if mail sending fails
 	 */
 	public boolean sendEmail(String toAddress, String message, String subject, String attachmentFilePath){
-		
+
 		final String PROP_USERNAME = configProperties.getProperty("email.username");
-		
+
 		final String PROP_PASSWORD = configProperties.getProperty("email.password");
-		
-		
+
+
 		boolean isEmailSend = false;
 		try{
-		// sets SMTP server properties
-		Properties properties = new Properties();
-		properties.put(PROP_SMTP_HOST, PROP_HOST);
-		properties.put(PROP_SMTP_PORT, PROP_PORT);
-		properties.put(PROP_SMTP_AUTH, PROP_AUTH);
-		properties.put(PROP_SMTP_STARTTLS_ENABLE, PROP_STARTTLS_ENABLE);
-		// creates a new session with an authenticator
-		Authenticator auth = new Authenticator() {
-			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(PROP_USERNAME, PROP_PASSWORD);
+			// sets SMTP server properties
+			Properties properties = new Properties();
+			properties.put(PROP_SMTP_HOST, PROP_HOST);
+			properties.put(PROP_SMTP_PORT, PROP_PORT);
+			properties.put(PROP_SMTP_AUTH, PROP_AUTH);
+			properties.put(PROP_SMTP_STARTTLS_ENABLE, PROP_STARTTLS_ENABLE);
+			// creates a new session with an authenticator
+			Authenticator auth = new Authenticator() {
+				public PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(PROP_USERNAME, PROP_PASSWORD);
+				}
+			};
+			Session session = Session.getInstance(properties, auth);
+			// creates a new e-mail message
+			Message msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress(PROP_USERNAME));
+			String[] emailIds = toAddress.split(",");
+
+			InternetAddress[] toAddresses = new InternetAddress[emailIds.length];
+			for(int i=0; i<emailIds.length; i++) {
+				toAddresses[i] = new InternetAddress(emailIds[i]);
 			}
-		};
-		Session session = Session.getInstance(properties, auth);
-		// creates a new e-mail message
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(PROP_USERNAME));
-		String[] emailIds = toAddress.split(",");
-				
-		InternetAddress[] toAddresses = new InternetAddress[emailIds.length];
-		for(int i=0; i<emailIds.length; i++) {
-			toAddresses[i] = new InternetAddress(emailIds[i]);
-		}
-		
-		//Set Admin Email ID's as BCC
-		String adminEmailList = configProperties.getProperty("email.admin.list");
-		String[] adminEmailIds = adminEmailList.split(",");
-				
-		InternetAddress[] bccAddresses = new InternetAddress[adminEmailIds.length];
-		for(int i=0; i<adminEmailIds.length; i++) {
-			bccAddresses[i] = new InternetAddress(adminEmailIds[i]);
-		}
-		
-		msg.setRecipients(Message.RecipientType.TO, toAddresses);
-		msg.setRecipients(Message.RecipientType.BCC, bccAddresses);
-		msg.setSubject(subject);
-		msg.setSentDate(new Date());
-		
-		//Create a multipart message
-        Multipart multipart = new MimeMultipart();
 
-		// Create the message part
-        BodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent(message, "text/html");
-        multipart.addBodyPart(messageBodyPart);	// Set text message part
-        
+			//Set Admin Email ID's as BCC
+			String adminEmailList = getAdminEmailIds();
+					//configProperties.getProperty("email.admin.list");
+			String[] adminEmailIds = adminEmailList.split(",");
 
-        // Part two is attachment
-        BodyPart attachmentBodyPart = new MimeBodyPart();
-        DataSource source = new FileDataSource(attachmentFilePath);
-        attachmentBodyPart.setDataHandler(new DataHandler(source));
-        attachmentBodyPart.setFileName(attachmentFilePath);
-        multipart.addBodyPart(attachmentBodyPart);
+			InternetAddress[] bccAddresses = new InternetAddress[adminEmailIds.length];
+			for(int i=0; i<adminEmailIds.length; i++) {
+				bccAddresses[i] = new InternetAddress(adminEmailIds[i]);
+			}
 
-        // Send the complete message parts
-        msg.setContent(multipart);
-        
-//		msg.setContent(message,"text/html");
-		// sends the e-mail
-		Transport.send(msg);
-		isEmailSend = true;
+			msg.setRecipients(Message.RecipientType.TO, toAddresses);
+			msg.setRecipients(Message.RecipientType.BCC, bccAddresses);
+			msg.setSubject(subject);
+			msg.setSentDate(new Date());
+
+			//Create a multipart message
+			Multipart multipart = new MimeMultipart();
+
+			// Create the message part
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setContent(message, "text/html");
+			multipart.addBodyPart(messageBodyPart);	// Set text message part
+
+
+			// Part two is attachment
+			BodyPart attachmentBodyPart = new MimeBodyPart();
+			DataSource source = new FileDataSource(attachmentFilePath);
+			attachmentBodyPart.setDataHandler(new DataHandler(source));
+			attachmentBodyPart.setFileName(attachmentFilePath);
+			multipart.addBodyPart(attachmentBodyPart);
+
+			// Send the complete message parts
+			msg.setContent(multipart);
+
+			//		msg.setContent(message,"text/html");
+			// sends the e-mail
+			Transport.send(msg);
+			isEmailSend = true;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
 		}
 		return isEmailSend;
 	}
-	
+
 
 	/*public void sendEmailToAdmin(String message, String subject) {
 final String userName =configProperties.getProperty("email.username");
-		
+
 		final String password = configProperties.getProperty("email.password");
 		boolean isEmailSent = false;
 		try{	
@@ -328,7 +334,7 @@ final String userName =configProperties.getProperty("email.username");
 			mimeMessage.setRecipients(Message.RecipientType.TO, toAddresses);
 			mimeMessage.setSubject(subject);
 			mimeMessage.setSentDate(new Date());
-			
+
 			// Create the message part 
 			MimeBodyPart messageBodyPart = new MimeBodyPart();
 
@@ -340,73 +346,74 @@ final String userName =configProperties.getProperty("email.username");
 
 			// Put parts in message
 			mimeMessage.setContent(multipart);
-			
+
 			mimeMessage.setText(message);
-			
+
 			// sends the e-mail
 			Transport.send(mimeMessage);
 			isEmailSent = true;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+
 	}*/
-	
-private final String PROP_SMTP_HOST = "mail.smtp.host";
-	
+
+	private final String PROP_SMTP_HOST = "mail.smtp.host";
+
 	private final String PROP_SMTP_PORT = "mail.smtp.port";
-	
+
 	private final String PROP_SMTP_AUTH = "mail.smtp.auth";
-	
+
 	private final String PROP_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
-	
+
 	private final String PROP_HOST = "smtp.gmail.com";
-	
+
 	private final String PROP_PORT = "587";
-	
+
 	private final String PROP_AUTH = "true";
-	
+
 	private final String PROP_STARTTLS_ENABLE = "true";
-	
+
 	public boolean sendEmailToAdmin(String message, String subject) {
-		
+
 		final String PROP_USERNAME = configProperties.getProperty("email.username");
-		
+
 		final String PROP_PASSWORD = configProperties.getProperty("email.password");
-		
-		
+
+
 		boolean isEmailSend = false;
 		try{
-		// sets SMTP server properties
-		Properties properties = new Properties();
-		properties.put(PROP_SMTP_HOST, PROP_HOST);
-		properties.put(PROP_SMTP_PORT, PROP_PORT);
-		properties.put(PROP_SMTP_AUTH, PROP_AUTH);
-		properties.put(PROP_SMTP_STARTTLS_ENABLE, PROP_STARTTLS_ENABLE);
-		// creates a new session with an authenticator
-		Authenticator auth = new Authenticator() {
-			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(PROP_USERNAME, PROP_PASSWORD);
+			// sets SMTP server properties
+			Properties properties = new Properties();
+			properties.put(PROP_SMTP_HOST, PROP_HOST);
+			properties.put(PROP_SMTP_PORT, PROP_PORT);
+			properties.put(PROP_SMTP_AUTH, PROP_AUTH);
+			properties.put(PROP_SMTP_STARTTLS_ENABLE, PROP_STARTTLS_ENABLE);
+			// creates a new session with an authenticator
+			Authenticator auth = new Authenticator() {
+				public PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(PROP_USERNAME, PROP_PASSWORD);
+				}
+			};
+			Session session = Session.getInstance(properties, auth);
+			// creates a new e-mail message
+			Message msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress(PROP_USERNAME));
+			String adminEmailList = getAdminEmailIds(); 
+					//configProperties.getProperty("email.admin.list");
+			String[] emailIds = adminEmailList.split(",");
+
+			InternetAddress[] toAddresses = new InternetAddress[emailIds.length];
+			for(int i=0; i<emailIds.length; i++) {
+				toAddresses[i] = new InternetAddress(emailIds[i]);
 			}
-		};
-		Session session = Session.getInstance(properties, auth);
-		// creates a new e-mail message
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(PROP_USERNAME));
-		String adminEmailList = configProperties.getProperty("email.admin.list");
-		String[] emailIds = adminEmailList.split(",");
-				
-		InternetAddress[] toAddresses = new InternetAddress[emailIds.length];
-		for(int i=0; i<emailIds.length; i++) {
-			toAddresses[i] = new InternetAddress(emailIds[i]);
-		}
-		msg.setRecipients(Message.RecipientType.TO, toAddresses);
-		msg.setSubject(subject);
-		msg.setSentDate(new Date());
-		msg.setContent(message,"text/html");
-		// sends the e-mail
-		Transport.send(msg);
-		isEmailSend = true;
+			msg.setRecipients(Message.RecipientType.TO, toAddresses);
+			msg.setSubject(subject);
+			msg.setSentDate(new Date());
+			msg.setContent(message,"text/html");
+			// sends the e-mail
+			Transport.send(msg);
+			isEmailSend = true;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
@@ -421,103 +428,113 @@ private final String PROP_SMTP_HOST = "mail.smtp.host";
 
 	public String roundUpToTwoDecimal(Float value, int decimalPlace) {
 		BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
-        String setValue = Double.toString(bd.doubleValue());
-        String[] setValueArr = setValue.toString().split("\\.");
-        if (setValueArr[1].length()==1) {
-        	setValue += "0";
-        }
-        
-        return setValue;
-	}
-	
-	public String doGetWords(int numToConvert) {
-		 return convert(numToConvert);
-	}
-	
-	
-		private String convertLessThanOneThousand(int number) {
-	        String current;
-	        
-	        if (number % 100 < 20){
-	            current = numNames[number % 100];
-	            number /= 100;
-	        }
-	        else {
-	            current = numNames[number % 10];
-	            number /= 10;
-	            
-	            current = tensNames[number % 10] + current;
-	            number /= 10;
-	        }
-	        if (number == 0) return current;
-	        return numNames[number] + " hundred" + current;
-	    }
-	    
-	    private String convert(int number) {
-
-	        if (number == 0) { return "zero"; }
-	        
-	        String prefix = "";
-	        
-	        if (number < 0) {
-	            number = -number;
-	            prefix = "negative";
-	        }
-	        
-	        String current = "";
-	        int place = 0;
-	        
-	        do {
-	            int n = number % 1000;
-	            if (n != 0){
-	                String s = convertLessThanOneThousand(n);
-	                current = s + specialNames[place] + current;
-	            }
-	            place++;
-	            number /= 1000;
-	        } while (number > 0);
-	        
-	        return (prefix + current).trim();
-	    }
-
-		public String createLrMessage(String cartDtldId, String transporterNm, String destination, 
-				String lrNo, String noofcarton, String lrDate, String mark) throws ParseException {
-
-			DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
-			DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
-			
-			if(mark == null || mark.isEmpty()) {
-				return "From Komal Trading Corporation:\n" +
-						"Order No. - " + cartDtldId + "\n" + 
-						"Transporter Name - " + transporterNm + "\n" + 
-						"Destination - " + destination + "\n" + 
-						"LR NO - " + lrNo + "\n" + 
-						"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
-						"No. Of Carton - " + noofcarton;
-			}else {
-				return "From Komal Trading Corporation:\n" +
-						"Order No. - " + cartDtldId + "\n" + 
-						"Transporter Name - " + transporterNm + "\n" + 
-						"Destination - " + destination + "\n" + 
-						"Mark - " + mark + "\n" + 
-						"LR NO - " + lrNo + "\n" + 
-						"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
-						"No. Of Carton - " + noofcarton;
-			}
-			
-			
+		bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+		String setValue = Double.toString(bd.doubleValue());
+		String[] setValueArr = setValue.toString().split("\\.");
+		if (setValueArr[1].length()==1) {
+			setValue += "0";
 		}
 
-		public String createCourierMessage(String cartDtldId, String courierNm, String docateNo, String trackingUrl, String delvryDate) throws ParseException {
-			
-			DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
-			DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+		return setValue;
+	}
+
+	public String doGetWords(int numToConvert) {
+		return convert(numToConvert);
+	}
+
+
+	private String convertLessThanOneThousand(int number) {
+		String current;
+
+		if (number % 100 < 20){
+			current = numNames[number % 100];
+			number /= 100;
+		}
+		else {
+			current = numNames[number % 10];
+			number /= 10;
+
+			current = tensNames[number % 10] + current;
+			number /= 10;
+		}
+		if (number == 0) return current;
+		return numNames[number] + " hundred" + current;
+	}
+
+	private String convert(int number) {
+
+		if (number == 0) { return "zero"; }
+
+		String prefix = "";
+
+		if (number < 0) {
+			number = -number;
+			prefix = "negative";
+		}
+
+		String current = "";
+		int place = 0;
+
+		do {
+			int n = number % 1000;
+			if (n != 0){
+				String s = convertLessThanOneThousand(n);
+				current = s + specialNames[place] + current;
+			}
+			place++;
+			number /= 1000;
+		} while (number > 0);
+
+		return (prefix + current).trim();
+	}
+
+	public String createLrMessage(String cartDtldId, String transporterNm, String destination, 
+			String lrNo, String noofcarton, String lrDate, String mark) throws ParseException {
+
+		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+
+		if(mark == null || mark.isEmpty()) {
 			return "From Komal Trading Corporation:\n" +
 					"Order No. - " + cartDtldId + "\n" + 
-					"Courier Name - " + courierNm + "\n" + 
-					"Docate No - " + docateNo + "\n" + 
-					"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate)) + "\n" + 
-					"Tracking Url - " + trackingUrl;
+					"Transporter Name - " + transporterNm + "\n" + 
+					"Destination - " + destination + "\n" + 
+					"LR NO - " + lrNo + "\n" + 
+					"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+					"No. Of Carton - " + noofcarton;
+		}else {
+			return "From Komal Trading Corporation:\n" +
+					"Order No. - " + cartDtldId + "\n" + 
+					"Transporter Name - " + transporterNm + "\n" + 
+					"Destination - " + destination + "\n" + 
+					"Mark - " + mark + "\n" + 
+					"LR NO - " + lrNo + "\n" + 
+					"LR Date - " + dfddMMMMYYYY.format(dfYYYYMMdd.parse(lrDate)) + "\n" + 
+					"No. Of Carton - " + noofcarton;
 		}
+
+
+	}
+
+	public String createCourierMessage(String cartDtldId, String courierNm, String docateNo, String trackingUrl, String delvryDate) throws ParseException {
+
+		DateFormat dfYYYYMMdd = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat dfddMMMMYYYY = new SimpleDateFormat("dd MMMM yyyy");
+		return "From Komal Trading Corporation:\n" +
+		"Order No. - " + cartDtldId + "\n" + 
+		"Courier Name - " + courierNm + "\n" + 
+		"Docate No - " + docateNo + "\n" + 
+		"Delivery Date - " +  dfddMMMMYYYY.format(dfYYYYMMdd.parse(delvryDate)) + "\n" + 
+		"Tracking Url - " + trackingUrl;
+	}
+
+	public String getAdminEmailIds(){
+
+		return settingDAO.getAdminEmailIds(UDValues.ADMIN_EMAIL.toString());
+	}
+
+	public String getAdminContactNumbers(){
+
+		return settingDAO.getAdminContactNumbers(UDValues.ADMIN_CONTACT.toString());
+	}
 }

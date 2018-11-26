@@ -139,8 +139,9 @@ public class EnquiryController extends KomalIndustriesConstants {
 
 			String lrDispatchDetailsMssg = commonUtility.createLrMessage(orderNo, transporterNm, destination, lrNo, noOfCarton, lrDate,mark);
 
-			contactNumbersToSendMsg += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
-
+//			contactNumbersToSendMsg += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+			contactNumbersToSendMsg += "," + commonUtility.getAdminContactNumbers();
+					//configProperties.getProperty("contact.admin.list");
 			messageUtility.sendMessage(contactNumbersToSendMsg, lrDispatchDetailsMssg);
 			message = "LR Details" + message;;
 			finalMsgToStore = lrDispatchDetailsMssg;
@@ -154,8 +155,9 @@ public class EnquiryController extends KomalIndustriesConstants {
 
 			String courierDispatchDetailsMssg = commonUtility.createCourierMessage(orderNo, courierNm, docateNo, trackingUrl, delvryDate);
 
-			contactNumbersToSendMsg += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
-
+//			contactNumbersToSendMsg += "," + KomalIndustriesConstants.ADMIN_MOBILE_NO;
+			contactNumbersToSendMsg += "," +  commonUtility.getAdminContactNumbers();
+//configProperties.getProperty("contact.admin.list");
 			messageUtility.sendMessage(contactNumbersToSendMsg, courierDispatchDetailsMssg);
 			message = "Courier Details" +  message;
 			finalMsgToStore = courierDispatchDetailsMssg;

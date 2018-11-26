@@ -22,6 +22,17 @@ public class SettingServiceImpl implements SettingService {
 	
 	@Override
 	public int updatePassword(String newPassword) {
-		return settingDAO.updatePassword(newPassword, UDValues.SETTING_PASSWORD.toString());
+		return settingDAO.updateConfigurationValues(newPassword, UDValues.SETTING_PASSWORD.toString());
 	}
+	
+	@Override
+	public int updateAdminEmailIds(String email) {
+		System.out.println("Email ids : "+email );
+		return settingDAO.updateConfigurationValues(email, UDValues.ADMIN_EMAIL.toString());
+	}
+	
+	@Override
+	public int updateContactNumbers(String contact) {
+		System.out.println("contact ids : "+contact );
+		return settingDAO.updateConfigurationValues(contact,UDValues.ADMIN_CONTACT.toString());	}
 }

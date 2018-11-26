@@ -212,6 +212,7 @@ public class OrderManagement extends KomalIndustriesConstants {
 			if(userOrderDetailsList.size()==1)
 			{
 				UserOrderDetailsTO userorderDetails = userOrderDetailsList.get(0);
+				System.out.println("userorderDetails : "+userorderDetails.toString());
 				modelMap.addAttribute("userorderDetails",userorderDetails);
 			} else {
 				modelMap.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL,"failed to get order  details ");

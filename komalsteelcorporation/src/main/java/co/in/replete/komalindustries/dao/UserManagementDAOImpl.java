@@ -558,6 +558,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 					UserOrderDetailsTO userOrderDetailsTO = new UserOrderDetailsTO();
 					
 					userOrderDetailsTO.setAlternateContactNo(rs.getString("ALTERNATE_CNTC"));
+					userOrderDetailsTO.setFirstName(rs.getString("FIRST_NAME"));
+					userOrderDetailsTO.setLastName(rs.getString("LAST_NAME"));
 					/*userOrderDetailsTO.setAmountBal(rs.getDouble("AMOUNT_BAL"));
 					userOrderDetailsTO.setAmountPaid(rs.getDouble("AMOUNT_PAID"));*/
 					userOrderDetailsTO.setCartDtlId(rs.getInt("CART_DTLS_ID"));

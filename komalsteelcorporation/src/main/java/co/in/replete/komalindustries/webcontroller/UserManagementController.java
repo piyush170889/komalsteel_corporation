@@ -267,10 +267,11 @@ public class UserManagementController extends KomalIndustriesConstants {
 				String currentDateTime = new SimpleDateFormat("dd-MM-yyyy hh:mm a").format(new Date());
 				String userActivationAdminMssg = MessageFormat.format(configProperties.getProperty("sms.admin.activation"), 
 						activatedUserName, currentDateTime);
-				System.out.println("userActivationAdminMssg - " + userActivationAdminMssg + ", adminContactNum - " + KomalIndustriesConstants.ADMIN_MOBILE_NO);
+				System.out.println("userActivationAdminMssg - " + userActivationAdminMssg + ", adminContactNum - " + configProperties.getProperty("contact.admin.list"));
 
 				messageUtility.sendMessage(userCntcNum, userActivationMssg);
-				messageUtility.sendMessage(KomalIndustriesConstants.ADMIN_MOBILE_NO, userActivationAdminMssg);
+//				messageUtility.sendMessage(KomalIndustriesConstants.ADMIN_MOBILE_NO, userActivationAdminMssg);
+				messageUtility.sendMessage(commonUtility.getAdminContactNumbers(), userActivationAdminMssg);
 			}
 
 			redirectAttributes.addFlashAttribute(KomalIndustriesConstants.SUCCESS_MSSG_LABEL, "User status Updated Successfully");

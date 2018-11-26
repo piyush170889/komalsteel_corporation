@@ -2,8 +2,6 @@ package co.in.replete.komalindustries.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import co.in.replete.komalindustries.beans.SmsDtlsWrapper;
 import co.in.replete.komalindustries.beans.entity.ContactDtls;
 import co.in.replete.komalindustries.exception.ServicesException;

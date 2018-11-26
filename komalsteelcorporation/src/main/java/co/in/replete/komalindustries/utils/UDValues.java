@@ -23,7 +23,9 @@ public enum UDValues {
 	CONFIG_VAL_VAT("VatTax"), 
 	ADDRESS_TYPE_SHIPPING("Shipping"),
 	DEFAULT_IMAGE("DefaultImage"),
-	SETTING_PASSWORD("settingPassword");
+	SETTING_PASSWORD("settingPassword"),
+	ADMIN_EMAIL("adminEmail"),
+	ADMIN_CONTACT("adminContact");
 	
 	private String udValue;
 	
