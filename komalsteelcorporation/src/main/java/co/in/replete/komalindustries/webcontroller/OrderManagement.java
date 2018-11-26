@@ -206,7 +206,17 @@ public class OrderManagement extends KomalIndustriesConstants {
 		
 		String returnViewUrl = "orders/printOrderItems";
 		try {
+			
 			List<CartItemDtlsTO> orderItems = orderDetailsService.getCartItemDetailsByOrderId(oid);
+			List<UserOrderDetailsTO> userOrderDetailsList=userDAO.selectUserOrderDetails(oid);
+			if(userOrderDetailsList.size()==1)
+			{
+				UserOrderDetailsTO userorderDetails = userOrderDetailsList.get(0);
+				modelMap.addAttribute("userorderDetails",userorderDetails);
+			} else {
+				modelMap.addAttribute(KomalIndustriesConstants.ERROR_MSSG_LABEL,"failed to get order  details ");
+			}
+			modelMap.addAttribute("orderId", oid);
 			modelMap.addAttribute("orderedItems", orderItems);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -77,6 +77,7 @@
                 <li><a href="transportation-master"><i class="fa fa-location-arrow"></i><span>Transportation Master</span></a></li>
               </ul>
             </li>
+            <li><a href="setting"><i class="fa fa-cog"></i> <span>Setting</span></a></li>
 			<!-- <li class="treeview">
               <a href="#"><i class="fa fa-link"></i> <span>Reports</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">

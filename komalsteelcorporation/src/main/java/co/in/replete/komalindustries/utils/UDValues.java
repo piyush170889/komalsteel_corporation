@@ -22,7 +22,8 @@ public enum UDValues {
 	CONFIG_VAL_SERVICE_TAX("ServiceTax"),
 	CONFIG_VAL_VAT("VatTax"), 
 	ADDRESS_TYPE_SHIPPING("Shipping"),
-	DEFAULT_IMAGE("DefaultImage");
+	DEFAULT_IMAGE("DefaultImage"),
+	SETTING_PASSWORD("settingPassword");
 	
 	private String udValue;
 	

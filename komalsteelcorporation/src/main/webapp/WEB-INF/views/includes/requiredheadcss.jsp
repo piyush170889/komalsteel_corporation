@@ -15,3 +15,6 @@
       apply the skin class to the body tag so the changes take effect.
 -->
 <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput-typeahead.css">
