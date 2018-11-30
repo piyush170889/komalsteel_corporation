@@ -428,10 +428,10 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 	                        </c:forEach>
 	                      </form:select>
                     </div>
-                    <div class="form-group">
+                    <%-- <div class="form-group">
                       <label for="exampleInputPassword1">Inventory Quantity</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Available Quantity" type="text" path="initialQuantity" required="required" />
-                    </div>
+                    </div> --%>
                     <div class="form-group">
                       <!-- <label for="exampleInputPassword1">Product Content Info</label> -->
                       <form:hidden class="form-control" placeholder="Product Content Info" path="itemContentInfo" value=""/>
@@ -496,7 +496,7 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
                       <form:input id="exampleInputFile" path="itemImage" type="file" />
                       <p class="help-block">Upload an image of size 10x10.</p>
                     </div>
-                   <div class="form-group">
+                   <%-- <div class="form-group">
                       <label for="exampleInputPassword1">Threshold Value</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Threshold Value" path="ThrhldVal" required="required" />
                     </div>
@@ -507,7 +507,7 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
                     <div class="form-group">
                       <label for="exampleInputPassword1">Selling Price(MRP)</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="MRP" type="text" path="mrp" required="required" />
-                    </div>
+                    </div> --%>
                     <%--  <div class="form-group">
                       <label for="exampleInputPassword1">Master Carton Price</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="MRP" type="text" path="masterCartonPrice" required="required" />
@@ -519,6 +519,10 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
                   <div class="box-footer">
                   	<form:hidden path="cmpnyInfoId" value="56"/>
                   	<form:hidden path="itemManufacturer" value="Komal Industries"/>
+                  	<form:hidden path="ThrhldVal" value="0.0" />
+                  	<form:hidden path="refilPrice"  value="0.0" />
+                  	<form:hidden path="mrp" />
+                  	<form:hidden path="initialQuantity" value="0.0"/>
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </form:form>

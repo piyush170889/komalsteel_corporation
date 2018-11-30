@@ -229,26 +229,26 @@ public class ProductServiceImpl implements ProductService{
 		        }
 		        
 		       // check request for zero integer values
-		        if(thresholdValue <= 0)
-		        {
-		        	throw new Exception(responseMessageProperties.getProperty("error.thresholdValue.required"));
-		        }
-		        if(initialQuantity <= 0)
-		        {
-		        	throw new Exception(responseMessageProperties.getProperty("error.initialQuantity.required"));
-		        }
-		        if(mrp <= 0)
-		        {
-		        	throw new Exception(responseMessageProperties.getProperty("error.mrp.required"));
-		        }
+//		        if(thresholdValue <= 0)
+//		        {
+//		        	throw new Exception(responseMessageProperties.getProperty("error.thresholdValue.required"));
+//		        }
+//		        if(initialQuantity <= 0)
+//		        {
+//		        	throw new Exception(responseMessageProperties.getProperty("error.initialQuantity.required"));
+//		        }
+//		        if(mrp <= 0)
+//		        {
+//		        	throw new Exception(responseMessageProperties.getProperty("error.mrp.required"));
+//		        }
 		        if(perUnitPrice <= 0)
 		        {
 		        	throw new Exception(responseMessageProperties.getProperty("error.perUnitPrice.required"));
 		        }
-		        if(refilPrice <= 0)
-		        {
-		        	throw new Exception(responseMessageProperties.getProperty("error.refilPrice.required"));
-		        }
+//		        if(refilPrice <= 0)
+//		        {
+//		        	throw new Exception(responseMessageProperties.getProperty("error.refilPrice.required"));
+//		        }
 		        if(file.isEmpty()) {
 		        	throw new Exception("Product Image is required");
 		        }

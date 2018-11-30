@@ -1,5 +1,7 @@
 package co.in.replete.komalindustries.service;
 
+import java.math.BigDecimal;
+
 public class Test {
 
 	public static void main(String[] args) {
@@ -12,8 +14,17 @@ public class Test {
 		System.out.println(String.format(finalString, userDetails.getDisplayName(), userDetails.getFirstName(), userDetails.getLastName(), 
 				userDetails.getCntc_num(), 1, "SEPT001", "kbksdj", "sdhvjhs"));*/
 		
-		String gst = "27ABQPH2220Q1Z7";
-		getGstCode(gst);
+/*		String gst = "27ABQPH2220Q1Z7";
+		getGstCode(gst);*/
+
+		BigDecimal bd = new BigDecimal("25");
+        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+        String setValue = Double.toString(bd.doubleValue());
+        String[] setValueArr = setValue.toString().split("\\.");
+        if (setValueArr[1].length()==1) {
+        	setValue += "0";
+        }
+        System.out.println(setValue);
 	}
 	
 	public static String getGstCode(String gstNo) {
