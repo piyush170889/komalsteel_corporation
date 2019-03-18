@@ -1,7 +1,11 @@
 package co.in.replete.komalindustries.webcontroller;
 
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -23,11 +27,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import co.in.replete.komalindustries.beans.SmsDtlsJsonObject;
 import co.in.replete.komalindustries.beans.SmsDtlsWrapper;
 import co.in.replete.komalindustries.beans.UserAddTO;
 import co.in.replete.komalindustries.beans.UserDetailsAllTO;
 import co.in.replete.komalindustries.beans.entity.ContactDtls;
-import co.in.replete.komalindustries.beans.entity.SmsDtls;
 import co.in.replete.komalindustries.constants.KomalIndustriesConstants;
 import co.in.replete.komalindustries.dao.UserManagementDAO;
 import co.in.replete.komalindustries.exception.PrepareViewModelException;
@@ -401,10 +408,77 @@ public class UserManagementController extends KomalIndustriesConstants {
 
 	@RequestMapping(value="/sms-history", method=RequestMethod.GET)
 	public String selectSmsDtls(  ModelMap model) {
-		List<SmsDtlsWrapper> smsDtlsList = userService.getAllSmsDtls();
+		/*List<SmsDtlsWrapper> smsDtlsList = userService.getAllSmsDtls();
 		model.addAttribute("smsDtlsList",smsDtlsList);	      
-		model.addAttribute("addSmsDetails",new SmsDtls());
+		model.addAttribute("addSmsDetails",new SmsDtls());*/
 		return "master/smsHistory";
+	}
+
+	 @RequestMapping(value = "/sms-listing", method = RequestMethod.GET, produces = "application/json")
+	    public @ResponseBody String springPaginationDataTables(HttpServletRequest  request) throws IOException, ParseException {
+	    	
+	    	//Fetch the page number from client
+	    	Integer pageNumber = 0;
+	    	if (null != request.getParameter("iDisplayStart"))
+	    		pageNumber = (Integer.valueOf(request.getParameter("iDisplayStart"))/10)+1;		
+	    	
+	    	//Fetch search parameter
+	    	String searchParameter = request.getParameter("sSearch");
+	    	
+	    	//Fetch Page display length
+	    	Integer pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+	    	
+	    	// Fetch Total No of Records
+	    	int totalRecords = userService.getTotalRecordsCount();
+	    	
+	    	System.out.println("pageNumber = " + pageNumber + ", searchParameter = " + searchParameter + ", pageDisplayLength = " + pageDisplayLength);
+	    	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+	    	//Create page list data
+	    	List<SmsDtlsWrapper> smsDtlsList = userService.getAllSmsDtls(pageNumber, pageDisplayLength);
+			for (SmsDtlsWrapper smsDtlsWrapper : smsDtlsList) {
+				String date = smsDtlsWrapper.getCreatedTs();
+				smsDtlsWrapper.setCreatedTs(dateFormatter.format((dateFormatter.parse(date))));
+			}
+			
+			if(null != searchParameter && !searchParameter.equals("")){
+				// get list by searchParameter
+				smsDtlsList = getListBasedOnSearchParameter(searchParameter, smsDtlsList);
+			}
+			
+			SmsDtlsJsonObject smsDtlsJsonObject = new SmsDtlsJsonObject();
+			
+			
+			if(null != searchParameter && !searchParameter.equals("")){
+				smsDtlsJsonObject.setiTotalDisplayRecords(smsDtlsList.size());
+	    	}else{
+	    		smsDtlsJsonObject.setiTotalDisplayRecords(totalRecords);
+	    	}
+			//Set Total record
+			smsDtlsJsonObject.setiTotalRecords(totalRecords);
+			smsDtlsJsonObject.setAaData(smsDtlsList);
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json2 = gson.toJson(smsDtlsJsonObject);
+			System.out.println("json2 : "+json2);
+	    	
+			return json2;
+	    }
+	 
+	private List<SmsDtlsWrapper> getListBasedOnSearchParameter(String searchParameter,
+			List<SmsDtlsWrapper> smsDtlsList) {
+		List<SmsDtlsWrapper> smsDtlsWrappersList = new ArrayList<SmsDtlsWrapper>();
+		if (null != searchParameter && !searchParameter.equals("")) {
+			searchParameter = searchParameter.toUpperCase();
+			for (SmsDtlsWrapper smsDtlsWrapper : smsDtlsList) {
+				if(smsDtlsWrapper.getContactNumber().toUpperCase().indexOf(searchParameter)!= -1 || smsDtlsWrapper.getContactName().toUpperCase().indexOf(searchParameter)!= -1
+						|| smsDtlsWrapper.getShopName().toUpperCase().indexOf(searchParameter)!= -1 || smsDtlsWrapper.getSmsContent().toUpperCase().indexOf(searchParameter)!= -1 
+						|| smsDtlsWrapper.getCreatedTs().toUpperCase().indexOf(searchParameter)!= -1){
+					smsDtlsWrappersList.add(smsDtlsWrapper);
+				}
+			}
+		}
+		return smsDtlsWrappersList;
 	}
 
 	@RequestMapping(value="/activate-deactivate-sms", method=RequestMethod.GET)

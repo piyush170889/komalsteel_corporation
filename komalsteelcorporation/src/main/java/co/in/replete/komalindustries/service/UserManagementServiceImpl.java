@@ -26,9 +26,9 @@ public class UserManagementServiceImpl implements UserManagementService {
 
 
 	@Override
-	public List<SmsDtlsWrapper> getAllSmsDtls() {
+	public List<SmsDtlsWrapper> getAllSmsDtls(Integer pageNumber, Integer pageDisplayLength) {
 
-		return userDAO.getAllSmsDtls();
+		return userDAO.getAllSmsDtls(pageNumber, pageDisplayLength );
 	}
 
 	@Override
@@ -51,6 +51,13 @@ public class UserManagementServiceImpl implements UserManagementService {
 		int contactNumCount = userDAO.selectContact(contactNumber);
 		System.out.println("request.getParameter(\"contactNumber\") : " +contactNumber);
 		return contactNumCount;
+	}
+
+
+
+	@Override
+	public int getTotalRecordsCount() {
+		return userDAO.getCountOfTotalRecords();
 	}
 
 

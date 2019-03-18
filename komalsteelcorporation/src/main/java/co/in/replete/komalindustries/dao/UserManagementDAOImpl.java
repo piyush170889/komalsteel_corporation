@@ -895,8 +895,8 @@ public class UserManagementDAOImpl extends BaseDAOImpl implements UserManagement
 	}
 
 @Override
-public List<SmsDtlsWrapper> getAllSmsDtls() {
-	String sqlQuery="SELECT sd.SMS_CONTENT, sd.CONTACT_DTLS_ID, sd.SMS_HISTORY_ID, cd.CONTACT_NAME, cd.CONTACT_NUMBER,cd.SHOP_NAME,  sd.CREATED_TS,sd.MODIFIED_TS FROM sms_dtls as sd join contact_dtls as cd on sd.CONTACT_DTLS_ID = cd.CONTACT_DTLS_ID";
+public List<SmsDtlsWrapper> getAllSmsDtls(Integer pageNumber, Integer pageDisplayLength) {
+	String sqlQuery="SELECT sd.SMS_CONTENT, sd.CONTACT_DTLS_ID, sd.SMS_HISTORY_ID, cd.CONTACT_NAME, cd.CONTACT_NUMBER,cd.SHOP_NAME,  sd.CREATED_TS,sd.MODIFIED_TS FROM sms_dtls as sd join contact_dtls as cd on sd.CONTACT_DTLS_ID = cd.CONTACT_DTLS_ID ORDER BY sd.CREATED_TS DESC LIMIT "+pageDisplayLength+" OFFSET "+pageNumber+";";
 	return jdbcTemplate.query(sqlQuery,new Object[] {}, new BeanPropertyRowMapper<SmsDtlsWrapper>(SmsDtlsWrapper.class));
 }
 
@@ -989,6 +989,12 @@ public String select(String contactNo) {
 	String sqlQuery="select CONTACT_NAME from contact_dtls where CONTACT_NUMBER=?";
 	 return jdbcTemplate.queryForObject(sqlQuery, new Object[] {contactNo},String.class);
 	
+}
+
+@Override
+public int getCountOfTotalRecords() {
+	String sqlQuery = "SELECT count(*) FROM sms_dtls";
+	return (int) jdbcTemplate.queryForObject(sqlQuery, new Object[] {}, Integer.class);
 }
 
 

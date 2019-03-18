@@ -16,6 +16,9 @@
    	<!-- Required head CSS -->
 	<jsp:include page="../includes/requiredheadcss.jsp" />
 	<!-- ./Required head CSS -->   	
+   		<jsp:include page="../includes/requiredbodyjs.jsp" />
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
    	
  	<!-- DataTables -->
     <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
@@ -122,7 +125,7 @@
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th>Sr. No</th>
+                       <!--  <th>Sr. No</th> -->
                         <th>Contact Number</th>
                         <th>Contact Name</th>
                         <th>Shop Name</th>
@@ -130,7 +133,7 @@
                         <th>Msg Send Time</th>              
                       </tr>
                     </thead>
-                    <tbody>
+                   <%--  <tbody>
                     
                     <c:forEach items="${smsDtlsList }"  var="smsDtls"  varStatus="loopCount">
                                           <tr>
@@ -147,7 +150,7 @@
                     
                       <!-- ./user Details -->
                     </tbody>
-                  
+                   --%>
                   </table>
                 </div>
                 <!-- /.box-body -->
@@ -165,18 +168,15 @@
     <!-- ./wrapper -->
 
     <!-- REQUIRED JS SCRIPTS -->
-	<jsp:include page="../includes/requiredbodyjs.jsp" />
     <!-- ./REQUIRED JS SCRIPTS -->
 
   
     <!-- DataTables -->
-    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
     <!-- page script -->
     <script>
-      $(function () {
+     /*  $(function () {
     	$('#example1').DataTable();  
         $('#example2').DataTable({
           "paging": true,
@@ -186,7 +186,56 @@
           "info": true,
           "autoWidth": false
         });
-      });
+      }); */
+      
+      
+      $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+  	{
+      	console.log(oSettings);
+  		return {
+  			"iStart":         oSettings._iDisplayStart,
+  			"iEnd":           oSettings.fnDisplayEnd(),
+  			"iLength":        oSettings._iDisplayLength,
+  			"iTotal":         oSettings.fnRecordsTotal(),
+  			"iFilteredTotal": oSettings.fnRecordsDisplay(),
+  			"iPage":          oSettings._iDisplayLength === -1 ?
+  				0 : Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+  			"iTotalPages":    oSettings._iDisplayLength === -1 ?
+  				0 : Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+  		};
+  	};
+
+  $(document).ready(function() {
+
+  	$("#example1").dataTable( {
+  		"bProcessing": true,
+        "bServerSide": true,
+        "bPaginate": true,
+        "sPaginationType": "full_numbers",
+        "bPaging": true,
+        //"sort": "invoiceNo",
+        //bStateSave variable you can use to save state on client cookies: set value "true" 
+        "bStateSave": false,
+        //Default: Page display length
+        "iDisplayLength": 10,
+          "fnDrawCallback": function () {
+              //Get page numer on client. Please note: number start from 0 So
+              //for the first page you will see 0 second page 1 third page 2...
+              //Un-comment below alert to see page number
+          	//alert("Current page number: "+this.fnPagingInfo().iPage);    
+          },         
+          "sAjaxSource": "sms-listing",
+          "aoColumns": [
+              { "mData": "contactNumber" },
+              { "mData": "contactName" },
+              { "mData": "shopName" },
+              { "mData": "smsContent" },
+              { "mData": "createdTs" },
+           
+          ]
+      } );
+
+  } );
     </script>
     
 

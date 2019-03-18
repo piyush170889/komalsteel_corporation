@@ -10,10 +10,12 @@ public interface UserManagementService {
 
 	int addContactDirectories(ContactDtls contactDtls) throws ServicesException;
 
-	List<SmsDtlsWrapper> getAllSmsDtls();
+	List<SmsDtlsWrapper> getAllSmsDtls(Integer pageNumber, Integer pageDisplayLength);
 
 	int addSmsDtls(String contactNo, String finalMsgToStore) throws ServicesException;
 
 	int checkContactNumber(String contactNumber);
+
+	int getTotalRecordsCount();
 
 }

@@ -124,7 +124,7 @@ public interface UserManagementDAO {
 
 	List<ContactDtls> getAllContactDirectories();
 
-	List<SmsDtlsWrapper> getAllSmsDtls();
+	List<SmsDtlsWrapper> getAllSmsDtls(Integer pageNumber, Integer pageDisplayLength);
 
 	int addContactDirectories(ContactDtls contactDtls);
 
@@ -147,6 +147,8 @@ public interface UserManagementDAO {
 	String select(String contactNo);
 
 	ContactDtls getContactDetails(String contactNo);
+
+	int getCountOfTotalRecords();
 
 //	Integer selectOTPRecord(String deviceInfo, String cellNum, int otp);
 
