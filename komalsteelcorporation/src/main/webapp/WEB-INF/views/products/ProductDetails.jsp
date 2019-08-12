@@ -124,7 +124,7 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 				<h1>
 					Product Details <small>Product master</small>
 				</h1>
-				
+
 				<c:if test="${not empty param.errorMssg }">
 					<h4 style="color: red;">${param.errorMssg }</h4>
 				</c:if>
@@ -137,7 +137,7 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 				<c:if test="${not empty successMssg }">
 					<h4 style="color: green;">${successMssg }</h4>
 				</c:if>
-				
+
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 					<li><a href="#">Tables</a></li>
@@ -220,15 +220,15 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
                         <th>Sub-Category</th> -->
 											<th>CATEGORY</th>
 											<th>SUBCATEGORY</th>
-											<th>QTY. IN CARTON</th>
+											<!-- <th>QTY. IN CARTON</th> -->
 											<th>PER PIECE PRICE</th>
 											<th>SIZE</th>
 											<!-- <th>Avl Qty</th>
                         <th>Booked Qty</th>
                         <th>Threshold Val</th>
                         <th>MRP</th> -->
-											<th>MAX ALLOWED CARTONS IN ORDER</th>
-											<th>CARTON BATCH SIZE</th>
+											<th>MAX ITEMS IN ORDER</th>
+											<th>ITEMS IN A CARTON</th>
 											<th>ACTIONS</th>
 										</tr>
 									</thead>
@@ -250,15 +250,15 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
                         <th>Sub-Category</th> -->
 											<th>CATEGORY</th>
 											<th>SUBCATEGORY</th>
-											<th>QTY. IN CARTON</th>
+											<!-- <th>QTY. IN CARTON</th> -->
 											<th>PER PIECE PRICE</th>
 											<th>SIZE</th>
 											<!-- <th>Avl Qty</th>
                         <th>Booked Qty</th>
                         <th>Threshold Val</th>
                         <th>MRP</th> -->
-											<th>MAX ALLOWED CARTONS IN ORDER</th>
-											<th>CARTON BATCH SIZE</th>
+											<th>MAX ITEMS IN ORDER</th>
+											<th>ITEMS IN A CARTON</th>
 											<th>ACTIONS</th>
 										</tr>
 									</tfoot>
@@ -450,7 +450,8 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 								<!-- /.box-header -->
 								<!-- form start -->
 								<form:form role="form" action="wproductdetails" method="post"
-									modelAttribute="productDetails" enctype="multipart/form-data">
+									modelAttribute="productDetails" enctype="multipart/form-data"
+									onsubmit="return validateAddProductForm();">
 									<div class="box-body" style="color: #333;">
 										<div class="col-md-6">
 											<div class="form-group">
@@ -493,22 +494,25 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 												<label for="exampleInputPassword1">Per Piece Price</label><i
 													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
 												<form:input class="form-control" placeholder="CP"
-													type="text" path="perUnitPrice" required="required" />
+													type="number" path="perUnitPrice" id="addProdPerUnitPrice"
+													required="required" />
 											</div>
 											<div class="form-group">
-												<label for="exampleInputPassword1">Items In Master
-													Carton</label><i class="fa fa-asterisk"
+												<label for="exampleInputPassword1">Qty. In One
+													Master Carton</label><i class="fa fa-asterisk"
 													style="color: red; font-size: 9px;"></i>
-												<form:input class="form-control" placeholder="MRP"
-													type="text" path="itemsInMasterCarton" required="required" />
+												<form:input class="form-control" type="number"
+													placeholder="Quantity In A Master Carton"
+													path="masterCartonQtyIncVal"
+													id="addProdmasterCartonQtyIncVal1" required="required"
+													min="1" />
 											</div>
 											<div class="form-group">
-												<label for="exampleInputPassword1">Max allowed
-													Master Carton in Order</label><i class="fa fa-asterisk"
-													style="color: red; font-size: 9px;"></i>
-												<form:input class="form-control"
-													placeholder="Master Carton Quantity Range"
-													path="masterCartonQtyRange" required="required" />
+												<label for="exampleInputFile">Product Image</label><i
+													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
+												<form:input id="exampleInputFile" path="itemImage"
+													type="file" />
+												<p class="help-block">Upload an image of size 10x10.</p>
 											</div>
 											<%-- <div class="form-group">
                       <label for="exampleInputPassword1">Per Piece Price</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
@@ -527,7 +531,8 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 											<div class="form-group">
 												<label for="exampleInputFile">HSN No.</label><i
 													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
-												<form:select class="form-control" path="hsnDtlsId">
+												<form:select class="form-control" path="hsnDtlsId"
+													id="hsnDtlsId1">
 													<form:option value="0">Select</form:option>
 													<c:forEach var="hsnDetails" items="${hsnDetailsList }">
 														<form:option value="${hsnDetails.hsnDtlsId }">${hsnDetails.hsnNo }</form:option>
@@ -547,7 +552,8 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 												<label for="exampleInputPassword1">Size</label><i
 													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
 												<!-- select -->
-												<form:select class="form-control" path="itemPckgInfo">
+												<form:select class="form-control" path="itemPckgInfo"
+													id="itemPckgInfo1">
 													<option value="select">--Select--</option>
 													<c:forEach var="packagingInfo"
 														items="${itemsPackingInfoList }">
@@ -555,21 +561,24 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 													</c:forEach>
 												</form:select>
 											</div>
+
 											<div class="form-group">
-												<label for="exampleInputPassword1">Master Carton
-													Batch Qty</label><i class="fa fa-asterisk"
+												<label for="exampleInputPassword1">Max Qty. Of Items
+													In Order</label><i class="fa fa-asterisk"
 													style="color: red; font-size: 9px;"></i>
-												<form:input class="form-control"
-													placeholder="Master Carton Quantity Increment Value"
-													path="masterCartonQtyIncVal" required="required" />
+												<form:input class="form-control" type="number"
+													placeholder="Max Allowed Items In An Order"
+													path="masterCartonQtyRange" required="required" min="1" />
 											</div>
-											<div class="form-group">
-												<label for="exampleInputFile">Product Image</label><i
-													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
-												<form:input id="exampleInputFile" path="itemImage"
-													type="file" />
-												<p class="help-block">Upload an image of size 10x10.</p>
+
+											<div class="form-group" style="visibility: hidden;">
+												<label for="exampleInputPassword1">Items In Master
+													Carton Org</label><i class="fa fa-asterisk"
+													style="color: red; font-size: 9px;"></i>
+												<form:input class="form-control" placeholder="MRP"
+													type="text" path="itemsInMasterCarton" required="required" />
 											</div>
+
 											<%-- <div class="form-group">
                       <label for="exampleInputPassword1">Threshold Value</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
                       <form:input class="form-control" placeholder="Threshold Value" path="ThrhldVal" required="required" />
@@ -654,6 +663,14 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 													required="required" />
 											</div>
 											<div class="form-group">
+												<label for="exampleInputPassword1">Product
+													Description</label><i class="fa fa-asterisk"
+													style="color: red; font-size: 9px;"></i>
+												<form:input class="form-control"
+													placeholder="Product Description" id="productDescription1"
+													path="itemDesc" type="text" required="required" />
+											</div>
+											<div class="form-group">
 												<label for="exampleInputPassword1">Product Category</label><i
 													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
 												<!-- select -->
@@ -666,10 +683,72 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 													</c:forEach>
 												</form:select>
 											</div>
-											<%--  <div class="form-group">
-                      <label for="exampleInputPassword1">Available Quantity</label><i class="fa fa-asterisk" style="color:red;font-size:9px;"></i>
-                      <form:input class="form-control" placeholder="Available Quantity" type="text" id="availableQty1" path="availableQty" required="required" disabled="true"/>
-                    </div> --%>
+											<div class="form-group">
+												<label for="exampleInputPassword1">Per Piece Price</label><i
+													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
+												<form:input class="form-control"
+													placeholder="Per Piece Price" path="perUnitPrice"
+													id="perUnitPrice1" required="required" />
+											</div>
+											<div class="form-group">
+												<label for="exampleInputPassword1">Qty In One Master
+													Carton</label><i class="fa fa-asterisk"
+													style="color: red; font-size: 9px;"></i>
+												<form:input class="form-control"
+													placeholder="Quantity In A Master Carton"
+													path="masterCartonQtyIncVal" id="masterCartonQtyIncVal1"
+													required="required" />
+											</div>
+											<div class="form-group">
+												<label for="exampleInputFile">Product Image</label><i
+													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
+												<form:input id="exampleInputFile" path="itemImage"
+													type="file" />
+											</div>
+											<form:hidden class="form-control"
+												placeholder="Product Content Info" path="itemContentInfo"
+												id="productContent1" value="" />
+
+
+											<div class="form-group" style="visibility: hidden;">
+												<label for="exampleInputPassword1">Items In Master
+													Carton</label><i class="fa fa-asterisk"
+													style="color: red; font-size: 9px;"></i>
+												<form:input class="form-control"
+													placeholder="Items In Master Carton" type="text"
+													path="itemsInMasterCarton" required="required"
+													id="itemsInMasterCarton1" />
+											</div>
+
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="exampleInputPassword1">Product Number</label><i
+													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
+												<form:input class="form-control"
+													placeholder="Product Number" path="itemNo" id="productNo1"
+													required="required" />
+											</div>
+											<div class="form-group">
+												<label for="exampleInputFile">HSN No.</label><i
+													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
+												<form:select id="hsnId1" class="form-control"
+													path="hsnDtlsId">
+													<form:option value="0">Select</form:option>
+													<c:forEach var="hsnDetails" items="${hsnDetailsList }">
+														<form:option value="${hsnDetails.hsnDtlsId }">${hsnDetails.hsnNo }</form:option>
+													</c:forEach>
+												</form:select>
+											</div>
+											<div class="form-group">
+												<label for="exampleInputPassword1">Product
+													Sub-Category</label><i class="fa fa-asterisk"
+													style="color: red; font-size: 9px;"></i>
+												<!-- select -->
+												<form:select class="form-control" path="itemSubCategory"
+													id="productSubCategory1">
+												</form:select>
+											</div>
 											<div class="form-group">
 												<label for="exampleInputPassword1">Size</label><i
 													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
@@ -683,26 +762,18 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 													</c:forEach>
 												</form:select>
 											</div>
-											<form:hidden class="form-control"
-												placeholder="Product Content Info" path="itemContentInfo"
-												id="productContent1" value="" />
 											<div class="form-group">
-												<label for="exampleInputPassword1">Items In Master
-													Carton</label><i class="fa fa-asterisk"
+												<label for="exampleInputPassword1">Max Qty Of Items
+													In Order</label><i class="fa fa-asterisk"
 													style="color: red; font-size: 9px;"></i>
 												<form:input class="form-control"
-													placeholder="Items In Master Carton" type="text"
-													path="itemsInMasterCarton" required="required"
-													id="itemsInMasterCarton1" />
-											</div>
-											<div class="form-group">
-												<label for="exampleInputPassword1">Product Number</label><i
-													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
-												<form:input class="form-control"
-													placeholder="Product Number" path="itemNo" id="productNo1"
+													placeholder="Master Carton Quantity Range"
+													path="masterCartonQtyRange" id="masterCartonQtyRange1"
 													required="required" />
 											</div>
-											<div class="form-group">
+
+
+											<div class="form-group" style="visibility: hidden;">
 												<label for="exampleInputPassword1">Master Carton
 													Price</label><i class="fa fa-asterisk"
 													style="color: red; font-size: 9px;"></i>
@@ -710,67 +781,7 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 													placeholder="Master Carton Price" path="masterCartonPrice"
 													id="masterCartonPrice1" required="required" />
 											</div>
-											<div class="form-group">
-												<label for="exampleInputPassword1">Per Piece Price</label><i
-													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
-												<form:input class="form-control"
-													placeholder="Per Piece Price" path="perUnitPrice"
-													id="perUnitPrice1" required="required" />
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="exampleInputPassword1">Product
-													Description</label><i class="fa fa-asterisk"
-													style="color: red; font-size: 9px;"></i>
-												<form:input class="form-control"
-													placeholder="Product Description" id="productDescription1"
-													path="itemDesc" type="text" required="required" />
-											</div>
-											<div class="form-group">
-												<label for="exampleInputPassword1">Product
-													Sub-Category</label><i class="fa fa-asterisk"
-													style="color: red; font-size: 9px;"></i>
-												<!-- select -->
-												<form:select class="form-control" path="itemSubCategory"
-													id="productSubCategory1">
-												</form:select>
-											</div>
-											<div class="form-group">
-												<label for="exampleInputPassword1">Max allowed
-													Master Carton in Order</label><i class="fa fa-asterisk"
-													style="color: red; font-size: 9px;"></i>
-												<form:input class="form-control"
-													placeholder="Master Carton Quantity Range"
-													path="masterCartonQtyRange" id="masterCartonQtyRange1"
-													required="required" />
-											</div>
-											<div class="form-group">
-												<label for="exampleInputPassword1">Master Carton
-													Batch Qty</label><i class="fa fa-asterisk"
-													style="color: red; font-size: 9px;"></i>
-												<form:input class="form-control"
-													placeholder="Master Carton Quantity Increment Value"
-													path="masterCartonQtyIncVal" id="masterCartonQtyIncVal1"
-													required="required" />
-											</div>
-											<div class="form-group">
-												<label for="exampleInputFile">Product Image</label><i
-													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
-												<form:input id="exampleInputFile" path="itemImage"
-													type="file" />
-											</div>
-											<div class="form-group">
-												<label for="exampleInputFile">HSN No.</label><i
-													class="fa fa-asterisk" style="color: red; font-size: 9px;"></i>
-												<form:select id="hsnId1" class="form-control"
-													path="hsnDtlsId">
-													<form:option value="0">Select</form:option>
-													<c:forEach var="hsnDetails" items="${hsnDetailsList }">
-														<form:option value="${hsnDetails.hsnDtlsId }">${hsnDetails.hsnNo }</form:option>
-													</c:forEach>
-												</form:select>
-											</div>
+
 										</div>
 									</div>
 									<!-- /.box-body -->
@@ -803,7 +814,42 @@ function sendProductInventoryDetails(itemMasterDtlsId, invProdNm, invProdBookedQ
 	<script src="plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 	<script src="plugins/input-mask/jquery.inputmask.extensions.js"></script>
 	<script>
-$('#invProdRefillDt1').datepicker();
+		$('#invProdRefillDt1').datepicker();
+
+		function validateAddProductForm() {
+			console.log('validateAddProductForm called');
+			
+			var size = $('#itemPckgInfo1').val();
+			var hsn = $('#hsnDtlsId1').val();
+			var cat = $('#prodCat').val();
+			var subCat = $('#prodSubCat').val();
+			var noOfItemsInMasterCarton = $('#addProdmasterCartonQtyIncVal1').val();
+			var imageFile = $('#exampleInputFile').val();
+			var perUnitPrice = $('#addProdPerUnitPrice').val();
+			
+			
+			if (size== 'select') {
+				alert('Please Select A Proper Size');
+				return false;
+			} else if (hsn == '0') {
+				alert('Please Select A Valid HSN Code');
+				return false;
+			} else if (cat == '-11') {
+				alert('Please Select A Category');
+				return false;
+			} else if (subCat == 'Select' || undefined == subCat || null == subCat || 'undefined' == subCat || '' == subCat) {
+				alert('Please Select A SubCategory');
+				return false;
+			} else if (noOfItemsInMasterCarton<=0) {
+				alert('Please Enter A Value Greater Than 0 for Items in a Master Carton');
+				return false;
+			} else if (perUnitPrice <= 0) {
+				alert('Please Specify Per Unit Price Greater Than 0');
+				return false;
+			} else {
+				return true;			
+			}
+		}
 </script>
 </body>
 </html>

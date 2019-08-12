@@ -232,8 +232,10 @@
 				                      		<td><span id="item_name_${item_id }">${products.itemNm }</span></td>
 				                      		<td>
 				                      			<c:set var="range" value="${fn:split(products.masterCartonQtyRange, '-')}" />
+				                      			<c:set var="stepToUse" value="${products.masterCartonQtyIncVal }" />
+				                      			<%-- <p>Inc Val - ${products.masterCartonQtyIncVal }, Range = ${products.masterCartonQtyRange }, ${stepToUse }</p> --%>
 				                      			<select class="form-control" id="item_qty_${item_id }" >
-													<c:forEach var="count" begin="${range[0] }" end="${range[1] }" step="${products.masterCartonQtyIncVal }" >
+													<c:forEach var="count" begin="${range[0] }" end="${range[1] }" step="${stepToUse }" >
 					                      				<option value="${count }">${count }</option>
 					                      			</c:forEach>
 				                      			</select>

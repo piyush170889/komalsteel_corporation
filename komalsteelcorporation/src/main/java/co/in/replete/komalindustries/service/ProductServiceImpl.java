@@ -220,12 +220,12 @@ public class ProductServiceImpl implements ProductService{
 		        if (hsnDtlsId == 0) {
 		        	throw new Exception("Please specify the HSN No for the Product");
 		        }
-		        if(null == masterCartonQtyIncVal || masterCartonQtyIncVal.isEmpty()) {
-		        	throw new Exception("Please specify the increment value for master carton quantity");
+		        if(null == masterCartonQtyIncVal || masterCartonQtyIncVal.isEmpty() || (Integer.parseInt(masterCartonQtyIncVal) <= 0)) {
+		        	throw new Exception("Please specify no. of items in a master carton quantity greater than 0");
 		        }
 		        
-		        if(null == masterCartonQtyRange || masterCartonQtyRange.isEmpty()) {
-		        	throw new Exception("Please specify the Range that can be ordered for master carton quantity");
+		        if(null == masterCartonQtyRange || masterCartonQtyRange.isEmpty() || (Integer.parseInt(masterCartonQtyRange) <= 0)) {
+		        	throw new Exception("Please specify the maximum items that can be ordered greater than 0");
 		        }
 		        
 		       // check request for zero integer values

@@ -40,7 +40,7 @@ public class ProductDetails extends SimpleTagSupport {
 					out.println("<td>" + productDetails.getCategoryName() + "</td>");
 					out.println("<td>" + productDetails.getSubCategoryName() + "</td>");
 //					out.println("<td>" + productDetails.getProductDescription() + "</td>");
-					out.println("<td>" + productDetails.getItemsInMasterCarton() + "</td>");
+//					out.println("<td>" + productDetails.getItemsInMasterCarton() + "</td>");
 					out.println("<td>" + productDetails.getPerUnitPrice() + "</td>");
 					out.println("<td>" + productDetails.getProductPackagingInfo() + "</td>");
 					out.println("<td>" + productDetails.getMasterCartonQtyRange() + "</td>");
