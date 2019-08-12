@@ -459,6 +459,9 @@ public class CartServiceImpl implements CartService {
 						
 						Invoice invoiceDetails = null;
 						
+//						cartDetail.setCartPrice((float)totalChargableAmount);
+						cartDAO.updateCartPrice(cartDtlsId, (float)totalChargableAmount);
+						
 						if (gstCode.equalsIgnoreCase("27")) {
 							invoiceDetails = new Invoice(Integer.toString(cartDtlsId), todaysDate, Integer.toString(totalItemInCart), 
 									"", "", "", "", todaysDate, dispThrough, destination, "Komal Trading Corporation", 

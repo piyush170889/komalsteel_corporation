@@ -27,22 +27,22 @@ import co.in.replete.komalindustries.webcontroller.beans.WUserOrderInfo;
 
 public interface CartDAO {
 
-   List<CartDetailsTO> selectCartDetaisByOrderStatus(String userMasterId, String orderStatus);
-	
+	List<CartDetailsTO> selectCartDetaisByOrderStatus(String userMasterId, String orderStatus);
+
 	public int insertAddress(ShippingAddressDetail shippingAddressDetail);
 
 	public int insertCartDeliveryDtls(CartDlvryDtl cartDlvryDtl);
-	
+
 	public int insertInvoiceDetails(InvoiceDtl invoiceDetails);
-	
+
 	public OfferDtl selectOfferDetails(String offerDtlsId);
-	
+
 	public String insertPaymentDetails(PaymentDtl paymentDtl);
 
 	public int insertCartDetails(CartDtl cartDetail);
-	
+
 	public int[] insertCartItemDetails(List<CartItemDtl> cartItemDtlList);
-	
+
 	public List<ItemDetailsTO> selectItemsListByFilter(String sql, String[] filterValues);
 
 	public List<ItemDetailsTO> selectItemsDetails(String keyword);
@@ -51,7 +51,8 @@ public interface CartDAO {
 
 	void updateItemInventoryDetails(Float avlQty, Float bookedQty, int itemInventoryDetailsId);
 
-	List<NewCartDetailsTO> selectCartDetaisByPageNum(String trackId, int pageNum,int maxRecord) throws DataAccessException;
+	List<NewCartDetailsTO> selectCartDetaisByPageNum(String trackId, int pageNum, int maxRecord)
+			throws DataAccessException;
 
 	int selectOrderCount(String trackId) throws DataAccessException;
 
@@ -60,18 +61,19 @@ public interface CartDAO {
 	UserDetailsTO selectUserDetails(String trackId);
 
 	List<CartItemDetailsListTO> selectCartItemDtls(int cartDtlsId);
-	
+
 	List<WUserOrderInfo> selectUserOrderInfo(String id);
-	
-    List<WUserCartDetails> selectUserCartDetails(int invoiceId);	
-    
-    List<WOrderDetailsTO> selectOrderDetails();
-    
-    List<WCartItemTO> selectCartItemDetails(int orderId);
+
+	List<WUserCartDetails> selectUserCartDetails(int invoiceId);
+
+	List<WOrderDetailsTO> selectOrderDetails();
+
+	List<WCartItemTO> selectCartItemDetails(int orderId);
 
 	List<CartItemDtlsTO> selectOrderItemDetailsByCartId(int orderDetailsId);
 
-	List<WOrderDetailsTO> searchOrders(String searchBy, String searchDateRange) throws DataAccessException, ParseException;
+	List<WOrderDetailsTO> searchOrders(String searchBy, String searchDateRange)
+			throws DataAccessException, ParseException;
 
 	UserDetailsTO selectUserUserDetailsByTrackId(String trackId);
 
@@ -84,5 +86,7 @@ public interface CartDAO {
 	int getCountOfItemsInCart(String orderId);
 
 	List<CartItemDtl> selectCartItemDetailsList(int parseInt);
+
+	void updateCartPrice(int cartDtlsId, float totalChargableAmount2);
 
 }
